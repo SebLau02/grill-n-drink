@@ -26,7 +26,7 @@ export default function RootLayout() {
   if (!fontsLoaded) return null; // ou un écran de chargement
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#f31b1bff" }}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DarkTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

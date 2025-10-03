@@ -1,9 +1,22 @@
 import Button from "@/components/ui/button";
-import { View } from "react-native";
+import PageView from "@/components/ui/pageView";
+import { TextField } from "@/components/ui/textField";
+import { useState } from "react";
 
 export default function HomeScreen() {
+  const [firstName, setFirstName] = useState("Lau");
+
   return (
-    <View>
+    <PageView>
+      <TextField label="Nom" value="Lau" />
+      <TextField label="Prénom" value="Bastien" />
+      <TextField
+        label="Prénom"
+        value={firstName}
+        onChangeText={setFirstName}
+        onBlur={() => console.log(firstName)}
+      />
+
       <Button variant="contained" size="large">
         contained
       </Button>
@@ -37,6 +50,6 @@ export default function HomeScreen() {
       <Button variant="text" size="small">
         text
       </Button>
-    </View>
+    </PageView>
   );
 }
