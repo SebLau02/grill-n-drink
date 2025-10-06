@@ -20,6 +20,7 @@ interface TextFieldProps extends TextInputProps {
   name?: string;
   rowsCount?: number;
   variant?: "outlined" | "filled" | "text";
+  labelBg?: boolean;
 }
 
 const labelMarginLeft = {
@@ -40,6 +41,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   name = "",
   rowsCount = 0,
   variant = "outlined",
+  labelBg = false,
   sx,
   ...props
 }) => {
@@ -47,6 +49,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   const backgroundColor = useColor("background");
   const inputBackground = useColor("grey500");
   const grey700 = useColor("grey700");
+  const grey200 = useColor("grey200");
   const borderColor = useColor("border");
   const borderActiveColor = useColor("borderActive");
   const textActiveColor = useColor("textActive");
@@ -69,6 +72,8 @@ export const TextField: React.FC<TextFieldProps> = ({
     outputRange: [labelPosition[size], -10], // 12 = milieu du TextInput, -8 = top
   });
 
+  const labelBgColor = labelBg ? grey200 : backgroundColor;
+
   return (
     <View style={[styles.container, sx]}>
       <Animated.Text
@@ -79,7 +84,7 @@ export const TextField: React.FC<TextFieldProps> = ({
             color: isFocused ? textActiveColor : textLightColor,
             backgroundColor:
               variant === "outlined" && (isFocused || hasValue)
-                ? backgroundColor
+                ? labelBgColor
                 : "transparent",
             paddingHorizontal: 4,
             left: labelMarginLeft[size] - 4,

@@ -1,15 +1,13 @@
 import FlexBox from "@/components/ui/flexBox";
 import PageView from "@/components/ui/pageView";
 import Paper from "@/components/ui/paper";
-import Typography from "@/components/ui/typography";
+import Select from "@/components/ui/select";
 import { useState } from "react";
 
 export default function HomeScreen() {
-  const [formData, setFormData] = useState<{ [key: string]: string }>({});
-
-  const handleChange = (text: string, name: string) => {
-    setFormData((prev) => ({ ...prev, [name]: text }));
-  };
+  const [formData, setFormData] = useState<{ [key: string]: string | number }>(
+    {}
+  );
 
   return (
     <PageView>
@@ -20,12 +18,221 @@ export default function HomeScreen() {
           width: "100%",
         }}
       >
-        <Paper variant="elevation" elevation={2}>
-          <Typography>coucou</Typography>
+        <Paper
+          variant="outlined"
+          style={{
+            padding: 16,
+          }}
+        >
+          <Select
+            label="Age"
+            options={[
+              { label: "Option 1", value: "1" },
+              { label: "Option 2", value: "2" },
+              { label: "Option 3", value: "3" },
+            ]}
+            value={formData.select}
+            onChange={(val) =>
+              setFormData((prev) => ({ ...prev, select: val }))
+            }
+          />
         </Paper>
-        <Paper variant="outlined">
-          <Typography>coucou</Typography>
-        </Paper>
+
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
       </FlexBox>
     </PageView>
   );

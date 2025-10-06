@@ -23,7 +23,7 @@ export default function RootLayout() {
     }).then(() => setFontsLoaded(true));
   }, []);
 
-  if (!fontsLoaded) return null; // ou un écran de chargement
+  if (!fontsLoaded) return null;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
