@@ -25,6 +25,7 @@ const palette = {
   pressed: "#532923",
   disabled: "#B7B7B7",
   textActive: "#FFD2CA",
+  grey200: "#313131",
   grey500: "#434343",
   grey700: "#565656",
 };
