@@ -14,6 +14,9 @@ const colorMap = {
   pressed: "pressed",
   disabled: "disabled",
   background: "background",
+  borderActive: "borderActive",
+  textActive: "textActive",
+  textLight: "text",
 };
 
 export function useColor(color: keyof typeof colorMap = "primary") {
