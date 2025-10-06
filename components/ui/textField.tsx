@@ -19,6 +19,7 @@ interface TextFieldProps extends TextInputProps {
   sx?: StyleProp<ViewStyle>;
   name?: string;
   rowsCount?: number;
+  variant?: "outlined" | "filled" | "text";
 }
 
 const labelMarginLeft = {
@@ -37,7 +38,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   error,
   size = "small",
   name = "",
-  rowsCount = 1,
+  rowsCount = 0,
   sx,
   ...props
 }) => {
@@ -97,9 +98,16 @@ export const TextField: React.FC<TextFieldProps> = ({
             borderColor: isFocused ? borderActiveColor : borderColor,
             paddingHorizontal: labelMarginLeft[size],
             borderRadius: Metrics.radius,
+            textAlignVertical: "center",
           },
           sizeStyle[size],
           size === "small" ? textVariants.body2 : textVariants.body1,
+          rowsCount > 0
+            ? {
+                height: sizeHeight[size] + 16 * rowsCount,
+                textAlignVertical: "top",
+              }
+            : {},
         ]}
         placeholderTextColor={"transparent"}
         placeholder={label}
@@ -112,6 +120,7 @@ export const TextField: React.FC<TextFieldProps> = ({
           props.onBlur?.(e);
         }}
       />
+
       {error && (
         <Typography variant="caption" color="danger">
           {error}
@@ -150,6 +159,11 @@ const sizeStyle = StyleSheet.create({
   },
   large: {
     height: 56,
-    paddingVertical: 39,
+    paddingVertical: 18,
   },
 });
+const sizeHeight = {
+  small: 38,
+  medium: 48,
+  large: 56,
+};

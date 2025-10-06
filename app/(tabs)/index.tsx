@@ -22,7 +22,6 @@ export default function HomeScreen() {
       >
         <TextField
           label="Nom"
-          // multiline
           onChangeText={(text) => handleChange(text, "name")}
           value={formData.name}
           sx={{
@@ -40,6 +39,46 @@ export default function HomeScreen() {
         />
         <TextField
           label="Nom"
+          value={formData.lastname}
+          sx={{
+            width: 120,
+          }}
+          size="large"
+          onChangeText={(text) => handleChange(text, "lastname")}
+        />
+      </FlexBox>
+      <FlexBox
+        direction="row"
+        // gap={2}
+        sx={{
+          width: "100%",
+        }}
+      >
+        <TextField
+          label="Nom"
+          multiline
+          rowsCount={3}
+          onChangeText={(text) => handleChange(text, "name")}
+          value={formData.name}
+          sx={{
+            width: 120,
+          }}
+        />
+        <TextField
+          label="Nom"
+          multiline
+          rowsCount={3}
+          onChangeText={(text) => handleChange(text, "firstname")}
+          value={formData.firstname}
+          sx={{
+            width: 120,
+          }}
+          size="medium"
+        />
+        <TextField
+          label="Nom"
+          multiline
+          rowsCount={3}
           value={formData.lastname}
           sx={{
             width: 120,
