@@ -11,41 +11,44 @@ export default function HomeScreen() {
     setFormData((prev) => ({ ...prev, [name]: text }));
   };
 
-  console.log(formData);
   return (
-    <PageView
-      style={{
-        padding: 16,
-      }}
-    >
+    <PageView>
       <FlexBox
-        direction="column"
-        gap={2}
+        direction="row"
+        // gap={2}
         sx={{
           width: "100%",
         }}
       >
         <TextField
           label="Nom"
+          // multiline
           onChangeText={(text) => handleChange(text, "name")}
           value={formData.name}
+          sx={{
+            width: 120,
+          }}
         />
         <TextField
           label="Nom"
           onChangeText={(text) => handleChange(text, "firstname")}
           value={formData.firstname}
+          sx={{
+            width: 120,
+          }}
           size="medium"
         />
         <TextField
           label="Nom"
           value={formData.lastname}
+          sx={{
+            width: 120,
+          }}
           size="large"
           onChangeText={(text) => handleChange(text, "lastname")}
-          sx={{
-            width: 300,
-          }}
         />
       </FlexBox>
+
       <Button variant="contained" size="large">
         contained
       </Button>

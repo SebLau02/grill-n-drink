@@ -1,15 +1,16 @@
+import { Metrics } from "@/constants/theme";
 import { useColor } from "@/hooks/useColor";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
   StyleProp,
   StyleSheet,
-  Text,
   TextInput,
   TextInputProps,
   View,
   ViewStyle,
 } from "react-native";
+import Typography, { textVariants } from "./typography";
 
 interface TextFieldProps extends TextInputProps {
   label?: string;
@@ -17,6 +18,7 @@ interface TextFieldProps extends TextInputProps {
   size?: "small" | "medium" | "large";
   sx?: StyleProp<ViewStyle>;
   name?: string;
+  rowsCount?: number;
 }
 
 const labelMarginLeft = {
@@ -35,6 +37,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   error,
   size = "small",
   name = "",
+  rowsCount = 1,
   sx,
   ...props
 }) => {
@@ -59,12 +62,7 @@ export const TextField: React.FC<TextFieldProps> = ({
 
   const translateY = labelAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [labelPosition[size], -8], // 12 = milieu du TextInput, -8 = top
-  });
-
-  const fontSize = labelAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [16, 12], // réduit la taille quand flottant
+    outputRange: [labelPosition[size], -10], // 12 = milieu du TextInput, -8 = top
   });
 
   return (
@@ -74,7 +72,6 @@ export const TextField: React.FC<TextFieldProps> = ({
           styles.label,
           {
             transform: [{ translateY }],
-            fontSize,
             color: isFocused ? textActiveColor : textLightColor,
             backgroundColor:
               isFocused || hasValue ? backgroundColor : "transparent",
@@ -83,7 +80,13 @@ export const TextField: React.FC<TextFieldProps> = ({
           },
         ]}
       >
-        {label}
+        <Typography
+          color={isFocused ? "secondary" : "primary"}
+          variant={"body2"}
+          sx={{}}
+        >
+          {label}
+        </Typography>
       </Animated.Text>
 
       <TextInput
@@ -93,8 +96,10 @@ export const TextField: React.FC<TextFieldProps> = ({
           {
             borderColor: isFocused ? borderActiveColor : borderColor,
             paddingHorizontal: labelMarginLeft[size],
+            borderRadius: Metrics.radius,
           },
           sizeStyle[size],
+          size === "small" ? textVariants.body2 : textVariants.body1,
         ]}
         placeholderTextColor={"transparent"}
         placeholder={label}
@@ -107,7 +112,11 @@ export const TextField: React.FC<TextFieldProps> = ({
           props.onBlur?.(e);
         }}
       />
-      {error && <Text style={styles.error}>{error}</Text>}
+      {error && (
+        <Typography variant="caption" color="danger">
+          {error}
+        </Typography>
+      )}
     </View>
   );
 };
@@ -116,36 +125,31 @@ const styles = StyleSheet.create({
   container: {
     position: "relative",
     minWidth: 100,
+    marginTop: 10,
   },
   label: {
     position: "absolute",
-    top: 0,
-    fontSize: 14,
-    marginBottom: 4,
     zIndex: 1,
   },
   input: {
     borderWidth: 1,
-    borderRadius: 4,
-    fontSize: 16,
     maxWidth: "100%",
+    width: 200,
     overflow: "hidden",
-  },
-  error: {
-    color: "#ff0015ff",
-    fontSize: 12,
-    marginTop: 4,
   },
 });
 
 const sizeStyle = StyleSheet.create({
   small: {
-    height: 36,
+    height: 38,
+    paddingVertical: 8,
   },
   medium: {
     height: 48,
+    paddingVertical: 12,
   },
   large: {
     height: 56,
+    paddingVertical: 39,
   },
 });

@@ -1,30 +1,44 @@
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import React from "react";
-import { StyleSheet, Text, TextStyle } from "react-native";
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextProps,
+  TextStyle,
+} from "react-native";
 
-interface Props {
-  variant: keyof typeof textVariants;
+interface Props extends TextProps {
+  variant?: keyof typeof textVariants;
   color?: "primary" | "secondary" | "error" | "danger" | "success";
   children: React.ReactNode;
-  sx?: TextStyle;
+  sx?: StyleProp<TextStyle>;
 }
 
 const colorMap = {
   primary: "text",
-  secondary: "icon",
+  secondary: "textActive",
   error: "error",
   danger: "danger",
   success: "success",
 };
 
-function Typography({ variant, color = "primary", children, sx }: Props) {
+function Typography({
+  variant = "h1",
+  color = "primary",
+  children,
+  sx,
+  ...props
+}: Props) {
   const colorScheme = useColorScheme() ?? "light";
   const themeColorKey = colorMap[color] || "text";
   const themeColor =
     Colors[colorScheme][themeColorKey as keyof (typeof Colors)["light"]];
   return (
-    <Text style={[textVariants[variant], { color: themeColor }, sx]}>
+    <Text
+      style={[textVariants[variant], { color: themeColor }, sx, props.style]}
+    >
       {children}
     </Text>
   );
@@ -32,7 +46,7 @@ function Typography({ variant, color = "primary", children, sx }: Props) {
 
 export default Typography;
 
-const textVariants = StyleSheet.create({
+export const textVariants = StyleSheet.create({
   h1: {
     fontSize: 32,
     fontWeight: "bold",

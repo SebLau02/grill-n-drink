@@ -1,6 +1,6 @@
 import { useColor } from "@/hooks/useColor";
 import React from "react";
-import { ScrollView, ScrollViewProps } from "react-native";
+import { ScrollView, ScrollViewProps, View } from "react-native";
 
 function PageView({
   children,
@@ -9,12 +9,17 @@ function PageView({
   const backgroundColor = useColor("background");
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1, backgroundColor: backgroundColor }}
-      {...props}
-    >
-      {children}
-    </ScrollView>
+    <View style={{ flex: 1, backgroundColor }}>
+      <ScrollView
+        contentContainerStyle={[
+          { flexGrow: 1, backgroundColor },
+          props.contentContainerStyle,
+        ]}
+        {...props}
+      >
+        {children}
+      </ScrollView>
+    </View>
   );
 }
 
