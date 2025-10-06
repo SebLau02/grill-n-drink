@@ -25,6 +25,8 @@ const palette = {
   pressed: "#532923",
   disabled: "#B7B7B7",
   textActive: "#FFD2CA",
+  grey500: "#434343",
+  grey700: "#565656",
 };
 
 export const Colors = {

@@ -39,11 +39,14 @@ export const TextField: React.FC<TextFieldProps> = ({
   size = "small",
   name = "",
   rowsCount = 0,
+  variant = "outlined",
   sx,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const backgroundColor = useColor("background");
+  const inputBackground = useColor("grey500");
+  const grey700 = useColor("grey700");
   const borderColor = useColor("border");
   const borderActiveColor = useColor("borderActive");
   const textActiveColor = useColor("textActive");
@@ -75,7 +78,9 @@ export const TextField: React.FC<TextFieldProps> = ({
             transform: [{ translateY }],
             color: isFocused ? textActiveColor : textLightColor,
             backgroundColor:
-              isFocused || hasValue ? backgroundColor : "transparent",
+              variant === "outlined" && (isFocused || hasValue)
+                ? backgroundColor
+                : "transparent",
             paddingHorizontal: 4,
             left: labelMarginLeft[size] - 4,
           },
@@ -108,6 +113,19 @@ export const TextField: React.FC<TextFieldProps> = ({
                 textAlignVertical: "top",
               }
             : {},
+
+          variant === "outlined"
+            ? {}
+            : variant === "filled"
+            ? {
+                backgroundColor: inputBackground,
+                ...variantStyle[variant],
+                borderBottomColor: isFocused ? borderActiveColor : grey700,
+              }
+            : {
+                ...variantStyle[variant],
+                borderBottomColor: isFocused ? borderActiveColor : grey700,
+              },
         ]}
         placeholderTextColor={"transparent"}
         placeholder={label}
@@ -148,6 +166,18 @@ const styles = StyleSheet.create({
   },
 });
 
+const variantStyle = StyleSheet.create({
+  text: {
+    borderWidth: 0,
+    borderBottomWidth: 1,
+  },
+  filled: {
+    borderWidth: 0,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderBottomWidth: 1,
+  },
+});
 const sizeStyle = StyleSheet.create({
   small: {
     height: 38,

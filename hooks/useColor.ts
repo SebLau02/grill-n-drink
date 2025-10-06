@@ -17,6 +17,8 @@ const colorMap = {
   borderActive: "borderActive",
   textActive: "textActive",
   textLight: "text",
+  grey500: "grey500",
+  grey700: "grey700",
 };
 
 export function useColor(color: keyof typeof colorMap = "primary") {
