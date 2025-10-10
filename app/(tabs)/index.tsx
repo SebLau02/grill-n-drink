@@ -1,6 +1,5 @@
-import FlexBox from "@/components/ui/flexBox";
 import PageView from "@/components/ui/pageView";
-import Select from "@/components/ui/select";
+import TopBarWrapper from "@/components/ui/topBarWrapper";
 import { useState } from "react";
 
 export default function HomeScreen() {
@@ -10,62 +9,11 @@ export default function HomeScreen() {
 
   return (
     <PageView>
-      <FlexBox
-        direction="column"
-        gap={2}
-        sx={{
-          width: "100%",
-        }}
-      >
-        <Select
-          label="Age"
-          options={[
-            { label: "Option 1", value: "1" },
-            { label: "Option 2", value: "2" },
-            { label: "Option 3", value: "3" },
-          ]}
-          value={formData.select}
-          size="large"
-          onChange={(val) =>
-            setFormData((prev) => ({
-              ...prev,
-              select: prev.select === val ? "" : val,
-            }))
-          }
-        />
-        <Select
-          label="Age"
-          options={[
-            { label: "Option 1", value: "1" },
-            { label: "Option 2", value: "2" },
-            { label: "Option 3", value: "3" },
-          ]}
-          value={formData.select}
-          size="large"
-          onChange={(val) =>
-            setFormData((prev) => ({
-              ...prev,
-              select: prev.select === val ? "" : val,
-            }))
-          }
-        />
-        <Select
-          label="Age"
-          options={[
-            { label: "Option 1", value: "1" },
-            { label: "Option 2", value: "2" },
-            { label: "Option 3", value: "3" },
-          ]}
-          value={formData.select}
-          size="large"
-          onChange={(val) =>
-            setFormData((prev) => ({
-              ...prev,
-              select: prev.select === val ? "" : val,
-            }))
-          }
-        />
-      </FlexBox>
+      <TopBarWrapper
+        navigateBack={true}
+        pageTitle="La Grill'Zone"
+        showAvatar={true}
+      ></TopBarWrapper>
     </PageView>
   );
 }

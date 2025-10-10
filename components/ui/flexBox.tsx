@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 type Direction = "row" | "column";
-type Justify = "justifyStart" | "justifyCenter" | "justifyEnd";
+type Justify = "justifyStart" | "justifyCenter" | "justifyEnd" | "between";
 type Align = "alignStart" | "alignCenter" | "alignEnd";
 type Gap = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
@@ -65,6 +65,9 @@ const flexBoxStyle = StyleSheet.create({
   },
   justifyEnd: {
     justifyContent: "flex-end",
+  },
+  between: {
+    justifyContent: "space-between",
   },
   alignStart: {
     alignItems: "flex-start",

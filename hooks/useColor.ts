@@ -18,6 +18,7 @@ const colorMap = {
   textActive: "textActive",
   textLight: "text",
   grey200: "grey200",
+  grey300: "grey300",
   grey500: "grey500",
   grey700: "grey700",
 };
