@@ -99,7 +99,9 @@ const Select = ({
               opacity: value ? 1 : 0,
             }}
           >
-            {value ? value : label}
+            {value
+              ? options.find((option) => option.value === value)?.label
+              : label}
           </Typography>
         </Pressable>
       </View>
@@ -148,13 +150,11 @@ export default Select;
 const styles = StyleSheet.create({
   container: {
     position: "relative",
-    borderWidth: 1,
-    borderColor: "#ff0000ff",
-    borderStyle: "solid",
+    marginTop: 7,
   },
   options: {
     padding: 8,
-    width: "100%",
+    width: "90%",
   },
 });
 
@@ -163,7 +163,6 @@ const pressableStyle = StyleSheet.create({
     borderWidth: 1,
     maxWidth: "100%",
     width: 200,
-    overflow: "hidden",
   },
 
   filled: {

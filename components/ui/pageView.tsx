@@ -9,7 +9,7 @@ function PageView({
   const backgroundColor = useColor("background");
 
   return (
-    <View style={{ flex: 1, backgroundColor }}>
+    <View style={{ flex: 1, backgroundColor, paddingTop: 10 }}>
       <ScrollView
         contentContainerStyle={[
           { flexGrow: 1, backgroundColor },

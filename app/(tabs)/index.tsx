@@ -25,6 +25,39 @@ export default function HomeScreen() {
             { label: "Option 3", value: "3" },
           ]}
           value={formData.select}
+          size="large"
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          size="large"
+          onChange={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              select: prev.select === val ? "" : val,
+            }))
+          }
+        />
+        <Select
+          label="Age"
+          options={[
+            { label: "Option 1", value: "1" },
+            { label: "Option 2", value: "2" },
+            { label: "Option 3", value: "3" },
+          ]}
+          value={formData.select}
+          size="large"
           onChange={(val) =>
             setFormData((prev) => ({
               ...prev,
