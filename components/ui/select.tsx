@@ -1,16 +1,15 @@
-import { useBackdropStore } from "@/app/store/backdrop";
 import { SizeProps } from "@/config/types";
 import { Metrics } from "@/constants/theme";
 import { useColor } from "@/hooks/useColor";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
+  Modal,
   Pressable,
   PressableProps,
   StyleSheet,
   View,
 } from "react-native";
-import Backdrop from "./backdrop";
 import Paper from "./paper";
 import Typography from "./typography";
 
@@ -38,8 +37,6 @@ const Select = ({
 }: SelectProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
-  const { setOpen, setClose, open } = useBackdropStore();
-
   const labelAnim = useRef(new Animated.Value(0)).current; // 0 = position initiale
 
   const grey700 = useColor("grey700");
@@ -59,15 +56,8 @@ const Select = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused]);
 
-  useEffect(() => {
-    if (!open) {
-      setIsFocused(false);
-    }
-  }, [open]);
-
   return (
     <>
-      {isFocused && <Backdrop opacity={0.3} color="red" />}
       <View style={[styles.container]}>
         <Animated.Text
           style={[
@@ -91,7 +81,6 @@ const Select = ({
         <Pressable
           onPress={(e) => {
             setIsFocused(!isFocused);
-            setOpen();
             props.onPress?.(e);
           }}
           style={[
@@ -113,8 +102,22 @@ const Select = ({
             {value ? value : label}
           </Typography>
         </Pressable>
+      </View>
 
-        {isFocused && (
+      <Modal
+        visible={isFocused}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setIsFocused(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0,0,0,0.5)",
+          }}
+        >
           <Paper variant="outlined" style={[styles.options]}>
             {options.map((option) => (
               <Pressable
@@ -122,7 +125,6 @@ const Select = ({
                 onPress={() => {
                   onChange(option.value);
                   setIsFocused(false);
-                  setClose();
                 }}
                 style={[
                   {
@@ -135,8 +137,8 @@ const Select = ({
               </Pressable>
             ))}
           </Paper>
-        )}
-      </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -151,11 +153,6 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
   },
   options: {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    zIndex: 10,
-    marginTop: 4,
     padding: 8,
     width: "100%",
   },
