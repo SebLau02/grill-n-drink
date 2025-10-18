@@ -31,7 +31,23 @@ export interface Event {
   };
   date: string;
   city: string;
+  title: string;
   participation: {
     avatar: string;
   }[];
+}
+
+export interface ApiResponse<T> {
+  record: T;
+}
+
+export interface User {
+  avatar: string;
+  firstname: string;
+  lastname: string;
+  id: number;
+  description: string;
+  pseudo: string;
+  upcomingEvents: Partial<Event[]>;
+  pastEvents: Partial<Event[]>;
 }

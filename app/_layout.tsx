@@ -7,11 +7,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import BottomBarWrapper from "@/components/ui/bottomBarWrapper";
 import TopBarWrapper from "@/components/ui/topBarWrapper";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Slot, Stack } from "expo-router";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const queryClient = new QueryClient();
 
   useEffect(() => {
     Font.loadAsync({
@@ -23,19 +25,21 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DarkTheme}>
-        <TopBarWrapper />
-        <Stack
-          screenOptions={{
-            animation: "none",
-            headerShown: false,
-          }}
-        >
-          <Slot />
-        </Stack>
-        <BottomBarWrapper />
-      </ThemeProvider>
-    </SafeAreaView>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DarkTheme}>
+          <TopBarWrapper />
+          <Stack
+            screenOptions={{
+              animation: "none",
+              headerShown: false,
+            }}
+          >
+            <Slot />
+          </Stack>
+          <BottomBarWrapper />
+        </ThemeProvider>
+      </SafeAreaView>
+    </QueryClientProvider>
   );
 }

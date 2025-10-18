@@ -87,7 +87,7 @@ function TopBarWrapper({ title }: Props) {
     );
   }
 
-  if (currentRoute === "event" && title) {
+  if (currentRoute === "[id]" && title) {
     return (
       <FlexBox
         direction="row"
@@ -153,7 +153,7 @@ function TopBarWrapper({ title }: Props) {
       </FlexBox>
     );
   }
-  if (currentRoute === "settings") {
+  if (currentRoute === "settings" || currentRoute === "profile") {
     return (
       <FlexBox
         direction="row"

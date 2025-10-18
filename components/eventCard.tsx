@@ -9,18 +9,19 @@ import Typography from "./ui/typography";
 
 interface Props {
   event: Event;
+  avatar?: boolean;
 }
-function EventCard({ event }: Props) {
+function EventCard({ event, avatar = true }: Props) {
   const router = useRouter();
 
   return (
-    <Pressable onPress={() => router.push("/event" as never)}>
-      <Paper
-        style={{
-          marginBottom: 16,
-          width: "100%",
-        }}
-      >
+    <Paper
+      style={{
+        marginBottom: 16,
+        width: "100%",
+      }}
+    >
+      {avatar && (
         <FlexBox
           direction="row"
           align="center"
@@ -39,7 +40,9 @@ function EventCard({ event }: Props) {
 
           <Typography variant="h2">{event.name}</Typography>
         </FlexBox>
+      )}
 
+      <Pressable onPress={() => router.push(`/event/${event.id}` as never)}>
         <ImageBackground
           source={{ uri: event.cover }}
           style={{
@@ -74,8 +77,8 @@ function EventCard({ event }: Props) {
             </FlexBox>
           </FlexBox>
         </ImageBackground>
-      </Paper>
-    </Pressable>
+      </Pressable>
+    </Paper>
   );
 }
 

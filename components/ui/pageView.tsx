@@ -18,7 +18,6 @@ function PageView({
         {...props}
       >
         {children}
-        {/* <BottomBarWrapper /> */}
       </ScrollView>
     </View>
   );

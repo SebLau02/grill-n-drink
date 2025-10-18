@@ -36,6 +36,7 @@ function Button({
           },
           variantStyle[variant],
           sizeStyle[size],
+          props.style,
         ]}
       >
         {typeof children === "string" ? (
@@ -59,10 +60,13 @@ function Button({
         },
         variantStyle[variant],
         sizeStyle[size],
+        props.style,
       ]}
     >
       {typeof children === "string" ? (
-        <Text style={{ color: textColor }}>{children}</Text>
+        <Text style={{ color: textColor, textAlign: "center" }}>
+          {children}
+        </Text>
       ) : (
         children
       )}
