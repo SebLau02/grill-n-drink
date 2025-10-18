@@ -6,11 +6,13 @@ interface Props extends PressableProps {
   children: React.ReactNode;
   color?: "primary" | "primary" | "secondary" | "error" | "danger" | "success";
   size?: "small" | "medium";
+  active?: boolean;
 }
 function IconButton({
   children,
   color = "primary",
   size = "medium",
+  active,
   ...props
 }: Props) {
   const textColor = useColor(color);
@@ -44,7 +46,7 @@ function IconButton({
       {...props}
       style={({ pressed }) => [
         {
-          backgroundColor: pressed ? pressedColor : "transparent",
+          backgroundColor: active || pressed ? pressedColor : "transparent",
           borderColor: borderColor,
           alignSelf: "flex-start",
           borderRadius: 4,

@@ -1,5 +1,5 @@
-import { useBackdropStore } from "@/app/store/backdrop";
 import { useColor } from "@/hooks/useColor";
+import { useBackdropStore } from "@/store/backdrop";
 import React from "react";
 import {
   Dimensions,

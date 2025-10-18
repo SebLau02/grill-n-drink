@@ -3,8 +3,8 @@ import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 type Direction = "row" | "column";
-type Justify = "justifyStart" | "justifyCenter" | "justifyEnd" | "between";
-type Align = "alignStart" | "alignCenter" | "alignEnd";
+type Justify = "start" | "center" | "end" | "between";
+type Align = "start" | "center" | "end";
 type Gap = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 interface Props extends ComponentProps<ViewStyle> {
@@ -19,8 +19,8 @@ interface Props extends ComponentProps<ViewStyle> {
 
 function FlexBox({
   direction = "row",
-  justify = "justifyStart",
-  align = "alignStart",
+  justify = "start",
+  align = "start",
   gap = 0,
   columnGap = 0,
   rowGap = 0,
@@ -31,9 +31,9 @@ function FlexBox({
     <View
       style={[
         { width: "100%" },
-        flexBoxStyle[direction],
-        flexBoxStyle[justify],
-        flexBoxStyle[align],
+        directionStyle[direction],
+        justifyStyle[justify],
+        alignStyle[align],
         columnGapStyle[columnGap],
         rowGapStyle[rowGap],
         sx,
@@ -50,20 +50,22 @@ function FlexBox({
 
 export default FlexBox;
 
-const flexBoxStyle = StyleSheet.create({
+const directionStyle = StyleSheet.create({
   row: {
     flexDirection: "row",
   },
   column: {
     flexDirection: "column",
   },
-  justifyStart: {
+});
+const justifyStyle = StyleSheet.create({
+  start: {
     justifyContent: "flex-start",
   },
-  justifyCenter: {
+  center: {
     justifyContent: "center",
   },
-  justifyEnd: {
+  end: {
     justifyContent: "flex-end",
   },
   between: {
@@ -76,6 +78,17 @@ const flexBoxStyle = StyleSheet.create({
     alignItems: "center",
   },
   alignEnd: {
+    alignItems: "flex-end",
+  },
+});
+const alignStyle = StyleSheet.create({
+  start: {
+    alignItems: "flex-start",
+  },
+  center: {
+    alignItems: "center",
+  },
+  end: {
     alignItems: "flex-end",
   },
 });

@@ -5,7 +5,7 @@ import { ScrollView, ScrollViewProps, View } from "react-native";
 function PageView({
   children,
   ...props
-}: { children: React.ReactNode } & ScrollViewProps) {
+}: { children?: React.ReactNode } & ScrollViewProps) {
   const backgroundColor = useColor("background");
 
   return (
@@ -18,6 +18,7 @@ function PageView({
         {...props}
       >
         {children}
+        {/* <BottomBarWrapper /> */}
       </ScrollView>
     </View>
   );

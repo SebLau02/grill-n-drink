@@ -1,16 +1,13 @@
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import * as Font from "expo-font";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import BottomBarWrapper from "@/components/ui/bottomBarWrapper";
+import TopBarWrapper from "@/components/ui/topBarWrapper";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-
-export const unstable_settings = {
-  anchor: "(tabs)",
-};
+import { Slot, Stack } from "expo-router";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -28,14 +25,16 @@ export default function RootLayout() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DarkTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="modal"
-            options={{ presentation: "modal", title: "Modal" }}
-          />
+        <TopBarWrapper />
+        <Stack
+          screenOptions={{
+            animation: "none",
+            headerShown: false,
+          }}
+        >
+          <Slot />
         </Stack>
-        <StatusBar style="auto" />
+        <BottomBarWrapper />
       </ThemeProvider>
     </SafeAreaView>
   );

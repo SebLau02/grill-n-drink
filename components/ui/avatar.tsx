@@ -39,19 +39,21 @@ function Avatar({
             {
               width: width,
               height: height,
-              borderRadius: rounded ? "50%" : Metrics.radius,
+              borderRadius: rounded ? width / 2 : Metrics.radius,
             },
+            props.style as object,
           ]}
         />
       ) : (
         <FlexBox
-          align="alignCenter"
-          justify="justifyCenter"
+          align="center"
+          justify="center"
           sx={{
             width: width,
             height: height,
             borderRadius: rounded ? "50%" : Metrics.radius,
             backgroundColor,
+            ...(props.style as object),
           }}
         >
           <Typography variant="body1">{initials}</Typography>

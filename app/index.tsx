@@ -1,0 +1,323 @@
+import EventCard from "@/components/eventCard";
+import FlexBox from "@/components/ui/flexBox";
+import PageView from "@/components/ui/pageView";
+
+export default function Index() {
+  return (
+    <PageView>
+      <FlexBox
+        direction="column"
+        sx={{
+          alignItems: "stretch",
+        }}
+      >
+        {mockEvents.map((event) => (
+          <EventCard key={event.id} event={event} />
+        ))}
+      </FlexBox>
+    </PageView>
+  );
+}
+
+const mockEvents = [
+  {
+    id: 1,
+    name: "Event 1",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: "Event 2",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "Event 3",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 4,
+    name: "Event 4",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 5,
+    name: "Event 5",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "Event 6",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 7,
+    name: "Event 7",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 8,
+    name: "Event 8",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 9,
+    name: "Event 9",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 10,
+    name: "Event 10",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 11,
+    name: "Event 11",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+  {
+    id: 12,
+    name: "Event 12",
+    cover:
+      "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793230/Generated_Image_September_29_2025_-_9_14PM_wkrdho.png",
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      id: 1,
+      avatar:
+        "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+    },
+    date: "12/12/2025",
+    city: "Rennes",
+    participation: [
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/christian-buehner-DItYlc26zVI-unsplash_zau2li.jpg",
+      },
+      {
+        avatar:
+          "https://res.cloudinary.com/dw7tgqocy/image/upload/v1760793156/leilani-angel-K84vnnzxmTQ-unsplash_wxsgok.jpg",
+      },
+    ],
+  },
+];
