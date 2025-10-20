@@ -15,6 +15,14 @@ export const pageProps = {
     animation: "slide_from_right",
     title: "Paramètres",
   },
+  termsOfService: {
+    animation: "slide_from_right",
+    title: "Conditions d'utilisation",
+  },
+  privacyPolicy: {
+    animation: "slide_from_right",
+    title: "Politique de confidentialité",
+  },
 };
 
 export const SETTINGS_SECTIONS = {
@@ -22,4 +30,5 @@ export const SETTINGS_SECTIONS = {
   lastname: "Prénom",
   email: "Email",
   password: "Mot de passe",
+  phone: "Téléphone",
 };

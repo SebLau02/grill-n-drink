@@ -182,7 +182,12 @@ function TopBarWrapper({ title }: Props) {
       </FlexBox>
     );
   }
-  if (currentRoute === "settings" || currentRoute === "profile") {
+  if (
+    currentRoute === "settings" ||
+    currentRoute === "profile" ||
+    currentRoute === "termsOfService" ||
+    currentRoute === "privacyPolicy"
+  ) {
     return (
       <FlexBox
         direction="row"

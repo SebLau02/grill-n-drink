@@ -10,6 +10,7 @@ const accountSettings = [
     list: [
       { label: "Nom", name: "firstname", path: "settings/firstname" },
       { label: "Prénom", name: "lastname", path: "settings/lastname" },
+      { label: "Téléphone", name: "phone", path: "settings/phone" },
       { label: "Email", name: "email", path: "settings/email" },
       { label: "Mot de passe", name: "password", path: "settings/password" },
     ],

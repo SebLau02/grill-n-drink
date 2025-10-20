@@ -49,7 +49,7 @@ function Index() {
         <ClickableRow
           label="Ajoute ton numéro pour être joignable"
           value={<Plus color={textLight} />}
-          path="settings"
+          path="settings/phone"
           sx={{
             marginVertical: 8,
           }}
