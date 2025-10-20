@@ -16,3 +16,10 @@ export const pageProps = {
     title: "Paramètres",
   },
 };
+
+export const SETTINGS_SECTIONS = {
+  firstname: "Nom",
+  lastname: "Prénom",
+  email: "Email",
+  password: "Mot de passe",
+};

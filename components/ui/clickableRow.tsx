@@ -13,11 +13,50 @@ interface Props extends FlexBoxProps {
     label?: Omit<TypographyProps, "children">;
     value?: Omit<TypographyProps, "children">;
   };
+  clickable?: boolean;
 }
 
-function ClickableRow({ label, value, path, slotProps, sx, ...props }: Props) {
+function ClickableRow({
+  label,
+  value,
+  path,
+  slotProps,
+  sx,
+  clickable = true,
+  ...props
+}: Props) {
   const border = useColor("border");
   const router = useRouter();
+
+  if (!clickable) {
+    return (
+      <FlexBox
+        direction="row"
+        justify="between"
+        align="center"
+        columnGap={2}
+        {...props}
+        sx={[
+          {
+            paddingHorizontal: 16,
+            paddingVertical: 8,
+            borderBottomWidth: 1,
+            borderTopWidth: 1,
+            borderColor: border,
+            maxWidth: "100%",
+          },
+          sx,
+        ]}
+      >
+        <Typography variant="body1" {...slotProps?.label}>
+          {label}
+        </Typography>
+        <Typography variant="body1" {...slotProps?.value}>
+          {value}
+        </Typography>
+      </FlexBox>
+    );
+  }
 
   return (
     <TouchableOpacity onPress={() => router.push(path as never)}>

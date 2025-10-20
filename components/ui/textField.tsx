@@ -131,6 +131,7 @@ export const TextField: React.FC<TextFieldProps> = ({
                 ...variantStyle[variant],
                 borderBottomColor: isFocused ? borderActiveColor : grey700,
               },
+          props.style,
         ]}
         placeholderTextColor={"transparent"}
         placeholder={label}

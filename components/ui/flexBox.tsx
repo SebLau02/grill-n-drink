@@ -4,7 +4,7 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 
 type Direction = "row" | "column";
 type Justify = "start" | "center" | "end" | "between";
-type Align = "start" | "center" | "end";
+type Align = "start" | "center" | "end" | "stretch";
 type Gap = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 export interface FlexBoxProps extends ComponentProps<ViewStyle> {
@@ -93,6 +93,9 @@ const alignStyle = StyleSheet.create({
   },
   end: {
     alignItems: "flex-end",
+  },
+  stretch: {
+    alignItems: "stretch",
   },
 });
 

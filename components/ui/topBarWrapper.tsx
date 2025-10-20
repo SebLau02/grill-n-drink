@@ -119,6 +119,35 @@ function TopBarWrapper({ title }: Props) {
       </FlexBox>
     );
   }
+  if (currentRoute === "[slug]" && title) {
+    return (
+      <FlexBox
+        direction="row"
+        justify="between"
+        align="center"
+        sx={{
+          paddingVertical: 8,
+          width: "100%",
+          backgroundColor: backgroundColor,
+        }}
+      >
+        <FlexBox direction="row" align="center">
+          <IconButton size={"small"} onPress={() => router.back()}>
+            <ChevronLeft color={textColor} />
+          </IconButton>
+
+          <Typography
+            variant="h5"
+            sx={{
+              paddingLeft: 16,
+            }}
+          >
+            {title}
+          </Typography>
+        </FlexBox>
+      </FlexBox>
+    );
+  }
   if (currentRoute === "create") {
     return (
       <FlexBox
