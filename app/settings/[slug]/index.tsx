@@ -25,10 +25,18 @@ function Index() {
   const label = SETTINGS_SECTIONS[slug as keyof typeof SETTINGS_SECTIONS];
 
   const handleSubmit = () => {
+    if (!value || value.length === 0 || value === "") {
+      addToast({
+        type: "danger",
+        message: `Le champ ne peut pas être vide`,
+        duration: 3000,
+      });
+      return;
+    }
     addToast({
       type: "success",
       message: `${label} mis à jour avec succès !`,
-      duration: 6000,
+      duration: 3000,
     });
   };
 

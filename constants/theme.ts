@@ -20,6 +20,7 @@ const palette = {
   error: "#D32F2F",
   danger: "#FFA726",
   success: "#388E3C",
+  info: "#2196F3",
   border: "#565656",
   borderActive: "#9B4237",
   pressed: "#532923",

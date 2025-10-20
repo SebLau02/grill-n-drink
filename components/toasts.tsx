@@ -1,3 +1,4 @@
+import { useColor } from "@/hooks/useColor";
 import { Toast, useToast } from "@/store/toast";
 import { useEffect, useRef } from "react";
 import { Animated, PanResponder, View } from "react-native";
@@ -11,6 +12,8 @@ function ToastItem({
   toast: Toast;
   removeToast: (id: string) => void;
 }) {
+  const backgroundColor = useColor(toast.type || "info");
+
   const translateY = useRef(new Animated.Value(-40)).current;
   const panResponder = useRef(
     PanResponder.create({
@@ -65,7 +68,11 @@ function ToastItem({
       }}
       {...panResponder.panHandlers}
     >
-      <Paper variant="elevation" elevation={24} style={{ padding: 16 }}>
+      <Paper
+        variant="elevation"
+        elevation={24}
+        style={{ padding: 16, borderColor: backgroundColor, borderWidth: 2 }}
+      >
         <Typography variant="h6">{toast.message}</Typography>
       </Paper>
     </Animated.View>

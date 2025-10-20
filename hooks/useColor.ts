@@ -7,6 +7,7 @@ const colorMap = {
   error: "error",
   danger: "danger",
   success: "success",
+  info: "info",
   contained: "tabIconSelected",
   outlined: "transparent",
   text: "transparent",
