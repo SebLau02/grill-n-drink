@@ -7,10 +7,11 @@ type Justify = "start" | "center" | "end" | "between";
 type Align = "start" | "center" | "end";
 type Gap = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
-interface Props extends ComponentProps<ViewStyle> {
+export interface FlexBoxProps extends ComponentProps<ViewStyle> {
   direction?: Direction;
   justify?: Justify;
   align?: Align;
+  flexWrap?: "wrap" | "nowrap";
   children?: React.ReactNode;
   gap?: Gap;
   columnGap?: Gap;
@@ -21,12 +22,13 @@ function FlexBox({
   direction = "row",
   justify = "start",
   align = "start",
+  flexWrap = "nowrap",
   gap = 0,
   columnGap = 0,
   rowGap = 0,
   children,
   sx,
-}: Props) {
+}: FlexBoxProps) {
   return (
     <View
       style={[
@@ -36,6 +38,7 @@ function FlexBox({
         alignStyle[align],
         columnGapStyle[columnGap],
         rowGapStyle[rowGap],
+        { flexWrap: flexWrap },
         sx,
       ]}
     >

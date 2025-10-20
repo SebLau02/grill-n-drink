@@ -1,6 +1,7 @@
 import { useColor } from "@/hooks/useColor";
 import React from "react";
-import { Pressable, PressableProps, StyleSheet, Text } from "react-native";
+import { Pressable, PressableProps, StyleSheet } from "react-native";
+import Typography from "./typography";
 
 type ButtonVariant = "contained" | "outlined" | "text";
 interface Props extends PressableProps {
@@ -8,15 +9,16 @@ interface Props extends PressableProps {
   variant?: ButtonVariant;
   color?: "primary" | "primary" | "secondary" | "error" | "danger" | "success";
   size?: "small" | "medium" | "large";
+  disableTouchEffect?: boolean;
 }
 function Button({
   children,
   variant = "contained",
   color = "primary",
   size = "medium",
+  disableTouchEffect = false,
   ...props
 }: Props) {
-  const textColor = useColor(color);
   const backgroundColor = useColor(variant);
   const borderColor = useColor("border");
   const pressedColor = useColor("pressed");
@@ -40,7 +42,12 @@ function Button({
         ]}
       >
         {typeof children === "string" ? (
-          <Text style={{ color: disabledColor }}>{children}</Text>
+          <Typography
+            variant="body2"
+            style={{ textAlign: "center", color: disabledColor }}
+          >
+            {children}
+          </Typography>
         ) : (
           children
         )}
@@ -53,7 +60,8 @@ function Button({
       {...props}
       style={({ pressed }) => [
         {
-          backgroundColor: pressed ? pressedColor : backgroundColor,
+          backgroundColor:
+            pressed && disableTouchEffect ? pressedColor : backgroundColor,
           borderColor: borderColor,
           alignSelf: "flex-start",
           borderRadius: 4,
@@ -64,9 +72,9 @@ function Button({
       ]}
     >
       {typeof children === "string" ? (
-        <Text style={{ color: textColor, textAlign: "center" }}>
+        <Typography variant="body2" style={{ textAlign: "center" }}>
           {children}
-        </Text>
+        </Typography>
       ) : (
         children
       )}

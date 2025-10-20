@@ -16,9 +16,11 @@ function EventCard({ event, avatar = true }: Props) {
 
   return (
     <Paper
+      variant="outlined"
       style={{
         marginBottom: 16,
         width: "100%",
+        overflow: "hidden",
       }}
     >
       {avatar && (
@@ -55,8 +57,7 @@ function EventCard({ event, avatar = true }: Props) {
           <View
             style={{
               ...StyleSheet.absoluteFillObject,
-              backgroundColor: "rgba(0,0,0,0.5)", // opacité à ajuster
-              borderRadius: 8,
+              backgroundColor: "rgba(0,0,0,0.5)",
             }}
             pointerEvents="none"
           />

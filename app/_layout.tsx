@@ -26,8 +26,12 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DarkTheme}>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DarkTheme}>
+        <SafeAreaView
+          style={{
+            flex: 1,
+          }}
+        >
           <TopBarWrapper />
           <Stack
             screenOptions={{
@@ -38,8 +42,8 @@ export default function RootLayout() {
             <Slot />
           </Stack>
           <BottomBarWrapper />
-        </ThemeProvider>
-      </SafeAreaView>
+        </SafeAreaView>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

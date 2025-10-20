@@ -9,7 +9,7 @@ import {
   TextStyle,
 } from "react-native";
 
-interface Props extends TextProps {
+export interface TypographyProps extends TextProps {
   variant?: keyof typeof textVariants;
   color?: "primary" | "secondary" | "error" | "danger" | "success";
   children: React.ReactNode;
@@ -30,7 +30,7 @@ function Typography({
   children,
   sx,
   ...props
-}: Props) {
+}: TypographyProps) {
   const colorScheme = useColorScheme() ?? "light";
   const themeColorKey = colorMap[color] || "text";
   const themeColor =

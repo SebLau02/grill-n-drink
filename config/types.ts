@@ -48,6 +48,7 @@ export interface User {
   id: number;
   description: string;
   pseudo: string;
+  phone: string;
   upcomingEvents: Partial<Event[]>;
   pastEvents: Partial<Event[]>;
 }
