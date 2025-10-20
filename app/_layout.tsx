@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import Toasts from "@/components/toasts";
 import BottomBarWrapper from "@/components/ui/bottomBarWrapper";
 import TopBarWrapper from "@/components/ui/topBarWrapper";
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -42,6 +43,7 @@ export default function RootLayout() {
             <Slot />
           </Stack>
           <BottomBarWrapper />
+          <Toasts />
         </SafeAreaView>
       </ThemeProvider>
     </QueryClientProvider>

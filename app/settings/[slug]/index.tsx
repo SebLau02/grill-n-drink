@@ -5,15 +5,16 @@ import { TextField } from "@/components/ui/textField";
 import TopBarWrapper from "@/components/ui/topBarWrapper";
 import { SETTINGS_SECTIONS } from "@/constants/constants";
 import { useUser } from "@/hooks/useUser";
+import { useToast } from "@/store/toast";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ToastAndroid } from "react-native";
 
 function Index() {
   const { data } = useUser();
 
   const [value, setValue] = useState<string>();
   const { slug } = useLocalSearchParams();
+  const { addToast } = useToast();
 
   useEffect(() => {
     if (data) setValue(data.record[slug as keyof typeof data.record] as string);
@@ -24,7 +25,11 @@ function Index() {
   const label = SETTINGS_SECTIONS[slug as keyof typeof SETTINGS_SECTIONS];
 
   const handleSubmit = () => {
-    ToastAndroid.show("Message rapide", ToastAndroid.SHORT);
+    addToast({
+      type: "success",
+      message: `${label} mis à jour avec succès !`,
+      duration: 6000,
+    });
   };
 
   if (!data) {
