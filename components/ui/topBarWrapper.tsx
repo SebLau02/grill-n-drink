@@ -1,5 +1,6 @@
 import { pageProps } from "@/constants/constants";
 import { useColor } from "@/hooks/useColor";
+import { useAppStore } from "@/store/useStore";
 import { useNavigation } from "@react-navigation/native";
 import { useRouter, useSegments } from "expo-router";
 import { ChevronLeft, Search } from "lucide-react-native";
@@ -16,6 +17,8 @@ interface Props {
 }
 function TopBarWrapper({ title }: Props) {
   const [searchActive, setSearchActive] = useState(false);
+
+  const { user } = useAppStore();
 
   const backgroundColor = useColor("background");
   const textColor = useColor("textLight");
@@ -80,9 +83,16 @@ function TopBarWrapper({ title }: Props) {
             <Search color={textColor} />
           </IconButton>
         </FlexBox>
-        <Pressable onPress={() => router.push("/profile" as never)}>
-          <Avatar name={"John Doe"} rounded style={{ marginRight: 16 }} />
-        </Pressable>
+        {user && (
+          <Pressable onPress={() => router.push("/profile" as never)}>
+            <Avatar
+              name={`${user.firstname} ${user.lastname}`}
+              src={user.avatar}
+              rounded
+              style={{ marginRight: 16 }}
+            />
+          </Pressable>
+        )}
       </FlexBox>
     );
   }
@@ -113,9 +123,16 @@ function TopBarWrapper({ title }: Props) {
             {title}
           </Typography>
         </FlexBox>
-        <Pressable onPress={() => router.push("/profile" as never)}>
-          <Avatar name={"John Doe"} rounded style={{ marginRight: 16 }} />
-        </Pressable>
+        {user && (
+          <Pressable onPress={() => router.push("/profile" as never)}>
+            <Avatar
+              name={`${user.firstname} ${user.lastname}`}
+              src={user.avatar}
+              rounded
+              style={{ marginRight: 16 }}
+            />
+          </Pressable>
+        )}
       </FlexBox>
     );
   }
@@ -176,9 +193,16 @@ function TopBarWrapper({ title }: Props) {
               : "La Grill'Zone"}
           </Typography>
         </FlexBox>
-        <Pressable onPress={() => router.push("/profile" as never)}>
-          <Avatar name={"John Doe"} rounded style={{ marginRight: 16 }} />
-        </Pressable>
+        {user && (
+          <Pressable onPress={() => router.push("/profile" as never)}>
+            <Avatar
+              name={`${user.firstname} ${user.lastname}`}
+              src={user.avatar}
+              rounded
+              style={{ marginRight: 16 }}
+            />
+          </Pressable>
+        )}
       </FlexBox>
     );
   }

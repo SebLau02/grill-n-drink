@@ -27,14 +27,27 @@ export interface Event {
     avatar: string;
     firstname: string;
     lastname: string;
+    pseudo: string;
     id: number;
   };
   date: string;
   city: string;
   title: string;
+  time: string;
+  location: string;
+  conditions: Condition[];
+  roles: Role[];
+  description: string;
   participation: {
     avatar: string;
   }[];
+}
+
+export interface Condition {
+  condition: string;
+}
+export interface Role {
+  role: string;
 }
 
 export interface ApiResponse<T> {
@@ -51,4 +64,8 @@ export interface User {
   phone: string;
   upcomingEvents: Partial<Event[]>;
   pastEvents: Partial<Event[]>;
+}
+
+export interface Authentication {
+  token: string;
 }
