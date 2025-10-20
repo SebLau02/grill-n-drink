@@ -1,8 +1,6 @@
 import React from "react";
-import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import Paper from "./paper";
-
-const screenWidth = Dimensions.get("window").width;
 
 interface Props {
   sections: React.ReactNode[];
@@ -12,38 +10,37 @@ interface Props {
   };
 }
 export default function Carousel({ sections, slotProps }: Props) {
-  console.log(
-    screenWidth -
-      16 -
-      (slotProps?.paper?.style?.padding ?? 0) * 2 -
-      (slotProps?.paper?.style?.margin ?? 0) * 2,
+  const containerRef = React.useRef<ScrollView>(null);
+  const [paperWidth, setPaperWidth] = React.useState<number | null>(300);
 
-    screenWidth
-  );
+  const handleLayout = (event: any) => {
+    const width = event.nativeEvent.layout.width;
+    setPaperWidth(width - 3 - (slotProps?.paper?.style?.padding || 0) * 2);
+  };
+
   return (
-    <Paper {...slotProps?.paper}>
+    <Paper {...slotProps?.paper} onLayout={handleLayout}>
       <ScrollView
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         style={[styles.container, slotProps?.carrousel?.style]}
+        ref={containerRef}
       >
-        {sections.map((child, index) => (
-          <View
-            key={index}
-            style={[
-              {
-                paddingHorizontal: 8,
-                width:
-                  screenWidth -
-                  (slotProps?.paper?.style?.padding ?? 0) * 2 -
-                  (slotProps?.paper?.style?.margin ?? 0) * 2,
-              },
-            ]}
-          >
-            {child}
-          </View>
-        ))}
+        {paperWidth !== null &&
+          sections.map((child, index) => (
+            <View
+              key={index}
+              style={[
+                {
+                  paddingHorizontal: 8,
+                  width: paperWidth,
+                },
+              ]}
+            >
+              {child}
+            </View>
+          ))}
       </ScrollView>
     </Paper>
   );

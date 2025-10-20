@@ -26,6 +26,7 @@ const palette = {
   pressed: "#532923",
   disabled: "#B7B7B7",
   textActive: "#FFD2CA",
+  interactiveLight: "#762A21",
   grey200: "#313131",
   grey300: "#393939",
   grey500: "#434343",
