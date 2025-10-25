@@ -69,3 +69,19 @@ export interface User {
 export interface Authentication {
   token: string;
 }
+
+export interface CreateEvent extends EventBase {
+  cover?: File;
+}
+
+export interface EventBase {
+  name: string;
+  date: string;
+  city: string;
+  title: string;
+  time: string;
+  location: string;
+  conditions: Condition[];
+  roles: Role[];
+  description: string;
+}

@@ -21,6 +21,7 @@ interface TextFieldProps extends TextInputProps {
   rowsCount?: number;
   variant?: "outlined" | "filled" | "text";
   labelBg?: boolean;
+  fullWidth?: boolean;
 }
 
 const labelMarginLeft = {
@@ -42,6 +43,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   rowsCount = 0,
   variant = "outlined",
   labelBg = false,
+  fullWidth = false,
   sx,
   ...props
 }) => {
@@ -75,7 +77,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   const labelBgColor = labelBg ? grey200 : backgroundColor;
 
   return (
-    <View style={[styles.container, sx]}>
+    <View style={[styles.container, sx, fullWidth ? { width: "100%" } : {}]}>
       <Animated.Text
         style={[
           styles.label,
@@ -131,6 +133,7 @@ export const TextField: React.FC<TextFieldProps> = ({
                 ...variantStyle[variant],
                 borderBottomColor: isFocused ? borderActiveColor : grey700,
               },
+          fullWidth ? { width: "100%" } : {},
           props.style,
         ]}
         placeholderTextColor={"transparent"}
