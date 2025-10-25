@@ -3,7 +3,7 @@ import { useColor } from "@/hooks/useColor";
 import React from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
 
-interface PaperProps extends ViewProps {
+export interface PaperProps extends ViewProps {
   children?: React.ReactNode;
   variant?: "outlined" | "elevation";
   elevation?: keyof typeof elevationsVariants;

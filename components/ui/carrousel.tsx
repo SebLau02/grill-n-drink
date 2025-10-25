@@ -1,53 +1,68 @@
-import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import Paper from "./paper";
+import * as React from "react";
+import { Dimensions, StyleProp, ViewStyle } from "react-native";
+import type { ICarouselInstance } from "react-native-reanimated-carousel";
+import Carousel from "react-native-reanimated-carousel";
+import Paper, { PaperProps } from "./paper";
+
+const screenWidth = Dimensions.get("window").width;
 
 interface Props {
-  sections: React.ReactNode[];
-  slotProps?: {
-    carrousel?: React.ComponentProps<any>;
-    paper: React.ComponentProps<any>;
-  };
+  cards: React.ReactNode[];
+  width?: number;
+  height?: number;
+  cardsProps?: PaperProps;
+  style?: StyleProp<ViewStyle>;
 }
-export default function Carousel({ sections, slotProps }: Props) {
-  const containerRef = React.useRef<ScrollView>(null);
-  const [paperWidth, setPaperWidth] = React.useState<number | null>(300);
-
-  const handleLayout = (event: any) => {
-    const width = event.nativeEvent.layout.width;
-    setPaperWidth(width - 3 - (slotProps?.paper?.style?.padding || 0) * 2);
-  };
+function Carrousel({
+  cards,
+  width = screenWidth,
+  height = 220,
+  cardsProps,
+  style,
+}: Props) {
+  const ref = React.useRef<ICarouselInstance>(null);
 
   return (
-    <Paper {...slotProps?.paper} onLayout={handleLayout}>
-      <ScrollView
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        style={[styles.container, slotProps?.carrousel?.style]}
-        ref={containerRef}
-      >
-        {paperWidth !== null &&
-          sections.map((child, index) => (
-            <View
-              key={index}
-              style={[
-                {
-                  paddingHorizontal: 8,
-                  width: paperWidth,
-                },
-              ]}
-            >
-              {child}
-            </View>
-          ))}
-      </ScrollView>
-    </Paper>
+    <Carousel
+      ref={ref}
+      autoPlayInterval={2000}
+      data={cards}
+      height={height}
+      loop={false}
+      pagingEnabled={true}
+      snapEnabled={true}
+      width={width * 0.75}
+      style={[
+        {
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          height: height,
+        },
+        style,
+      ]}
+      mode={"horizontal-stack"}
+      modeConfig={{
+        snapDirection: "left",
+        stackInterval: 18,
+      }}
+      customConfig={() => ({ type: "positive", viewCount: 5 })}
+      renderItem={({ item }) => (
+        <Paper
+          {...cardsProps}
+          style={[
+            cardsProps?.style,
+            {
+              width: "100%",
+              height: "100%",
+            },
+          ]}
+        >
+          {item}
+        </Paper>
+      )}
+    />
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-
-  text: { fontSize: 24, color: "white", fontWeight: "bold" },
-});
+export default Carrousel;
