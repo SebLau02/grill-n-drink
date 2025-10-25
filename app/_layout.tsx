@@ -1,6 +1,7 @@
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { useEffect, useState } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -33,17 +34,24 @@ export default function RootLayout() {
             flex: 1,
           }}
         >
-          <TopBarWrapper />
-          <Stack
-            screenOptions={{
-              animation: "none",
-              headerShown: false,
-            }}
+          <KeyboardAwareScrollView
+            contentContainerStyle={{ flex: 1 }}
+            enableOnAndroid
+            extraScrollHeight={50}
+            keyboardShouldPersistTaps="handled"
           >
-            <Slot />
-          </Stack>
-          <BottomBarWrapper />
-          <Toasts />
+            <TopBarWrapper />
+            <Stack
+              screenOptions={{
+                animation: "none",
+                headerShown: false,
+              }}
+            >
+              <Slot />
+            </Stack>
+            <BottomBarWrapper />
+            <Toasts />
+          </KeyboardAwareScrollView>
         </SafeAreaView>
       </ThemeProvider>
     </QueryClientProvider>
