@@ -70,6 +70,7 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(
         duration: 200,
         useNativeDriver: false,
       }).start();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFocused, hasValue]);
 
     const translateY = labelAnim.interpolate({

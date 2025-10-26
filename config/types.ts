@@ -84,4 +84,6 @@ export interface EventBase {
   conditions: Condition[];
   roles: Role[];
   description: string;
+  zipcode: string;
+  location_details?: string;
 }

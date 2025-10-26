@@ -1,7 +1,7 @@
 import { useColor } from "@/hooks/useColor";
 import { ChevronRight } from "lucide-react-native";
 import React, { cloneElement, isValidElement } from "react";
-import { TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import FlexBox, { FlexBoxProps } from "./flexBox";
 import Typography from "./typography";
 
@@ -10,12 +10,14 @@ interface Props extends FlexBoxProps {
   separator?: React.ReactElement | string;
   link?: () => void;
   showAll?: boolean;
+  scrollable?: boolean;
 }
 function Breadcrumb({
   crumbs,
   separator = <ChevronRight />,
   link,
   showAll,
+  scrollable = false,
   ...props
 }: Props) {
   const textColor = useColor("textLight");
@@ -29,8 +31,8 @@ function Breadcrumb({
         })
       : separator;
 
-  return (
-    <FlexBox align="center" columnGap={1} direction="row" {...props}>
+  const commonPart = (
+    <FlexBox {...props} align="center" columnGap={1} direction="row">
       {crumbs.map((crumb, index) => (
         <FlexBox align="center" columnGap={1} direction="row" key={index}>
           {index < crumbs.length - 1 ? (
@@ -68,6 +70,20 @@ function Breadcrumb({
       ))}
     </FlexBox>
   );
+  if (scrollable) {
+    return (
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={{
+          flexGrow: 0,
+        }}
+      >
+        {commonPart}
+      </ScrollView>
+    );
+  }
+  return commonPart;
 }
 
 export default Breadcrumb;

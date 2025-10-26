@@ -58,6 +58,7 @@ function Date({ formData, setFormData }: Props) {
             dateRef.current?.blur();
           }}
           mode="date"
+          display="spinner"
         />
       )}
       {openTimePicker && (
@@ -66,9 +67,10 @@ function Date({ formData, setFormData }: Props) {
           onChange={(_, time) => {
             setFormData({ ...formData, time: time });
             setOpenTimePicker(false);
-            dateRef.current?.blur();
+            timeRef.current?.blur();
           }}
           mode="time"
+          display="spinner"
         />
       )}
     </Paper>

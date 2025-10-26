@@ -5,9 +5,12 @@ import PageView from "@/components/ui/pageView";
 import Typography from "@/components/ui/typography";
 import { CreateEvent } from "@/config/types";
 import { useState } from "react";
+import Conditions from "./conditions";
 import Date from "./date";
 import Description from "./description";
 import Information from "./information";
+import Location from "./location";
+import Roles from "./roles";
 
 export interface StepProps {
   formData: CreateEvent;
@@ -26,6 +29,19 @@ const STEPS = {
     title: "Date & heure",
     component: (props: StepProps) => <Date {...props} />,
   },
+  4: {
+    title: "Lieux",
+    component: (props: StepProps) => <Location {...props} />,
+  },
+  5: {
+    title: "Conditions",
+    component: (props: StepProps) => <Conditions {...props} />,
+  },
+
+  6: {
+    title: "Rôles",
+    component: (props: StepProps) => <Roles {...props} />,
+  },
 };
 export default function Index() {
   const [step, setStep] = useState<keyof typeof STEPS>(1);
@@ -39,6 +55,7 @@ export default function Index() {
     conditions: [],
     roles: [],
     description: "",
+    zipcode: "",
   });
 
   const handlePressNext = () => {
@@ -75,6 +92,7 @@ export default function Index() {
         link={() => setStep((prev) => (prev - 1) as keyof typeof STEPS)}
         crumbs={crumbs}
         showAll={true}
+        scrollable={true}
         sx={{
           paddingBottom: 32,
         }}
