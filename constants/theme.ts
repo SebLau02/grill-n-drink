@@ -53,8 +53,10 @@ export const Fonts = Platform.select({
     /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: "ui-monospace",
     /** Polices personnalisées */
-    bricolage: "BricolageGrotesque-Variable",
-    raleway: "Raleway-Variable",
+    titleBold: "BricolageGrotesque-Bold",
+    titleMedium: "BricolageGrotesque-Medium",
+    body: "Raleway-Regular",
+    body_italic: "Raleway-Italic",
   },
   default: {
     sans: "normal",
@@ -62,8 +64,10 @@ export const Fonts = Platform.select({
     rounded: "normal",
     mono: "monospace",
     /** Polices personnalisées */
-    bricolage: "BricolageGrotesque-Variable",
-    raleway: "Raleway-Variable",
+    titleBold: "BricolageGrotesque-Bold",
+    titleMedium: "BricolageGrotesque-Medium",
+    body: "Raleway-Regular",
+    body_italic: "Raleway-Italic",
   },
   web: {
     sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
@@ -72,7 +76,9 @@ export const Fonts = Platform.select({
       "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
     /** Polices personnalisées */
-    bricolage: "BricolageGrotesque-Variable",
-    raleway: "Raleway-Variable",
+    titleBold: "BricolageGrotesque-Bold",
+    titleMedium: "BricolageGrotesque-Medium",
+    body: "Raleway-Regular",
+    body_italic: "Raleway-Italic",
   },
 });

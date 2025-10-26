@@ -2,6 +2,7 @@ import Divider from "@/components/ui/divider";
 import Paper from "@/components/ui/paper";
 import { TextField } from "@/components/ui/textField";
 import Typography from "@/components/ui/typography";
+import { Fonts } from "@/constants/theme";
 import React from "react";
 import { StepProps } from ".";
 
@@ -18,7 +19,7 @@ function Information({ formData, setFormData }: Props) {
         Titre:
       </Typography>
       <Typography variant="body1">
-        Commençons par donner un nom à ton barbecue !{"\n"}
+        Raleway Commençons par donner un nom à ton barbecue !{"\n"}
         C’est la première chose que les autres verront, alors choisis un titre
         clair, simple et accrocheur.{"\n"}
         Fais preuve de créativité : jeux de mots, références ciné ou petites
@@ -36,7 +37,7 @@ function Information({ formData, setFormData }: Props) {
           key={index}
           variant="body2"
           sx={{
-            fontStyle: "italic",
+            fontFamily: Fonts.body_italic,
           }}
         >
           • {idea}

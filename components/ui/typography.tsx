@@ -1,5 +1,5 @@
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
+import { Fonts } from "@/constants/theme";
+import { useColor } from "@/hooks/useColor";
 import React from "react";
 import {
   StyleProp,
@@ -16,14 +16,6 @@ export interface TypographyProps extends TextProps {
   sx?: StyleProp<TextStyle>;
 }
 
-const colorMap = {
-  primary: "text",
-  secondary: "textActive",
-  error: "error",
-  danger: "danger",
-  success: "success",
-};
-
 function Typography({
   variant = "h1",
   color = "primary",
@@ -31,13 +23,16 @@ function Typography({
   sx,
   ...props
 }: TypographyProps) {
-  const colorScheme = useColorScheme() ?? "light";
-  const themeColorKey = colorMap[color] || "text";
-  const themeColor =
-    Colors[colorScheme][themeColorKey as keyof (typeof Colors)["light"]];
+  const text = useColor("textLight");
   return (
     <Text
-      style={[textVariants[variant], { color: themeColor }, sx, props.style]}
+      style={[
+        textVariants[variant],
+        { color: text },
+        textVariantFontFam[variant],
+        sx,
+        props.style,
+      ]}
     >
       {children}
     </Text>
@@ -92,4 +87,16 @@ export const textVariants = StyleSheet.create({
     fontWeight: "400",
     lineHeight: 16,
   },
+});
+
+const textVariantFontFam = StyleSheet.create({
+  h1: { fontFamily: Fonts.titleBold },
+  h2: { fontFamily: Fonts.titleBold },
+  h3: { fontFamily: Fonts.titleMedium },
+  h4: { fontFamily: Fonts.titleMedium },
+  h5: { fontFamily: Fonts.titleMedium },
+  h6: { fontFamily: Fonts.titleMedium },
+  body1: { fontFamily: Fonts.body },
+  body2: { fontFamily: Fonts.body },
+  caption: { fontFamily: Fonts.body },
 });

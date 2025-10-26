@@ -76,10 +76,10 @@ export interface CreateEvent extends EventBase {
 
 export interface EventBase {
   name: string;
-  date: string;
+  date: Date | undefined;
   city: string;
   title: string;
-  time: string;
+  time: Date | undefined;
   location: string;
   conditions: Condition[];
   roles: Role[];

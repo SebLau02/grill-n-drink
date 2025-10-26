@@ -19,8 +19,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     Font.loadAsync({
-      "BricolageGrotesque-Variable": require("../assets/fonts/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf"),
-      "Raleway-Variable": require("../assets/fonts/Raleway-VariableFont_wght.ttf"),
+      "BricolageGrotesque-Bold": require("../assets/fonts/BricolageGrotesque-Bold.ttf"),
+      "BricolageGrotesque-Medium": require("../assets/fonts/BricolageGrotesque-Medium.ttf"),
+      "Raleway-Italic": require("../assets/fonts/Raleway-Italic.ttf"),
+      "Raleway-Regular": require("../assets/fonts/Raleway-Regular.ttf"),
     }).then(() => setFontsLoaded(true));
   }, []);
 
