@@ -1,25 +1,24 @@
 import { Metrics } from "@/constants/theme";
 import { useColor } from "@/hooks/useColor";
-import { useLocalSearchParams } from "expo-router";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated, Dimensions, ScrollView } from "react-native";
 import Button from "./button";
-import FlexBox from "./flexBox";
+import FlexBox, { FlexBoxProps } from "./flexBox";
 
 const screenWidth = Dimensions.get("window").width;
 
 interface Props {
   tabs: string[];
-  children: React.ReactNode;
+  children?: React.ReactNode;
   slotProps?: {
     tabPanel?: React.ComponentProps<any>;
+    tabs?: FlexBoxProps;
   };
+  currentTab?: string;
 }
 
-function Tabs({ tabs, children, slotProps }: Props) {
-  const { tab = "0" } = useLocalSearchParams();
-
-  const [activeTab, setActiveTab] = useState(tab);
+function Tabs({ tabs, children, slotProps, currentTab = "0" }: Props) {
+  const [activeTab, setActiveTab] = useState(currentTab);
 
   const borderColor = useColor("border");
 
@@ -27,12 +26,13 @@ function Tabs({ tabs, children, slotProps }: Props) {
 
   const labelAnim = useRef(new Animated.Value(Number(activeTab))).current;
 
-  React.useEffect(() => {
+  useEffect(() => {
     Animated.timing(labelAnim, {
       toValue: Number(activeTab),
       duration: 200,
       useNativeDriver: true,
     }).start();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
@@ -47,13 +47,16 @@ function Tabs({ tabs, children, slotProps }: Props) {
         direction="row"
         justify="center"
         align="center"
-        sx={{
-          position: "relative",
-          alignItems: "stretch",
-          borderTopWidth: 1,
-          borderBottomWidth: 1,
-          borderColor: borderColor,
-        }}
+        sx={[
+          {
+            position: "relative",
+            alignItems: "stretch",
+            borderTopWidth: 1,
+            borderBottomWidth: 1,
+            borderColor: borderColor,
+          },
+          slotProps?.tabs?.sx,
+        ]}
       >
         <Animated.View
           style={[

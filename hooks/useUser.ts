@@ -1,6 +1,11 @@
-import { get } from "@/app/fetch/crud";
+import { get, post } from "@/app/fetch/crud";
+import { API_BASE } from "@/config/config";
 import { ApiResponse, User } from "@/config/types";
-import { useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+} from "@tanstack/react-query";
 
 export function useUser(options = {}) {
   const fetchUser = async (): Promise<ApiResponse<User>> => {
@@ -18,3 +23,87 @@ export function useUser(options = {}) {
   });
   return { data, isLoading, error };
 }
+
+export const useGetCode = (
+  options?: UseMutationOptions<
+    ApiResponse<Event>,
+    unknown,
+    {
+      body: { email: string };
+    }
+  >
+) => {
+  return useMutation<
+    ApiResponse<Event>,
+    unknown,
+    {
+      body: { email: string };
+    }
+  >({
+    mutationFn: async ({ body }) => {
+      const data = await post(`${API_BASE}/get-code`, {
+        body: body,
+      });
+
+      if (!data) throw new Error("Requête échouée");
+      return data;
+    },
+    ...options,
+  });
+};
+
+export const useCheckCode = (
+  options?: UseMutationOptions<
+    ApiResponse<Event>,
+    unknown,
+    {
+      body: { code: string };
+    }
+  >
+) => {
+  return useMutation<
+    ApiResponse<Event>,
+    unknown,
+    {
+      body: { code: string };
+    }
+  >({
+    mutationFn: async ({ body }) => {
+      const data = await post(`${API_BASE}/check-code`, {
+        body: body,
+      });
+
+      if (!data) throw new Error("Requête échouée");
+      return data;
+    },
+    ...options,
+  });
+};
+
+export const useResetPassword = (
+  options?: UseMutationOptions<
+    ApiResponse<Event>,
+    unknown,
+    {
+      body: { password: string; password_confirmation: string };
+    }
+  >
+) => {
+  return useMutation<
+    ApiResponse<Event>,
+    unknown,
+    {
+      body: { password: string; password_confirmation: string };
+    }
+  >({
+    mutationFn: async ({ body }) => {
+      const data = await post(`${API_BASE}/reset-password`, {
+        body: body,
+      });
+
+      if (!data) throw new Error("Requête échouée");
+      return data;
+    },
+    ...options,
+  });
+};

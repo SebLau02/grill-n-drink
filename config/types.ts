@@ -70,6 +70,8 @@ export interface Authentication {
   token: string;
 }
 
+export type AuthenticatedUser = User & Authentication;
+
 export interface CreateEvent extends EventBase {
   cover?: File;
 }

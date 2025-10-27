@@ -5,6 +5,8 @@ import PageView from "@/components/ui/pageView";
 import Typography from "@/components/ui/typography";
 import { CreateEvent } from "@/config/types";
 import { useCreateEvent } from "@/hooks/useEvents";
+import { useAppStore } from "@/store/useStore";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import Conditions from "./conditions";
 import Date from "./date";
@@ -63,6 +65,8 @@ export default function Index() {
     zipcode: "",
     status: "published",
   });
+  const { user } = useAppStore();
+  const router = useRouter();
 
   const { mutate } = useCreateEvent({
     onSuccess: (data) => {
@@ -79,17 +83,24 @@ export default function Index() {
     }
   };
   const handlePressDraft = () => {
-    console.log("save as draft");
+    isUserAuthenticate();
     mutate({ body: { ...formData, status: "draft" } });
   };
   const handleCreate = () => {
-    console.log("create event");
+    isUserAuthenticate();
     mutate({ body: { ...formData, status: "published" } });
   };
 
   const handlePressPrev = () => {
     if (step > 1) {
       setStep((prev) => (prev - 1) as keyof typeof STEPS);
+    }
+  };
+
+  const isUserAuthenticate = () => {
+    if (!user) {
+      router.push("/authentication?tab=0" as never);
+      return;
     }
   };
 
