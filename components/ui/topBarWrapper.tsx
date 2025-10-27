@@ -7,6 +7,7 @@ import { ChevronLeft, Search } from "lucide-react-native";
 import React, { useState } from "react";
 import { Pressable } from "react-native";
 import Avatar from "./avatar";
+import Button from "./button";
 import FlexBox from "./flexBox";
 import IconButton from "./iconButton";
 import SearchBar from "./searchBar";
@@ -83,7 +84,7 @@ function TopBarWrapper({ title }: Props) {
             <Search color={textColor} />
           </IconButton>
         </FlexBox>
-        {user && (
+        {user ? (
           <Pressable onPress={() => router.push("/profile" as never)}>
             <Avatar
               name={`${user.firstname} ${user.lastname}`}
@@ -92,6 +93,13 @@ function TopBarWrapper({ title }: Props) {
               style={{ marginRight: 16 }}
             />
           </Pressable>
+        ) : (
+          <Button
+            onPress={() => router.push("/authentication?tab=0")}
+            size="small"
+          >
+            Se connecter
+          </Button>
         )}
       </FlexBox>
     );

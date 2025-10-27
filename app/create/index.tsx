@@ -73,7 +73,7 @@ export default function Index() {
       console.log(data);
     },
     onError: (error) => {
-      console.error(error);
+      console.log("error");
     },
   });
 

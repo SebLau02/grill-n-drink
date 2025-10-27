@@ -20,7 +20,7 @@ function Index() {
       router.push("/authentication?tab=0" as never);
     },
     onError: (error) => {
-      console.error("Error:", error);
+      console.log("Error:", error);
     },
   });
 

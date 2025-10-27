@@ -17,7 +17,7 @@ function Index() {
       router.push("/forgotPassword/sendCode/resetPassword" as never);
     },
     onError: (error) => {
-      console.error("Error:", error);
+      console.log("Error:", error);
     },
   });
 

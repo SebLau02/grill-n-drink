@@ -1,6 +1,6 @@
 import { get, post } from "@/app/fetch/crud";
 import { API_BASE } from "@/config/config";
-import { ApiResponse, User } from "@/config/types";
+import { ApiResponse, LoginRes, User, UserLogin } from "@/config/types";
 import {
   useMutation,
   UseMutationOptions,
@@ -99,6 +99,60 @@ export const useResetPassword = (
     mutationFn: async ({ body }) => {
       const data = await post(`${API_BASE}/reset-password`, {
         body: body,
+      });
+
+      if (!data) throw new Error("Requête échouée");
+      return data;
+    },
+    ...options,
+  });
+};
+export const useLogin = (
+  options?: UseMutationOptions<
+    LoginRes,
+    unknown,
+    {
+      body: UserLogin;
+    }
+  >
+) => {
+  return useMutation<
+    LoginRes,
+    unknown,
+    {
+      body: UserLogin;
+    }
+  >({
+    mutationFn: async ({ body }) => {
+      const data = await post(`${API_BASE}/login`, {
+        body: body,
+      });
+
+      if (!data) throw new Error("Requête échouée");
+      return data;
+    },
+    ...options,
+  });
+};
+export const useSignup = (
+  options?: UseMutationOptions<
+    ApiResponse<{ message: string }>,
+    unknown,
+    {
+      body: UserLogin;
+    }
+  >
+) => {
+  return useMutation<
+    ApiResponse<{ message: string }>,
+    unknown,
+    {
+      body: UserLogin;
+    }
+  >({
+    mutationFn: async ({ body }) => {
+      const data = await post(`${API_BASE}/users`, {
+        body: { user: body },
       });
 
       if (!data) throw new Error("Requête échouée");

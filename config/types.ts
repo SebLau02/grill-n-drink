@@ -52,14 +52,34 @@ export interface Role {
 
 export interface ApiResponse<T> {
   record: T;
+  message?: string;
+}
+export interface LoginRes {
+  token: string;
+  message: string;
+  user: User;
 }
 
-export interface User {
-  avatar: string;
+export type UserSignup = Omit<UserBase, "phone_number" | "description"> & {
+  password: string;
+  password_confirmation: string;
+};
+export type UserLogin = {
+  email: string;
+  password: string;
+};
+
+export interface UserBase {
   firstname: string;
   lastname: string;
-  id: number;
+  phone_number: string;
+  username: string;
   description: string;
+  email: string;
+}
+export interface User extends UserBase {
+  avatar: string;
+  id: number;
   pseudo: string;
   phone: string;
   upcomingEvents: Partial<Event[]>;
