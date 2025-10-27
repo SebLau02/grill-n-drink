@@ -4,6 +4,7 @@ import FlexBox from "@/components/ui/flexBox";
 import PageView from "@/components/ui/pageView";
 import Typography from "@/components/ui/typography";
 import { CreateEvent } from "@/config/types";
+import { useCreateEvent } from "@/hooks/useEvents";
 import { useState } from "react";
 import Conditions from "./conditions";
 import Date from "./date";
@@ -11,6 +12,7 @@ import Description from "./description";
 import Information from "./information";
 import Location from "./location";
 import Roles from "./roles";
+import Summary from "./summary";
 
 export interface StepProps {
   formData: CreateEvent;
@@ -37,10 +39,13 @@ const STEPS = {
     title: "Conditions",
     component: (props: StepProps) => <Conditions {...props} />,
   },
-
   6: {
     title: "Rôles",
     component: (props: StepProps) => <Roles {...props} />,
+  },
+  7: {
+    title: "Récapitulatif",
+    component: (props: StepProps) => <Summary {...props} />,
   },
 };
 export default function Index() {
@@ -56,12 +61,30 @@ export default function Index() {
     roles: [],
     description: "",
     zipcode: "",
+    status: "published",
+  });
+
+  const { mutate } = useCreateEvent({
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
   });
 
   const handlePressNext = () => {
     if (step < Object.keys(STEPS).length) {
       setStep((prev) => (prev + 1) as keyof typeof STEPS);
     }
+  };
+  const handlePressDraft = () => {
+    console.log("save as draft");
+    mutate({ body: { ...formData, status: "draft" } });
+  };
+  const handleCreate = () => {
+    console.log("create event");
+    mutate({ body: { ...formData, status: "published" } });
   };
 
   const handlePressPrev = () => {
@@ -89,7 +112,7 @@ export default function Index() {
       }}
     >
       <Breadcrumb
-        link={() => setStep((prev) => (prev - 1) as keyof typeof STEPS)}
+        link={(step) => setStep((prev) => step as keyof typeof STEPS)}
         crumbs={crumbs}
         showAll={true}
         scrollable={true}
@@ -110,9 +133,26 @@ export default function Index() {
         <Button size="large" variant="outlined" onPress={handlePressPrev}>
           {step === 1 ? "Annuler" : "Précédent"}
         </Button>
-        <Button size="large" onPress={handlePressNext}>
-          Suivant
-        </Button>
+
+        {step === Object.values(STEPS).length ? (
+          <FlexBox
+            direction="row"
+            sx={{
+              columnGap: 16,
+            }}
+          >
+            <Button size="large" onPress={handlePressDraft}>
+              {"Brouillon"}
+            </Button>
+            <Button size="large" onPress={handleCreate}>
+              {"Créer"}
+            </Button>
+          </FlexBox>
+        ) : (
+          <Button size="large" onPress={handlePressNext}>
+            {"Suivant"}
+          </Button>
+        )}
       </FlexBox>
     </PageView>
   );

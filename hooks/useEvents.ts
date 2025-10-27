@@ -1,6 +1,11 @@
-import { ApiResponse, Event } from "@/config/types";
-import { useQuery } from "@tanstack/react-query";
-import { get } from "../app/fetch/crud";
+import { API_BASE } from "@/config/config";
+import { ApiResponse, CreateEvent, Event } from "@/config/types";
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+} from "@tanstack/react-query";
+import { get, post } from "../app/fetch/crud";
 
 export function useEvents(options = {}) {
   const fetchEvents = async (): Promise<ApiResponse<Event[]>> => {
@@ -42,3 +47,34 @@ export function useEvent(id: string, options = {}) {
   });
   return { data, isLoading, error };
 }
+
+export const useCreateEvent = (
+  options?: UseMutationOptions<
+    ApiResponse<Event>,
+    unknown,
+    {
+      body: CreateEvent;
+      token?: string;
+    }
+  >
+) => {
+  return useMutation<
+    ApiResponse<Event>,
+    unknown,
+    {
+      body: CreateEvent;
+      token?: string;
+    }
+  >({
+    mutationFn: async ({ body, token }) => {
+      const data = await post(`${API_BASE}/events`, {
+        headers: { Authorization: `Bearer ${token}` },
+        body: body,
+      });
+
+      if (!data) throw new Error("Requête échouée");
+      return data;
+    },
+    ...options,
+  });
+};

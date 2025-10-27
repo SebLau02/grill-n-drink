@@ -48,17 +48,20 @@ function Location({ formData, setFormData }: Props) {
         value={formData.location}
         variant="text"
         fullWidth
+        onChangeText={(text) => setFormData({ ...formData, location: text })}
       />
       <TextField
         label="Ville*"
         value={formData.city}
         variant="text"
         fullWidth
+        onChangeText={(text) => setFormData({ ...formData, city: text })}
       />
       <TextField
         label="Code postale*"
         value={formData.zipcode}
         variant="text"
+        onChangeText={(text) => setFormData({ ...formData, zipcode: text })}
         fullWidth
       />
       <TextField
@@ -67,6 +70,9 @@ function Location({ formData, setFormData }: Props) {
         variant="text"
         rowsCount={4}
         fullWidth
+        onChangeText={(text) =>
+          setFormData({ ...formData, location_details: text })
+        }
       />
     </Paper>
   );

@@ -8,7 +8,7 @@ import Typography from "./typography";
 interface Props extends FlexBoxProps {
   crumbs: React.ReactNode[];
   separator?: React.ReactElement | string;
-  link?: () => void;
+  link?: (step: number) => void;
   showAll?: boolean;
   scrollable?: boolean;
 }
@@ -38,7 +38,7 @@ function Breadcrumb({
           {index < crumbs.length - 1 ? (
             <TouchableOpacity
               onPress={() => {
-                link && link();
+                link && link(index + 1);
               }}
             >
               <Typography

@@ -20,7 +20,7 @@ function Conditions({ formData, setFormData }: Props) {
           marginBottom: 8,
         }}
       >
-        Adresse:
+        Conditions de participation:
       </Typography>
       <Typography variant="body1">
         Ici, tu définis ce que chacun doit apporter pour participer au barbecue.

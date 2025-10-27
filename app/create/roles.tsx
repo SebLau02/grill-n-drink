@@ -20,7 +20,7 @@ function Roles({ formData, setFormData }: Props) {
           marginBottom: 8,
         }}
       >
-        Adresse:
+        Rôles:
       </Typography>
       <Typography variant="body1">
         Un barbecue, c’est comme une petite aventure : chacun peut prendre un

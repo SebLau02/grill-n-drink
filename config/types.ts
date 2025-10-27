@@ -86,4 +86,5 @@ export interface EventBase {
   description: string;
   zipcode: string;
   location_details?: string;
+  status: "draft" | "published";
 }
