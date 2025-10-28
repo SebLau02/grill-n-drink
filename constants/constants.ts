@@ -30,5 +30,5 @@ export const SETTINGS_SECTIONS = {
   lastname: "Prénom",
   email: "Email",
   password: "Mot de passe",
-  phone: "Téléphone",
+  phone_number: "Téléphone",
 };

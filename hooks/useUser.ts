@@ -1,4 +1,4 @@
-import { get, post } from "@/app/fetch/crud";
+import { get, patch, post } from "@/app/fetch/crud";
 import { getToken } from "@/config/authStorage";
 import { API_BASE } from "@/config/config";
 import { ApiResponse, LoginRes, User, UserLogin } from "@/config/types";
@@ -155,6 +155,36 @@ export const useSignup = (
     mutationFn: async ({ body }) => {
       const data = await post(`${API_BASE}/users`, {
         body: { user: body },
+      });
+
+      if (!data) throw new Error("Requête échouée");
+      return data;
+    },
+    ...options,
+  });
+};
+
+export const useUpdateUser = (
+  options?: UseMutationOptions<
+    User,
+    unknown,
+    {
+      body: { [key: string]: string };
+      id: number;
+    }
+  >
+) => {
+  return useMutation<
+    User,
+    unknown,
+    {
+      body: { [key: string]: string };
+      id: number;
+    }
+  >({
+    mutationFn: async ({ body, id }) => {
+      const data = await patch(`${API_BASE}/users/${id}`, {
+        body: body,
       });
 
       if (!data) throw new Error("Requête échouée");

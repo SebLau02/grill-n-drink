@@ -14,7 +14,11 @@ const accountSettings = [
     list: [
       { label: "Nom", name: "firstname", path: "settings/firstname" },
       { label: "Prénom", name: "lastname", path: "settings/lastname" },
-      { label: "Téléphone", name: "phone", path: "settings/phone" },
+      {
+        label: "Téléphone",
+        name: "phone_number",
+        path: "settings/phone_number",
+      },
       { label: "Email", name: "email", path: "settings/email" },
       { label: "Mot de passe", name: "password", path: "settings/password" },
     ],
@@ -54,36 +58,97 @@ function Index() {
 
   const userData = data;
 
-  return (
-    <PageView>
-      {accountSettings.map((section, index) => (
-        <React.Fragment key={index}>
+  if (user) {
+    return (
+      <PageView>
+        {accountSettings.map((section, index) => (
+          <React.Fragment key={index}>
+            <ClickableRow
+              label={section.title}
+              value={""}
+              path="settings"
+              clickable={false}
+              slotProps={{
+                label: {
+                  variant: "h6",
+                },
+              }}
+            />
+            {section.list.map((item, idx) => (
+              <ClickableRow
+                key={idx}
+                label={item.label}
+                value={getUserValue(userData, item.name)}
+                path={item.path}
+                slotProps={{
+                  label: {
+                    variant: "body2",
+                  },
+                }}
+              />
+            ))}
+          </React.Fragment>
+        ))}
+        {privacySettings.map((section, index) => (
+          <React.Fragment key={index}>
+            <ClickableRow
+              label={section.title}
+              value={""}
+              path="settings"
+              clickable={false}
+              slotProps={{
+                label: {
+                  variant: "h6",
+                },
+              }}
+            />
+            {section.list.map((item, idx) => (
+              <ClickableRow
+                key={idx}
+                label={item.label}
+                value={""}
+                path={item.path}
+                slotProps={{
+                  label: {
+                    variant: "body2",
+                  },
+                }}
+              />
+            ))}
+          </React.Fragment>
+        ))}
+
+        <TouchableOpacity
+          onPress={() => {
+            removeToken();
+            router.replace("/authentication?tab=0");
+          }}
+          style={{
+            marginTop: "auto",
+            marginBottom: 16,
+          }}
+        >
           <ClickableRow
-            label={section.title}
+            label={"Deconnexion"}
             value={""}
-            path="settings"
+            path="logout"
             clickable={false}
+            sx={{
+              justifyContent: "center",
+            }}
             slotProps={{
               label: {
                 variant: "h6",
               },
             }}
           />
-          {section.list.map((item, idx) => (
-            <ClickableRow
-              key={idx}
-              label={item.label}
-              value={getUserValue(userData, item.name)}
-              path={item.path}
-              slotProps={{
-                label: {
-                  variant: "body2",
-                },
-              }}
-            />
-          ))}
-        </React.Fragment>
-      ))}
+        </TouchableOpacity>
+      </PageView>
+    );
+  }
+
+  return (
+    <PageView>
       {privacySettings.map((section, index) => (
         <React.Fragment key={index}>
           <ClickableRow
@@ -112,34 +177,6 @@ function Index() {
           ))}
         </React.Fragment>
       ))}
-
-      {user && (
-        <TouchableOpacity
-          onPress={() => {
-            removeToken();
-            router.replace("/authentication?tab=0");
-          }}
-          style={{
-            marginTop: "auto",
-            marginBottom: 16,
-          }}
-        >
-          <ClickableRow
-            label={"Deconnexion"}
-            value={""}
-            path="logout"
-            clickable={false}
-            sx={{
-              justifyContent: "center",
-            }}
-            slotProps={{
-              label: {
-                variant: "h6",
-              },
-            }}
-          />
-        </TouchableOpacity>
-      )}
     </PageView>
   );
 }

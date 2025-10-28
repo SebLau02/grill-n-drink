@@ -4,23 +4,47 @@ import PageView from "@/components/ui/pageView";
 import { TextField } from "@/components/ui/textField";
 import TopBarWrapper from "@/components/ui/topBarWrapper";
 import { SETTINGS_SECTIONS } from "@/constants/constants";
-import { useUser } from "@/hooks/useUser";
+import { useUpdateUser, useUser } from "@/hooks/useUser";
 import { useToast } from "@/store/toast";
-import { useLocalSearchParams } from "expo-router";
+import { useAppStore } from "@/store/useStore";
+import { Redirect, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 
 function Index() {
+  const { user } = useAppStore();
   const { data } = useUser();
 
   const [value, setValue] = useState<string>();
   const { slug } = useLocalSearchParams();
   const { addToast } = useToast();
 
-  useEffect(() => {
-    if (data) setValue(data.record[slug as keyof typeof data.record] as string);
+  const { mutate } = useUpdateUser({
+    onSuccess: () => {
+      addToast({
+        type: "success",
+        message: `${
+          SETTINGS_SECTIONS[slug as keyof typeof SETTINGS_SECTIONS]
+        } mis à jour avec succès !`,
+        duration: 3000,
+      });
+    },
+    onError: (error) => {
+      addToast({
+        type: "danger",
+        message: `Erreur lors de la mise à jour : ${error}`,
+        duration: 3000,
+      });
+    },
+  });
 
+  useEffect(() => {
+    if (data) setValue(data[slug as keyof typeof data] as string);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
+
+  if (!user) {
+    return <Redirect href="/authentication?tab=0" />;
+  }
 
   const label = SETTINGS_SECTIONS[slug as keyof typeof SETTINGS_SECTIONS];
 
@@ -33,11 +57,7 @@ function Index() {
       });
       return;
     }
-    addToast({
-      type: "success",
-      message: `${label} mis à jour avec succès !`,
-      duration: 3000,
-    });
+    mutate({ body: { [slug as string]: value }, id: user.id });
   };
 
   if (!data) {
