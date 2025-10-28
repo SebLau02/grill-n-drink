@@ -31,4 +31,5 @@ export const SETTINGS_SECTIONS = {
   email: "Email",
   password: "Mot de passe",
   phone_number: "Téléphone",
+  description: "Description",
 };

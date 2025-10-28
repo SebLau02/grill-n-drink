@@ -37,6 +37,8 @@ function Index() {
     },
   });
 
+  console.log(data?.description);
+
   useEffect(() => {
     if (data) setValue(data[slug as keyof typeof data] as string);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,7 +78,7 @@ function Index() {
       >
         <TextField
           label={label}
-          value={value}
+          value={value || ""}
           onChangeText={(text) => setValue(text)}
           variant="text"
           style={{

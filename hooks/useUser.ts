@@ -1,7 +1,13 @@
 import { get, patch, post } from "@/app/fetch/crud";
 import { getToken } from "@/config/authStorage";
 import { API_BASE } from "@/config/config";
-import { ApiResponse, LoginRes, User, UserLogin } from "@/config/types";
+import {
+  ApiResponse,
+  LoginRes,
+  User,
+  UserLogin,
+  UserProfile,
+} from "@/config/types";
 import {
   useMutation,
   UseMutationOptions,
@@ -19,6 +25,23 @@ export function useUser(options = {}) {
   };
 
   const { data, isLoading, error } = useQuery<User>({
+    queryKey: ["me"],
+    queryFn: fetchUser,
+    ...options,
+  });
+  return { data, isLoading, error };
+}
+export function useUserProfile(options = {}) {
+  const fetchUser = async (): Promise<UserProfile> => {
+    const token = await getToken();
+    return await get(`${API_BASE}/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  };
+
+  const { data, isLoading, error } = useQuery<UserProfile>({
     queryKey: ["me"],
     queryFn: fetchUser,
     ...options,

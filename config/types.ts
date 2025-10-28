@@ -81,9 +81,14 @@ export interface User extends UserBase {
   avatar: string;
   id: number;
   pseudo: string;
+  username: string;
   phone: string;
-  upcomingEvents: Partial<Event[]>;
-  pastEvents: Partial<Event[]>;
+  phone_number: string;
+}
+
+export interface UserProfile extends User {
+  upcoming_events: Event[];
+  past_events: Event[];
 }
 
 export interface Authentication {

@@ -61,7 +61,7 @@ function Button({
       style={({ pressed }) => [
         {
           backgroundColor:
-            pressed && disableTouchEffect ? pressedColor : backgroundColor,
+            pressed && !disableTouchEffect ? pressedColor : backgroundColor,
           borderColor: borderColor,
           alignSelf: "flex-start",
           borderRadius: 4,

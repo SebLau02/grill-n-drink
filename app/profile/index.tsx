@@ -6,21 +6,24 @@ import PageView from "@/components/ui/pageView";
 import Tabs from "@/components/ui/tabs";
 import Typography from "@/components/ui/typography";
 import { useColor } from "@/hooks/useColor";
-import { useUser } from "@/hooks/useUser";
+import { useUserProfile } from "@/hooks/useUser";
 import { Plus } from "lucide-react-native";
 import React from "react";
 
 function Index() {
-  const { data } = useUser();
+  const { data: user } = useUserProfile();
   const textLight = useColor("textLight");
 
-  if (!data) {
+  if (!user) {
     return null;
   }
+  console.log("######*****", user);
 
-  const user = data.record;
+  const { upcoming_events, past_events } = user;
 
-  const { upcomingEvents, pastEvents } = user;
+  if (!upcoming_events || !past_events) {
+    return null;
+  }
 
   return (
     <PageView scrollable={false}>
@@ -41,15 +44,32 @@ function Index() {
             marginBottom: 8,
           }}
         />
-        <Typography variant="body1">{user.pseudo}</Typography>
-        <Typography variant="body1">{user.description}</Typography>
+        <Typography variant="body1">{user.username}</Typography>
+        {user.description !== "" ? (
+          <Typography variant="body1">{user.description}</Typography>
+        ) : (
+          <ClickableRow
+            label="Ajoute une description pour que les gens te connaissent mieux"
+            value={<Plus color={textLight} />}
+            path="settings/description"
+            sx={{
+              marginVertical: 8,
+            }}
+            columnGap={0}
+            slotProps={{
+              label: {
+                variant: "body2",
+              },
+            }}
+          />
+        )}
       </FlexBox>
 
-      {!user.phone && (
+      {!user.phone_number && (
         <ClickableRow
           label="Ajoute ton numéro pour être joignable"
           value={<Plus color={textLight} />}
-          path="settings/phone"
+          path="settings/phone_number"
           sx={{
             marginVertical: 8,
           }}
@@ -73,13 +93,13 @@ function Index() {
         }}
       >
         <FlexBox direction="column" gap={2}>
-          {upcomingEvents.map(
+          {upcoming_events.map(
             (event) =>
               event && <EventCard key={event.id} event={event} avatar={false} />
           )}
         </FlexBox>
         <FlexBox direction="column" gap={2}>
-          {pastEvents.map(
+          {past_events.map(
             (event) =>
               event && <EventCard key={event.id} event={event} avatar={false} />
           )}

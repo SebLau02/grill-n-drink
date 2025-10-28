@@ -79,6 +79,7 @@ function Tabs({ tabs, children, slotProps, currentTab = "0" }: Props) {
           <Button
             key={i}
             variant={"text"}
+            disableTouchEffect={true}
             style={[
               {
                 width: screenWidth / tabs.length,
