@@ -3,6 +3,7 @@ import FlexBox from "@/components/ui/flexBox";
 import Paper from "@/components/ui/paper";
 import { TextField } from "@/components/ui/textField";
 import Typography from "@/components/ui/typography";
+import { saveToken } from "@/config/authStorage";
 import { UserLogin } from "@/config/types";
 import { useLogin } from "@/hooks/useUser";
 import { useToast } from "@/store/toast";
@@ -29,6 +30,8 @@ function Login() {
       });
 
       setUser(data.user);
+      saveToken(data.token);
+      router.push("/" as never);
     },
     onError: (error) => {
       addToast({

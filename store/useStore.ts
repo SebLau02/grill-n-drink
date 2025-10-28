@@ -1,9 +1,9 @@
-import { AuthenticatedUser } from "@/config/types";
+import { User } from "@/config/types";
 import { create } from "zustand";
 
 interface AppState {
-  user: AuthenticatedUser | null;
-  setUser: (user: AuthenticatedUser) => void;
+  user: User | null;
+  setUser: (user: User) => void;
   logout: () => void;
 }
 
