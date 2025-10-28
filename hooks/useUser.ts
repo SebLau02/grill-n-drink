@@ -1,4 +1,5 @@
 import { get, post } from "@/app/fetch/crud";
+import { getToken } from "@/config/authStorage";
 import { API_BASE } from "@/config/config";
 import { ApiResponse, LoginRes, User, UserLogin } from "@/config/types";
 import {
@@ -8,16 +9,17 @@ import {
 } from "@tanstack/react-query";
 
 export function useUser(options = {}) {
-  const fetchUser = async (): Promise<ApiResponse<User>> => {
-    return await get("https://api.jsonbin.io/v3/b/68f3fef2ae596e708f1b7e1a", {
+  const fetchUser = async (): Promise<User> => {
+    const token = await getToken();
+    return await get(`${API_BASE}/me`, {
       headers: {
-        "X-Master-Key":
-          "$2a$10$sKBZ/89OmFvUuynzhDHyyeg2OUddpYSl9//uJlu8ycyy0d6n.fbaW",
+        Authorization: `Bearer ${token}`,
       },
     });
   };
-  const { data, isLoading, error } = useQuery<ApiResponse<User>>({
-    queryKey: ["user"],
+
+  const { data, isLoading, error } = useQuery<User>({
+    queryKey: ["me"],
     queryFn: fetchUser,
     ...options,
   });

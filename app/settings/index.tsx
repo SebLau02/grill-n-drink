@@ -1,8 +1,12 @@
 import ClickableRow from "@/components/ui/clickableRow";
 import PageView from "@/components/ui/pageView";
+import { removeToken } from "@/config/authStorage";
 import { User } from "@/config/types";
 import { useUser } from "@/hooks/useUser";
+import { useAppStore } from "@/store/useStore";
+import { router } from "expo-router";
 import React from "react";
+import { TouchableOpacity } from "react-native";
 
 const accountSettings = [
   {
@@ -41,13 +45,14 @@ const getUserValue = (user: User, key: string) => {
 };
 
 function Index() {
+  const { user } = useAppStore();
   const { data } = useUser();
 
   if (!data) {
     return null;
   }
 
-  const user = data.record;
+  const userData = data;
 
   return (
     <PageView>
@@ -68,7 +73,7 @@ function Index() {
             <ClickableRow
               key={idx}
               label={item.label}
-              value={getUserValue(user, item.name)}
+              value={getUserValue(userData, item.name)}
               path={item.path}
               slotProps={{
                 label: {
@@ -107,6 +112,34 @@ function Index() {
           ))}
         </React.Fragment>
       ))}
+
+      {user && (
+        <TouchableOpacity
+          onPress={() => {
+            removeToken();
+            router.replace("/authentication?tab=0");
+          }}
+          style={{
+            marginTop: "auto",
+            marginBottom: 16,
+          }}
+        >
+          <ClickableRow
+            label={"Deconnexion"}
+            value={""}
+            path="logout"
+            clickable={false}
+            sx={{
+              justifyContent: "center",
+            }}
+            slotProps={{
+              label: {
+                variant: "h6",
+              },
+            }}
+          />
+        </TouchableOpacity>
+      )}
     </PageView>
   );
 }
