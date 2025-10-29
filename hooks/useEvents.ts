@@ -21,23 +21,13 @@ export function useEvents(options = {}) {
 }
 
 export function useEvent(id: string, options = {}) {
-  const fetchEvent = async (): Promise<ApiResponse<Event>> => {
-    const data = await get(
-      "https://api.jsonbin.io/v3/b/68f3f272ae596e708f1b706e",
-      {
-        headers: {
-          "X-Master-Key":
-            "$2a$10$sKBZ/89OmFvUuynzhDHyyeg2OUddpYSl9//uJlu8ycyy0d6n.fbaW",
-        },
-      }
-    );
-    const event = data.record.find(
-      (event: Event) => event.id.toString() === id
-    );
-    return { record: event };
+  const fetchEvent = async (): Promise<Event> => {
+    const data = await get(`${API_BASE}/events/${id}`, {});
+
+    return data;
   };
-  const { data, isLoading, error } = useQuery<ApiResponse<Event>>({
-    queryKey: ["event", id],
+  const { data, isLoading, error } = useQuery<Event>({
+    queryKey: ["my-event", id],
     queryFn: fetchEvent,
     ...options,
   });

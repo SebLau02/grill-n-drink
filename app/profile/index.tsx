@@ -24,8 +24,6 @@ function Index() {
     return null;
   }
 
-  console.log(user);
-
   return (
     <PageView scrollable={false}>
       <FlexBox

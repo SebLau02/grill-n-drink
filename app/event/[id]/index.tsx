@@ -54,7 +54,7 @@ function Index() {
     return null;
   }
 
-  const event = data?.record;
+  const event = data;
 
   return (
     <PageView>
@@ -86,12 +86,18 @@ function Index() {
                   width: "auto",
                 }}
               >
-                <Avatar
-                  src={event.user.avatar}
-                  name={`${event.user.firstname} ${event.user.lastname}`}
-                  rounded
-                />
-                <Typography variant="body1">{event.user.pseudo}</Typography>
+                {data.user && (
+                  <>
+                    <Avatar
+                      src={event.user?.avatar}
+                      name={`${event.user?.firstname} ${event.user?.lastname}`}
+                      rounded
+                    />
+                    <Typography variant="body1">
+                      {event.user?.username}
+                    </Typography>
+                  </>
+                )}
               </FlexBox>
             </LabeledTypo>
           </FlexBox>
@@ -138,7 +144,7 @@ function Index() {
                   Date & heure
                 </Typography>
                 <Typography variant="body1">
-                  {event.date} à {event.time}
+                  {String(event.date)} à {String(event.time)}
                 </Typography>
               </View>,
               <View
@@ -295,7 +301,7 @@ function Index() {
           </Typography>
           <Typography variant="body1">
             Une notification <BellRing color={textColor} size={14} /> te sera
-            envoyée dès que {event.user.pseudo} aura confirmé ta place.
+            envoyée dès que {event.user?.username} aura confirmé ta place.
           </Typography>
 
           <Button

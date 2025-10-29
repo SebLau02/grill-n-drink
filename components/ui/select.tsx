@@ -5,14 +5,17 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
   Modal,
-  Pressable,
   PressableProps,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
 import Paper from "./paper";
 import Typography from "./typography";
 
+const isValidValue = (value: string | number | undefined) => {
+  return value !== undefined && value !== null;
+};
 interface Option {
   label: string;
   value: string | number;
@@ -49,7 +52,7 @@ const Select = ({
 
   useEffect(() => {
     Animated.timing(labelAnim, {
-      toValue: isFocused || value ? 1 : 0,
+      toValue: isFocused || isValidValue(value) ? 1 : 0,
       duration: 200,
       useNativeDriver: false,
     }).start();
@@ -78,7 +81,7 @@ const Select = ({
             {label}
           </Typography>
         </Animated.Text>
-        <Pressable
+        <TouchableOpacity
           onPress={(e) => {
             setIsFocused(!isFocused);
             props.onPress?.(e);
@@ -96,14 +99,14 @@ const Select = ({
             color={"primary"}
             variant={"body2"}
             style={{
-              opacity: value ? 1 : 0,
+              opacity: isValidValue(value) ? 1 : 0,
             }}
           >
-            {value
+            {isValidValue(value)
               ? options.find((option) => option.value === value)?.label
               : label}
           </Typography>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <Modal
@@ -122,7 +125,7 @@ const Select = ({
         >
           <Paper variant="outlined" style={[styles.options]}>
             {options.map((option) => (
-              <Pressable
+              <TouchableOpacity
                 key={option.value}
                 onPress={() => {
                   onChange(option.value);
@@ -136,7 +139,7 @@ const Select = ({
                 ]}
               >
                 <Typography variant={"body2"}>{option.label}</Typography>
-              </Pressable>
+              </TouchableOpacity>
             ))}
           </Paper>
         </View>

@@ -11,6 +11,10 @@ export const pageProps = {
     animation: "slide_from_right",
     title: "Profile",
   },
+  edit: {
+    animation: "slide_from_right",
+    title: "Édition",
+  },
   settings: {
     animation: "slide_from_right",
     title: "Paramètres",

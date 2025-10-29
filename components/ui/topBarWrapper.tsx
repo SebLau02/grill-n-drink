@@ -218,7 +218,8 @@ function TopBarWrapper({ title }: Props) {
     currentRoute === "settings" ||
     currentRoute === "profile" ||
     currentRoute === "termsOfService" ||
-    currentRoute === "privacyPolicy"
+    currentRoute === "privacyPolicy" ||
+    currentRoute === "edit"
   ) {
     return (
       <FlexBox
