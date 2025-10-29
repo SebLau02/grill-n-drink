@@ -67,12 +67,13 @@ function Roles({ formData, setFormData }: Props) {
           marginTop: 16,
           marginHorizontal: "auto",
         }}
-        onPress={() =>
+        onPress={() => {
           setFormData((prev) => ({
             ...prev,
             roles: [...prev.roles, role],
-          }))
-        }
+          }));
+          setRole({ role: "" });
+        }}
       >
         Ajouter
       </Button>

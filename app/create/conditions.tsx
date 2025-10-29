@@ -69,12 +69,14 @@ function Conditions({ formData, setFormData }: Props) {
           marginTop: 16,
           marginHorizontal: "auto",
         }}
-        onPress={() =>
+        onPress={() => {
           setFormData((prev) => ({
             ...prev,
             conditions: [...prev.conditions, condition],
-          }))
-        }
+          }));
+
+          setCondition({ condition: "" });
+        }}
       >
         Ajouter
       </Button>

@@ -6,17 +6,13 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { get, post } from "../app/fetch/crud";
+import { getToken } from "@/config/authStorage";
 
 export function useEvents(options = {}) {
-  const fetchEvents = async (): Promise<ApiResponse<Event[]>> => {
-    return await get("https://api.jsonbin.io/v3/b/68f3f272ae596e708f1b706e", {
-      headers: {
-        "X-Master-Key":
-          "$2a$10$sKBZ/89OmFvUuynzhDHyyeg2OUddpYSl9//uJlu8ycyy0d6n.fbaW",
-      },
-    });
+  const fetchEvents = async (): Promise<Event[]> => {
+    return await get(`${API_BASE}/events`, {});
   };
-  const { data, isLoading, error } = useQuery<ApiResponse<Event[]>>({
+  const { data, isLoading, error } = useQuery<Event[]>({
     queryKey: ["events"],
     queryFn: fetchEvents,
     ...options,
@@ -53,8 +49,7 @@ export const useCreateEvent = (
     ApiResponse<Event>,
     unknown,
     {
-      body: CreateEvent;
-      token?: string;
+      body: { event: CreateEvent };
     }
   >
 ) => {
@@ -62,11 +57,11 @@ export const useCreateEvent = (
     ApiResponse<Event>,
     unknown,
     {
-      body: CreateEvent;
-      token?: string;
+      body: { event: CreateEvent };
     }
   >({
-    mutationFn: async ({ body, token }) => {
+    mutationFn: async ({ body }) => {
+      const token = await getToken();
       const data = await post(`${API_BASE}/events`, {
         headers: { Authorization: `Bearer ${token}` },
         body: body,

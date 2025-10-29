@@ -1,29 +1,48 @@
 import { Event } from "@/config/types";
 import { useRouter } from "expo-router";
 import React from "react";
-import { ImageBackground, Pressable, StyleSheet, View } from "react-native";
+import {
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Avatar from "./ui/avatar";
 import FlexBox from "./ui/flexBox";
-import Paper from "./ui/paper";
+import Paper, { PaperProps } from "./ui/paper";
 import Typography from "./ui/typography";
+import { Pen } from "lucide-react-native";
+import { useColor } from "@/hooks/useColor";
 
-interface Props {
+interface Props extends PaperProps {
   event: Event;
   avatar?: boolean;
 }
-function EventCard({ event, avatar = true }: Props) {
+function EventCard({ event, avatar = true, style }: Props) {
   const router = useRouter();
+  const textColor = useColor("textLight");
 
   return (
     <Paper
       variant="outlined"
-      style={{
-        marginBottom: 16,
-        width: "100%",
-        overflow: "hidden",
-      }}
+      style={[
+        {
+          marginBottom: 16,
+          width: "100%",
+          overflow: "hidden",
+        },
+        style,
+      ]}
     >
-      {avatar && (
+      <FlexBox
+        direction="row"
+        align="center"
+        justify="between"
+        sx={{
+          padding: 8,
+        }}
+      >
         <FlexBox
           direction="row"
           align="center"
@@ -31,18 +50,30 @@ function EventCard({ event, avatar = true }: Props) {
             padding: 8,
           }}
         >
-          <Pressable onPress={() => router.push("/profile" as never)}>
-            <Avatar
-              src={event.user.avatar}
-              name={`${event.user.firstname} ${event.user.lastname}`}
-              rounded
-              style={{ marginRight: 16 }}
-            />
-          </Pressable>
+          {event.user && avatar && (
+            <Pressable onPress={() => router.push("/profile" as never)}>
+              <Avatar
+                src={event.user.avatar}
+                name={`${event.user.firstname} ${event.user.lastname}`}
+                rounded
+                style={{ marginRight: 16 }}
+              />
+            </Pressable>
+          )}
 
-          <Typography variant="h2">{event.name}</Typography>
+          <Typography variant="h2">{event.title}</Typography>
         </FlexBox>
-      )}
+        {event.status === "draft" && (
+          <TouchableOpacity
+            style={{ marginLeft: "auto" }}
+            onPress={() => router.push(`/event/${event.id}/edit` as never)}
+          >
+            <Typography variant="body1">
+              <Pen color={textColor} />
+            </Typography>
+          </TouchableOpacity>
+        )}
+      </FlexBox>
 
       <Pressable onPress={() => router.push(`/event/${event.id}` as never)}>
         <ImageBackground
@@ -65,17 +96,21 @@ function EventCard({ event, avatar = true }: Props) {
             direction="row"
             justify="between"
             align="end"
-            sx={{ padding: 8 }}
+            sx={{
+              padding: 8,
+            }}
           >
             <FlexBox direction="column">
-              <Typography variant="body1">{event.date}</Typography>
+              <Typography variant="body1">{String(event.date)}</Typography>
               <Typography variant="body1">{event.city}</Typography>
             </FlexBox>
-            <FlexBox direction="row">
-              {event.participation.map((participant, index) => (
-                <Avatar key={index} src={participant.avatar} rounded />
-              ))}
-            </FlexBox>
+            {event.participation && (
+              <FlexBox direction="row">
+                {event.participation.map((participant, index) => (
+                  <Avatar key={index} src={participant.avatar} rounded />
+                ))}
+              </FlexBox>
+            )}
           </FlexBox>
         </ImageBackground>
       </Pressable>

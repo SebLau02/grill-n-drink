@@ -34,6 +34,7 @@ export const patch = async (path: string, o: Record<string, any> = {}) => {
     const res = await fetch(path, {
       headers: {
         "Content-Type": "application/json",
+        ...(o.headers && o.headers),
       },
       body: JSON.stringify(o.body),
       method: "PATCH",
@@ -52,6 +53,7 @@ export const post = async (path: string, o: Record<string, any> = {}) => {
     const res = await fetch(path, {
       headers: {
         "Content-Type": "application/json",
+        ...(o.headers && o.headers),
       },
       body: JSON.stringify(o.body),
       method: "POST",

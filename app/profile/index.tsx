@@ -17,13 +17,14 @@ function Index() {
   if (!user) {
     return null;
   }
-  console.log("######*****", user);
 
-  const { upcoming_events, past_events } = user;
+  const { upcoming_events, past_events, draft_events } = user;
 
-  if (!upcoming_events || !past_events) {
+  if (!upcoming_events || !past_events || !draft_events) {
     return null;
   }
+
+  console.log(user);
 
   return (
     <PageView scrollable={false}>
@@ -82,7 +83,7 @@ function Index() {
       )}
 
       <Tabs
-        tabs={["Grillades", "Grillades passées"]}
+        tabs={["Grillades", "Grillades brouillons"]}
         slotProps={{
           tabPanel: {
             style: {
@@ -98,8 +99,14 @@ function Index() {
               event && <EventCard key={event.id} event={event} avatar={false} />
           )}
         </FlexBox>
-        <FlexBox direction="column" gap={2}>
-          {past_events.map(
+        <FlexBox
+          direction="column"
+          gap={2}
+          sx={{
+            alignItems: "stretch",
+          }}
+        >
+          {draft_events.map(
             (event) =>
               event && <EventCard key={event.id} event={event} avatar={false} />
           )}

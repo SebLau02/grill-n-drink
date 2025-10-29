@@ -42,7 +42,7 @@ export function useUserProfile(options = {}) {
   };
 
   const { data, isLoading, error } = useQuery<UserProfile>({
-    queryKey: ["me"],
+    queryKey: ["profile"],
     queryFn: fetchUser,
     ...options,
   });

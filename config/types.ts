@@ -19,26 +19,9 @@ export type RootStackParamList = {
   settings: { userId: string };
 };
 
-export interface Event {
-  id: number;
-  name: string;
-  cover: string;
-  user: {
-    avatar: string;
-    firstname: string;
-    lastname: string;
-    pseudo: string;
-    id: number;
-  };
-  date: string;
-  city: string;
-  title: string;
-  time: string;
-  location: string;
-  conditions: Condition[];
-  roles: Role[];
-  description: string;
-  participation: {
+export interface Event extends CreatedEvent {
+  user?: User;
+  participation?: {
     avatar: string;
   }[];
 }
@@ -87,8 +70,9 @@ export interface User extends UserBase {
 }
 
 export interface UserProfile extends User {
-  upcoming_events: Event[];
-  past_events: Event[];
+  upcoming_events: CreatedEvent[];
+  past_events: CreatedEvent[];
+  draft_events: CreatedEvent[];
 }
 
 export interface Authentication {
@@ -114,4 +98,9 @@ export interface EventBase {
   zipcode: string;
   location_details?: string;
   status: "draft" | "published";
+}
+
+export interface CreatedEvent extends EventBase {
+  id: number;
+  cover: string;
 }

@@ -35,32 +35,16 @@ function Breadcrumb({
     <FlexBox {...props} align="center" columnGap={1} direction="row">
       {crumbs.map((crumb, index) => (
         <FlexBox align="center" columnGap={1} direction="row" key={index}>
-          {index < crumbs.length - 1 ? (
+          {link ? (
             <TouchableOpacity
               onPress={() => {
-                link && link(index + 1);
+                link(index + 1);
               }}
             >
-              <Typography
-                variant="body1"
-                sx={{
-                  textDecorationLine:
-                    index < crumbs.length - 1 ? "underline" : "none",
-                }}
-              >
-                {crumb}
-              </Typography>
+              <Typography variant="body1">{crumb}</Typography>
             </TouchableOpacity>
           ) : (
-            <Typography
-              variant="body1"
-              sx={{
-                textDecorationLine:
-                  index < crumbs.length - 1 ? "underline" : "none",
-              }}
-            >
-              {crumb}
-            </Typography>
+            <Typography variant="body1">{crumb}</Typography>
           )}
 
           <Typography variant="body1">

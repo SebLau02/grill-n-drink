@@ -50,6 +50,7 @@ const STEPS = {
     component: (props: StepProps) => <Summary {...props} />,
   },
 };
+
 export default function Index() {
   const [step, setStep] = useState<keyof typeof STEPS>(1);
   const [formData, setFormData] = useState<CreateEvent>({
@@ -84,11 +85,11 @@ export default function Index() {
   };
   const handlePressDraft = () => {
     isUserAuthenticate();
-    mutate({ body: { ...formData, status: "draft" } });
+    mutate({ body: { event: { ...formData, status: "draft" } } });
   };
   const handleCreate = () => {
     isUserAuthenticate();
-    mutate({ body: { ...formData, status: "published" } });
+    mutate({ body: { event: { ...formData, status: "published" } } });
   };
 
   const handlePressPrev = () => {
@@ -104,10 +105,29 @@ export default function Index() {
     }
   };
 
+  const isStepValid = (step: number) => {
+    switch (step) {
+      case 1:
+        return formData.title.trim().length > 0;
+      case 2:
+        return formData.description.trim().length > 0;
+      case 3:
+        return formData.date !== undefined && formData.time !== undefined;
+      case 4:
+        return (
+          formData.location.trim().length > 0 &&
+          formData.city.trim().length > 0 &&
+          formData.zipcode.trim().length > 0
+        );
+      default:
+        return true;
+    }
+  };
+
   const crumbs = Object.values(STEPS).map((s, i) => (
     <Typography
       key={i}
-      variant="body2"
+      variant={step === i + 1 ? "h6" : "body2"}
       sx={{
         textDecorationLine: step === i + 1 ? "none" : "underline",
       }}
@@ -123,7 +143,10 @@ export default function Index() {
       }}
     >
       <Breadcrumb
-        link={(step) => setStep((prev) => step as keyof typeof STEPS)}
+        link={(s) => {
+          (isStepValid(s) || isStepValid(step)) &&
+            setStep(s as keyof typeof STEPS);
+        }}
         crumbs={crumbs}
         showAll={true}
         scrollable={true}
@@ -160,7 +183,11 @@ export default function Index() {
             </Button>
           </FlexBox>
         ) : (
-          <Button size="large" onPress={handlePressNext}>
+          <Button
+            size="large"
+            onPress={handlePressNext}
+            disabled={!isStepValid(step)}
+          >
             {"Suivant"}
           </Button>
         )}
