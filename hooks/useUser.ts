@@ -41,12 +41,12 @@ export function useUserProfile(options = {}) {
     });
   };
 
-  const { data, isLoading, error } = useQuery<UserProfile>({
+  const { data, isLoading, error, refetch } = useQuery<UserProfile>({
     queryKey: ["profile"],
     queryFn: fetchUser,
     ...options,
   });
-  return { data, isLoading, error };
+  return { data, isLoading, error, refetch };
 }
 
 export const useGetCode = (

@@ -97,8 +97,10 @@ export interface EventBase {
   description: string;
   zipcode: string;
   location_details?: string;
-  status: "draft" | "published" | "archived";
+  status: "draft" | "published" | "archived" | 0 | 1 | 2;
   status_value: 0 | 1 | 2;
+  address?: string;
+  formated_date: string;
 }
 
 export interface CreatedEvent extends EventBase {

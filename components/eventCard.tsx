@@ -101,7 +101,9 @@ function EventCard({ event, avatar = true, style }: Props) {
             }}
           >
             <FlexBox direction="column">
-              <Typography variant="body1">{String(event.date)}</Typography>
+              <Typography variant="body1">
+                {String(event.formated_date)}
+              </Typography>
               <Typography variant="body1">{event.city}</Typography>
             </FlexBox>
             {event.participation && (

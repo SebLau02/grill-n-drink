@@ -7,12 +7,22 @@ import Tabs from "@/components/ui/tabs";
 import Typography from "@/components/ui/typography";
 import { useColor } from "@/hooks/useColor";
 import { useUserProfile } from "@/hooks/useUser";
+import { useAppStore } from "@/store/useStore";
 import { Plus } from "lucide-react-native";
-import React from "react";
+import React, { useEffect } from "react";
 
 function Index() {
-  const { data: user } = useUserProfile();
+  const { data: user, refetch } = useUserProfile();
   const textLight = useColor("textLight");
+  const { shouldRefreshPage, setShouldRefreshPage } = useAppStore();
+
+  useEffect(() => {
+    if (shouldRefreshPage) {
+      refetch();
+      setShouldRefreshPage(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldRefreshPage]);
 
   if (!user) {
     return null;

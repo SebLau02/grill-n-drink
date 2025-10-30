@@ -1,7 +1,7 @@
 import { SizeProps } from "@/config/types";
 import { Metrics } from "@/constants/theme";
 import { useColor } from "@/hooks/useColor";
-import React, { useEffect, useRef, useState } from "react";
+import React, { ComponentProps, useEffect, useRef, useState } from "react";
 import {
   Animated,
   Modal,
@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import Paper from "./paper";
 import Typography from "./typography";
+import Button from "./button";
 
 const isValidValue = (value: string | number | undefined) => {
   return value !== undefined && value !== null;
@@ -27,6 +28,7 @@ interface SelectProps extends PressableProps, SizeProps {
   value?: string | number;
   onChange: (value: string | number) => void;
   variant?: "outlined" | "filled";
+  sx?: ComponentProps<typeof View>["style"];
 }
 
 const Select = ({
@@ -36,6 +38,7 @@ const Select = ({
   onChange,
   variant = "outlined",
   size = "medium",
+  sx,
   ...props
 }: SelectProps) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -61,7 +64,7 @@ const Select = ({
 
   return (
     <>
-      <View style={[styles.container]}>
+      <View style={[styles.container, sx]}>
         <Animated.Text
           style={[
             {
@@ -112,7 +115,7 @@ const Select = ({
       <Modal
         visible={isFocused}
         transparent={true}
-        animationType="slide"
+        animationType="fade"
         onRequestClose={() => setIsFocused(false)}
       >
         <View
@@ -124,23 +127,25 @@ const Select = ({
           }}
         >
           <Paper variant="outlined" style={[styles.options]}>
-            {options.map((option) => (
-              <TouchableOpacity
-                key={option.value}
-                onPress={() => {
-                  onChange(option.value);
-                  setIsFocused(false);
-                }}
-                style={[
-                  {
-                    paddingVertical: 8,
-                    paddingHorizontal: 12,
-                  },
-                ]}
-              >
-                <Typography variant={"body2"}>{option.label}</Typography>
-              </TouchableOpacity>
-            ))}
+            {options &&
+              options.map((option) => (
+                <Button
+                  active={option.value === value}
+                  key={option.value}
+                  onPress={() => {
+                    onChange(option.value);
+                    setIsFocused(false);
+                  }}
+                  variant="text"
+                  style={[
+                    {
+                      width: "100%",
+                    },
+                  ]}
+                >
+                  <Typography variant={"body2"}>{option.label}</Typography>
+                </Button>
+              ))}
           </Paper>
         </View>
       </Modal>
@@ -156,7 +161,6 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
   options: {
-    padding: 8,
     width: "90%",
   },
 });

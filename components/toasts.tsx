@@ -74,6 +74,11 @@ function ToastItem({
         style={{ padding: 16, borderColor: backgroundColor, borderWidth: 2 }}
       >
         <Typography variant="h6">{toast.message}</Typography>
+        {toast.submessage && (
+          <Typography variant="body2" style={{ marginTop: 4 }}>
+            {toast.submessage}
+          </Typography>
+        )}
       </Paper>
     </Animated.View>
   );

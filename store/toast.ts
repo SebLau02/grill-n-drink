@@ -3,6 +3,7 @@ import { create } from "zustand";
 export interface Toast {
   id: string;
   message: string;
+  submessage?: string;
   type?: "success" | "error" | "info" | "danger";
   duration?: number;
 }

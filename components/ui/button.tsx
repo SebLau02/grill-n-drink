@@ -10,6 +10,7 @@ interface Props extends PressableProps {
   color?: "primary" | "primary" | "secondary" | "error" | "danger" | "success";
   size?: "small" | "medium" | "large";
   disableTouchEffect?: boolean;
+  active?: boolean;
 }
 function Button({
   children,
@@ -17,6 +18,7 @@ function Button({
   color = "primary",
   size = "medium",
   disableTouchEffect = false,
+  active = false,
   ...props
 }: Props) {
   const backgroundColor = useColor(variant);
@@ -61,7 +63,9 @@ function Button({
       style={({ pressed }) => [
         {
           backgroundColor:
-            pressed && !disableTouchEffect ? pressedColor : backgroundColor,
+            (pressed && !disableTouchEffect) || active
+              ? pressedColor
+              : backgroundColor,
           borderColor: borderColor,
           alignSelf: "flex-start",
           borderRadius: 4,

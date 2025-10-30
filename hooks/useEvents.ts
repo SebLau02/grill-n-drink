@@ -5,7 +5,7 @@ import {
   UseMutationOptions,
   useQuery,
 } from "@tanstack/react-query";
-import { get, post } from "../app/fetch/crud";
+import { get, patch, post } from "../app/fetch/crud";
 import { getToken } from "@/config/authStorage";
 
 export function useEvents(options = {}) {
@@ -53,6 +53,37 @@ export const useCreateEvent = (
     mutationFn: async ({ body }) => {
       const token = await getToken();
       const data = await post(`${API_BASE}/events`, {
+        headers: { Authorization: `Bearer ${token}` },
+        body: body,
+      });
+
+      if (!data) throw new Error("Requête échouée");
+      return data;
+    },
+    ...options,
+  });
+};
+export const useUpdateEvent = (
+  options?: UseMutationOptions<
+    ApiResponse<Event>,
+    unknown,
+    {
+      body: { event: Event };
+      id: number;
+    }
+  >
+) => {
+  return useMutation<
+    ApiResponse<Event>,
+    unknown,
+    {
+      body: { event: Event };
+      id: number;
+    }
+  >({
+    mutationFn: async ({ body, id }) => {
+      const token = await getToken();
+      const data = await patch(`${API_BASE}/events/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
         body: body,
       });

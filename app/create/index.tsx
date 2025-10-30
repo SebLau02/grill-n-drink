@@ -65,6 +65,9 @@ export default function Index() {
     description: "",
     zipcode: "",
     status: "published",
+    formated_date: "",
+    address: "",
+    status_value: 1,
   });
   const { user } = useAppStore();
   const router = useRouter();

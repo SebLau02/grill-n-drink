@@ -45,10 +45,10 @@ function Location({ formData, setFormData }: Props) {
       <Divider style={{ marginVertical: 16 }} />
       <TextField
         label="Adresse*"
-        value={formData.location}
+        value={formData.address}
         variant="text"
         fullWidth
-        onChangeText={(text) => setFormData({ ...formData, location: text })}
+        onChangeText={(text) => setFormData({ ...formData, address: text })}
       />
       <TextField
         label="Ville*"
