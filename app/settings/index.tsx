@@ -1,12 +1,17 @@
+import Button from "@/components/ui/button";
 import ClickableRow from "@/components/ui/clickableRow";
+import FlexBox from "@/components/ui/flexBox";
 import PageView from "@/components/ui/pageView";
+import Paper from "@/components/ui/paper";
+import Typography from "@/components/ui/typography";
 import { removeToken } from "@/config/authStorage";
 import { User } from "@/config/types";
 import { useUser } from "@/hooks/useUser";
+import { useToast } from "@/store/toast";
 import { useAppStore } from "@/store/useStore";
 import { router } from "expo-router";
-import React from "react";
-import { TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { Modal, TouchableOpacity, View } from "react-native";
 
 const accountSettings = [
   {
@@ -50,7 +55,21 @@ const getUserValue = (user: User, key: string) => {
 
 function Index() {
   const { user } = useAppStore();
+  const { addToast } = useToast();
   const { data } = useUser();
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const handleLogout = () => {
+    setOpenModal(false);
+    removeToken();
+    addToast({
+      message: "Bye bye ! 👋. À bientôt !",
+      type: "info",
+    });
+    setTimeout(() => {
+      router.replace("/authentication?tab=0");
+    }, 1000);
+  };
 
   if (!data) {
     return null;
@@ -120,8 +139,7 @@ function Index() {
 
         <TouchableOpacity
           onPress={() => {
-            removeToken();
-            router.replace("/authentication?tab=0");
+            setOpenModal(true);
           }}
           style={{
             marginTop: "auto",
@@ -129,7 +147,7 @@ function Index() {
           }}
         >
           <ClickableRow
-            label={"Deconnexion"}
+            label={"Déconnexion"}
             value={""}
             path="logout"
             clickable={false}
@@ -143,6 +161,57 @@ function Index() {
             }}
           />
         </TouchableOpacity>
+
+        <Modal
+          visible={openModal}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => setOpenModal(false)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgba(0,0,0,0.5)",
+            }}
+          >
+            <Paper
+              variant="outlined"
+              style={{
+                padding: 16,
+                width: "90%",
+              }}
+            >
+              <Typography
+                variant={"h6"}
+                sx={{
+                  marginHorizontal: "auto",
+                }}
+              >
+                Tu nous quitte ?
+              </Typography>
+              <FlexBox
+                direction="row"
+                justify="between"
+                align="center"
+                columnGap={2}
+                sx={{ marginTop: 24 }}
+              >
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onPress={() => setOpenModal(false)}
+                >
+                  Annuler
+                </Button>
+                <Button variant="contained" size="small" onPress={handleLogout}>
+                  Se déconnecter
+                </Button>
+              </FlexBox>
+            </Paper>
+          </View>
+        </Modal>
       </PageView>
     );
   }

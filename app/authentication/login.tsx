@@ -26,12 +26,15 @@ function Login() {
     onSuccess: (data) => {
       addToast({
         message: data.message,
+        submessage: "Redirection en cours...",
         type: "success",
       });
 
       setUser(data.user);
       saveToken(data.token);
-      router.push("/" as never);
+      setTimeout(() => {
+        router.replace("/" as never);
+      }, 1000);
     },
     onError: (error) => {
       addToast({
