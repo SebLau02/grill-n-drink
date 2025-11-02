@@ -19,7 +19,7 @@ function Information({ formData, setFormData }: Props) {
         Titre:
       </Typography>
       <Typography variant="body1">
-        Raleway Commençons par donner un nom à ton barbecue !{"\n"}
+        Commençons par donner un nom à ton barbecue !{"\n"}
         C’est la première chose que les autres verront, alors choisis un titre
         clair, simple et accrocheur.{"\n"}
         Fais preuve de créativité : jeux de mots, références ciné ou petites
@@ -45,10 +45,11 @@ function Information({ formData, setFormData }: Props) {
       ))}
       <Divider style={{ marginVertical: 16 }} />
       <TextField
+        labelBg
         label="Titre"
         value={formData.title}
         onChangeText={(text) => setFormData({ ...formData, title: text })}
-        variant="text"
+        variant="outlined"
         fullWidth
       />
     </Paper>

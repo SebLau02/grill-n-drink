@@ -11,10 +11,10 @@ import Typography from "@/components/ui/typography";
 import { useColor } from "@/hooks/useColor";
 import { useEvent } from "@/hooks/useEvents";
 import { useToast } from "@/store/toast";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { BellRing, Dot } from "lucide-react-native";
 import React, { useState } from "react";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
 function Index() {
   const [participate, setParticipate] = useState<{
@@ -28,7 +28,6 @@ function Index() {
   const { id } = useLocalSearchParams();
   const { data } = useEvent(id as string);
   const { addToast } = useToast();
-  const router = useRouter();
 
   const textColor = useColor("textLight");
 
@@ -55,6 +54,8 @@ function Index() {
   }
 
   const event = data;
+
+  console.log(event.user);
 
   return (
     <PageView>
@@ -86,8 +87,12 @@ function Index() {
                   width: "auto",
                 }}
               >
-                {data.user && (
-                  <>
+                {event.user && (
+                  <TouchableOpacity
+                    onPress={() =>
+                      router.push(`/user/${event.user?.id}` as never)
+                    }
+                  >
                     <Avatar
                       src={event.user?.avatar}
                       name={`${event.user?.firstname} ${event.user?.lastname}`}
@@ -96,7 +101,7 @@ function Index() {
                     <Typography variant="body1">
                       {event.user?.username}
                     </Typography>
-                  </>
+                  </TouchableOpacity>
                 )}
               </FlexBox>
             </LabeledTypo>
@@ -144,7 +149,7 @@ function Index() {
                   Date & heure
                 </Typography>
                 <Typography variant="body1">
-                  {String(event.date)} à {String(event.time)}
+                  {String(event.formated_date)} à {String(event.formated_time)}
                 </Typography>
               </View>,
               <View
@@ -161,7 +166,9 @@ function Index() {
                 >
                   Lieux
                 </Typography>
-                <Typography variant="body1">{event.location}</Typography>
+                <Typography variant="body1">
+                  {event.city}, {event.zipcode}
+                </Typography>
               </View>,
               <View
                 key={4}
@@ -177,10 +184,10 @@ function Index() {
                 >
                   Conditions de participation
                 </Typography>
-                {event.conditions.map((cond, i) => (
+                {event.conditions?.map((cond, i) => (
                   <Typography key={i} variant="body1">
                     <Dot />
-                    {cond.condition}
+                    {cond.description}
                   </Typography>
                 ))}
               </View>,
@@ -198,10 +205,10 @@ function Index() {
                 >
                   Rôles disponibles
                 </Typography>
-                {event.roles.map((role, i) => (
+                {event.roles?.map((role, i) => (
                   <Typography key={i} variant="body1">
                     <Dot />
-                    {role.role}
+                    {role.description}
                   </Typography>
                 ))}
               </View>,

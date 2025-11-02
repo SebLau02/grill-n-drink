@@ -40,9 +40,8 @@ export function useUserProfile(options = {}) {
       },
     });
   };
-
   const { data, isLoading, error, refetch } = useQuery<UserProfile>({
-    queryKey: ["profile"],
+    queryKey: ["current-user-profile"],
     queryFn: fetchUser,
     ...options,
   });
@@ -216,3 +215,23 @@ export const useUpdateUser = (
     ...options,
   });
 };
+
+export function useGetUser(id: number, options = {}) {
+  const fetchUser = async (): Promise<Omit<UserProfile, "draft_events">> => {
+    const token = await getToken();
+    return await get(`${API_BASE}/public_users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  };
+
+  const { data, isLoading, error } = useQuery<
+    Omit<UserProfile, "draft_events">
+  >({
+    queryKey: ["users", id],
+    queryFn: fetchUser,
+    ...options,
+  });
+  return { data, isLoading, error };
+}

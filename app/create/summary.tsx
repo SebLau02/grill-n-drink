@@ -18,8 +18,11 @@ function Summary({ formData }: Props) {
           {formData?.date?.toLocaleDateString("fr-FR")} à{" "}
           {formData.time?.toLocaleTimeString("fr-FR")}
         </LabeledTypo>
-        <LabeledTypo label="Lieux">
-          {formData.location} {formData.zipcode} {formData.city}
+        <LabeledTypo
+          label="Lieux"
+          textHelper="Seul la ville et le code postale est rendu publique, seulement la veille de l'évènement qu'elle sera envoyé à tes invités !"
+        >
+          {formData.address} {formData.zipcode} {formData.city}
         </LabeledTypo>
         <LabeledTypo label="Conditions de participations">
           <FlexBox direction="column">

@@ -1,43 +1,29 @@
 import EventCard from "@/components/eventCard";
 import Avatar from "@/components/ui/avatar";
-import Button from "@/components/ui/button";
 import ClickableRow from "@/components/ui/clickableRow";
 import FlexBox from "@/components/ui/flexBox";
 import PageView from "@/components/ui/pageView";
 import Tabs from "@/components/ui/tabs";
 import Typography from "@/components/ui/typography";
 import { useColor } from "@/hooks/useColor";
-import { useUserProfile } from "@/hooks/useUser";
-import { useAppStore } from "@/store/useStore";
-import { router } from "expo-router";
+import { useGetUser } from "@/hooks/useUser";
+import { useLocalSearchParams } from "expo-router";
 import { Plus } from "lucide-react-native";
-import React, { useEffect } from "react";
+import React from "react";
 
-function Index() {
-  const { data: user, refetch } = useUserProfile({
-    staleTime: 0,
-    cacheTime: 0,
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
-  });
+function User() {
+  const { id } = useLocalSearchParams();
+  const { data: user } = useGetUser(Number(id));
   const textLight = useColor("textLight");
-  const { shouldRefreshPage, setShouldRefreshPage } = useAppStore();
-
-  useEffect(() => {
-    if (shouldRefreshPage) {
-      refetch();
-      setShouldRefreshPage(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldRefreshPage]);
 
   if (!user) {
     return null;
   }
 
-  const { upcoming_events, past_events, draft_events } = user;
+  const { upcoming_events, past_events } = user;
+  console.log(upcoming_events, past_events);
 
-  if (!upcoming_events || !past_events || !draft_events) {
+  if (!upcoming_events || !past_events) {
     return null;
   }
 
@@ -98,7 +84,7 @@ function Index() {
       )}
 
       <Tabs
-        tabs={["Grillades", "Grillades brouillons"]}
+        tabs={["Grillades", "Grillades passées"]}
         slotProps={{
           tabPanel: {
             style: {
@@ -108,31 +94,10 @@ function Index() {
           },
         }}
       >
-        <FlexBox direction="column" gap={2} align="stretch">
+        <FlexBox direction="column" gap={2}>
           {upcoming_events.map(
             (event) =>
               event && <EventCard key={event.id} event={event} avatar={false} />
-          )}
-          {upcoming_events.length === 0 && (
-            <FlexBox direction="column" align="center" gap={2}>
-              <Typography
-                variant="h6"
-                style={{
-                  textAlign: "center",
-                  marginTop: 32,
-                  maxWidth: 280,
-                }}
-              >
-                Tu {"n'as"} aucune Grillade à venir pour le moment.
-              </Typography>
-              <Button
-                onPress={() => {
-                  router.push("/create");
-                }}
-              >
-                Créer une Grillade
-              </Button>
-            </FlexBox>
           )}
         </FlexBox>
         <FlexBox
@@ -142,22 +107,9 @@ function Index() {
             alignItems: "stretch",
           }}
         >
-          {draft_events.map(
+          {past_events.map(
             (event) =>
               event && <EventCard key={event.id} event={event} avatar={false} />
-          )}
-
-          {draft_events.length === 0 && (
-            <Typography
-              variant="h6"
-              sx={{
-                marginHorizontal: "auto",
-                marginTop: 32,
-                textAlign: "center",
-              }}
-            >
-              Tu {"n'as"} aucun brouillon pour le moment.
-            </Typography>
           )}
         </FlexBox>
       </Tabs>
@@ -165,4 +117,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default User;

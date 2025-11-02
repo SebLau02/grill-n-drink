@@ -1,45 +1,88 @@
-import { PropsWithChildren, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import {
+  Animated,
+  StyleSheet,
+  TouchableOpacity,
+  Easing,
+  View,
+} from "react-native";
+import FlexBox from "./flexBox";
+import Typography from "./typography";
+import { ChevronDown } from "lucide-react-native";
+import { useColor } from "@/hooks/useColor";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
+export function Collapsible({
+  children,
+  title,
+}: PropsWithChildren & { title: string }) {
   const [isOpen, setIsOpen] = useState(false);
-  const theme = useColorScheme() ?? 'light';
+  const [contentHeight, setContentHeight] = useState(0);
+  const lightColor = useColor("textLight");
+
+  const animation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: isOpen ? 1 : 0,
+      duration: 300,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: false,
+    }).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
+  const rotate = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "180deg"],
+  });
+
+  const height = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, contentHeight],
+  });
+
+  const opacity = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+  });
 
   return (
-    <ThemedView>
+    <FlexBox direction="column" align="stretch">
       <TouchableOpacity
         style={styles.heading}
-        onPress={() => setIsOpen((value) => !value)}
-        activeOpacity={0.8}>
-        <IconSymbol
-          name="chevron.right"
-          size={18}
-          weight="medium"
-          color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
-          style={{ transform: [{ rotate: isOpen ? '90deg' : '0deg' }] }}
-        />
-
-        <ThemedText type="defaultSemiBold">{title}</ThemedText>
+        onPress={() => setIsOpen((v) => !v)}
+        activeOpacity={0.8}
+      >
+        <Typography variant="h6">{title}</Typography>
+        <Animated.View style={{ transform: [{ rotate }] }}>
+          <ChevronDown color={lightColor} size={16} />
+        </Animated.View>
       </TouchableOpacity>
-      {isOpen && <ThemedView style={styles.content}>{children}</ThemedView>}
-    </ThemedView>
+
+      <Animated.View style={[styles.animatedContainer, { height, opacity }]}>
+        <View
+          style={styles.content}
+          onLayout={(e) => setContentHeight(e.nativeEvent.layout.height)}
+        >
+          {children}
+        </View>
+      </Animated.View>
+    </FlexBox>
   );
 }
 
 const styles = StyleSheet.create({
   heading: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 16,
+  },
+  animatedContainer: {
+    overflow: "hidden",
   },
   content: {
-    marginTop: 6,
-    marginLeft: 24,
+    paddingVertical: 6,
+    paddingLeft: 24,
   },
 });

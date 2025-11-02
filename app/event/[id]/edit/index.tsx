@@ -3,7 +3,7 @@ import PageView from "@/components/ui/pageView";
 import Select from "@/components/ui/select";
 import { TextField } from "@/components/ui/textField";
 import { Event } from "@/config/types";
-import { useUpdateEvent, useEvent } from "@/hooks/useEvents";
+import { useUpdateEvent, useMyEvent } from "@/hooks/useEvents";
 import { useLocalSearchParams } from "expo-router/build/hooks";
 import { useEffect, useRef, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -12,6 +12,8 @@ import Paper from "@/components/ui/paper";
 import { router } from "expo-router";
 import { useToast } from "@/store/toast";
 import { useAppStore } from "@/store/useStore";
+import Typography from "@/components/ui/typography";
+import { Collapsible } from "@/components/ui/collapsible";
 
 function Index() {
   const [eventUpdating, setEventUpdating] = useState<Event>({
@@ -31,23 +33,27 @@ function Index() {
     status: "draft",
     status_value: 0,
     formated_date: "",
+    address: "",
+    formated_time: "",
   });
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [openTimePicker, setOpenTimePicker] = useState(false);
+  const [newItem, setNewItem] = useState<string>("");
   const dateRef = useRef<any>(null);
   const timeRef = useRef<any>(null);
 
   const { id } = useLocalSearchParams();
 
-  const { data } = useEvent(String(id));
-  const { addToast } = useToast();
-  const { setShouldRefreshPage } = useAppStore();
+  const { setShouldRefreshPage, user } = useAppStore();
 
-  const { mutate } = useUpdateEvent({
+  const { data } = useMyEvent(String(user?.id), String(id));
+  const { addToast } = useToast();
+
+  const { mutate, isPending } = useUpdateEvent({
     onSuccess: (data) => {
       addToast({
         message: data.message || "Évènement mis à jour avec succès",
-        submessage: "Vous allez être redirigé vers votre profil",
+        submessage: "Redirection vers le profile",
         type: "success",
       });
       setShouldRefreshPage(true);
@@ -97,6 +103,7 @@ function Index() {
             sx={{ width: "100%" }}
           >
             <TextField
+              labelBg
               fullWidth
               label="Titre"
               value={eventUpdating.title}
@@ -126,6 +133,7 @@ function Index() {
           </FlexBox>
 
           <TextField
+            labelBg
             fullWidth
             label="Description"
             rowsCount={4}
@@ -136,6 +144,7 @@ function Index() {
             }
           />
           <TextField
+            labelBg
             onFocus={() => {
               setOpenDatePicker(true);
             }}
@@ -152,6 +161,7 @@ function Index() {
             fullWidth
           />
           <TextField
+            labelBg
             fullWidth
             onFocus={() => {
               setOpenTimePicker(true);
@@ -192,6 +202,7 @@ function Index() {
             />
           )}
           <TextField
+            labelBg
             fullWidth
             label="Adresse"
             value={eventUpdating.address}
@@ -200,6 +211,7 @@ function Index() {
             }
           />
           <TextField
+            labelBg
             fullWidth
             label="Ville"
             value={eventUpdating.city}
@@ -208,6 +220,7 @@ function Index() {
             }
           />
           <TextField
+            labelBg
             fullWidth
             label="Code postale"
             value={eventUpdating.zipcode}
@@ -215,6 +228,101 @@ function Index() {
               setEventUpdating((prev) => ({ ...prev, zipcode: e }))
             }
           />
+          <Typography variant="h6">Rôles</Typography>
+
+          {eventUpdating.roles?.map((role, i) => (
+            <TextField
+              key={i}
+              labelBg
+              fullWidth
+              label={String(i + 1)}
+              value={role.description}
+              onChangeText={(e) =>
+                setEventUpdating((prev) => ({
+                  ...prev,
+                  roles: prev.roles.map((r) =>
+                    r.id === role.id ? { ...r, description: e } : r
+                  ),
+                }))
+              }
+            />
+          ))}
+          <Collapsible title="Ajouter un rôle">
+            <TextField
+              labelBg
+              fullWidth
+              label={"Nouveau rôle"}
+              value={newItem}
+              onChangeText={(e) => setNewItem(e)}
+            />
+            <Button
+              size="small"
+              style={{
+                marginTop: 16,
+                marginHorizontal: "auto",
+              }}
+              onPress={() => {
+                setEventUpdating((prev) => ({
+                  ...prev,
+                  roles: [
+                    ...prev.roles,
+                    { id: Date.now(), role: "", description: newItem },
+                  ],
+                }));
+                setNewItem("");
+              }}
+            >
+              Ajouter
+            </Button>
+          </Collapsible>
+          <Typography variant="h6">Liste de course</Typography>
+
+          {eventUpdating.conditions?.map((condition, i) => (
+            <TextField
+              key={i}
+              labelBg
+              fullWidth
+              label={String(i + 1)}
+              value={condition.description}
+              onChangeText={(e) =>
+                setEventUpdating((prev) => ({
+                  ...prev,
+                  conditions: prev.conditions.map((r) =>
+                    r.id === condition.id ? { ...r, description: e } : r
+                  ),
+                }))
+              }
+            />
+          ))}
+          <Collapsible title="Ajouter à la liste de course">
+            <TextField
+              labelBg
+              fullWidth
+              label={"Nouveau élément"}
+              value={newItem}
+              onChangeText={(e) => setNewItem(e)}
+            />
+            <Button
+              size="small"
+              style={{
+                marginTop: 16,
+                marginHorizontal: "auto",
+              }}
+              onPress={() => {
+                setEventUpdating((prev) => ({
+                  ...prev,
+                  conditions: [
+                    ...prev.conditions,
+                    { id: Date.now(), condition: "", description: newItem },
+                  ],
+                }));
+
+                setNewItem("");
+              }}
+            >
+              Ajouter
+            </Button>
+          </Collapsible>
         </FlexBox>
         <FlexBox
           direction="row"
@@ -223,10 +331,18 @@ function Index() {
             marginTop: 24,
           }}
         >
-          <Button variant="outlined" onPress={() => router.back()}>
+          <Button
+            variant="outlined"
+            disabled={isPending}
+            onPress={() => router.back()}
+          >
             Annuler
           </Button>
-          <Button variant="contained" onPress={handleSubmit}>
+          <Button
+            variant="contained"
+            disabled={isPending}
+            onPress={handleSubmit}
+          >
             Enregistrer
           </Button>
         </FlexBox>

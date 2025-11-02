@@ -28,13 +28,21 @@ export interface Event extends CreatedEvent {
 
 export interface Condition {
   condition: string;
+  description: string;
+  id: number;
 }
 export interface Role {
   role: string;
+  description: string;
+  id: number;
 }
 
 export interface ApiResponse<T> {
   record: T;
+  message?: string;
+}
+export interface ApiEventRes<T> {
+  event: T;
   message?: string;
 }
 export interface LoginRes {
@@ -99,8 +107,9 @@ export interface EventBase {
   location_details?: string;
   status: "draft" | "published" | "archived" | 0 | 1 | 2;
   status_value: 0 | 1 | 2;
-  address?: string;
+  address: string;
   formated_date: string;
+  formated_time: string;
 }
 
 export interface CreatedEvent extends EventBase {

@@ -1,5 +1,5 @@
 import { API_BASE } from "@/config/config";
-import { ApiResponse, CreateEvent, Event } from "@/config/types";
+import { ApiEventRes, ApiResponse, CreateEvent, Event } from "@/config/types";
 import {
   useMutation,
   UseMutationOptions,
@@ -27,7 +27,21 @@ export function useEvent(id: string, options = {}) {
     return data;
   };
   const { data, isLoading, error } = useQuery<Event>({
-    queryKey: ["my-event", id],
+    queryKey: ["event-show", id],
+    queryFn: fetchEvent,
+    ...options,
+  });
+  return { data, isLoading, error };
+}
+
+export function useMyEvent(userId: string, eventId: string, options = {}) {
+  const fetchEvent = async (): Promise<Event> => {
+    const data = await get(`${API_BASE}/users/${userId}/event/${eventId}`, {});
+
+    return data;
+  };
+  const { data, isLoading, error } = useQuery<Event>({
+    queryKey: ["my-event", userId, eventId],
     queryFn: fetchEvent,
     ...options,
   });
@@ -36,7 +50,7 @@ export function useEvent(id: string, options = {}) {
 
 export const useCreateEvent = (
   options?: UseMutationOptions<
-    ApiResponse<Event>,
+    ApiEventRes<Event>,
     unknown,
     {
       body: { event: CreateEvent };
@@ -44,7 +58,7 @@ export const useCreateEvent = (
   >
 ) => {
   return useMutation<
-    ApiResponse<Event>,
+    ApiEventRes<Event>,
     unknown,
     {
       body: { event: CreateEvent };
@@ -63,6 +77,7 @@ export const useCreateEvent = (
     ...options,
   });
 };
+
 export const useUpdateEvent = (
   options?: UseMutationOptions<
     ApiResponse<Event>,

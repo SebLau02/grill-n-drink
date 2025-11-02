@@ -15,6 +15,7 @@ import Information from "./information";
 import Location from "./location";
 import Roles from "./roles";
 import Summary from "./summary";
+import { useToast } from "@/store/toast";
 
 export interface StepProps {
   formData: CreateEvent;
@@ -68,13 +69,22 @@ export default function Index() {
     formated_date: "",
     address: "",
     status_value: 1,
+    formated_time: "",
   });
   const { user } = useAppStore();
   const router = useRouter();
+  const { addToast } = useToast();
 
-  const { mutate } = useCreateEvent({
+  const { mutate, isPending } = useCreateEvent({
     onSuccess: (data) => {
-      console.log(data);
+      addToast({
+        message: data.message ?? "Événement créé avec succès ! 🎉",
+        submessage: "Redirection en cours...",
+        type: "success",
+      });
+      setTimeout(() => {
+        router.replace(`/event/${data.event.id}`);
+      }, 1000);
     },
     onError: (error) => {
       console.log("error");
@@ -118,7 +128,7 @@ export default function Index() {
         return formData.date !== undefined && formData.time !== undefined;
       case 4:
         return (
-          formData.location.trim().length > 0 &&
+          formData.address.trim().length > 0 &&
           formData.city.trim().length > 0 &&
           formData.zipcode.trim().length > 0
         );
@@ -178,10 +188,14 @@ export default function Index() {
               columnGap: 16,
             }}
           >
-            <Button size="large" onPress={handlePressDraft}>
+            <Button
+              size="large"
+              disabled={isPending}
+              onPress={handlePressDraft}
+            >
               {"Brouillon"}
             </Button>
-            <Button size="large" onPress={handleCreate}>
+            <Button size="large" disabled={isPending} onPress={handleCreate}>
               {"Créer"}
             </Button>
           </FlexBox>
