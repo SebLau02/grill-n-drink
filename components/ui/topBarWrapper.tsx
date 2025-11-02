@@ -15,8 +15,9 @@ import Typography from "./typography";
 
 interface Props {
   title?: string;
+  showUserAvatar?: boolean;
 }
-function TopBarWrapper({ title }: Props) {
+function TopBarWrapper({ title, showUserAvatar }: Props) {
   const [searchActive, setSearchActive] = useState(false);
 
   const { user } = useAppStore();
@@ -131,7 +132,7 @@ function TopBarWrapper({ title }: Props) {
             {title}
           </Typography>
         </FlexBox>
-        {user && (
+        {user && showUserAvatar && (
           <Pressable onPress={() => router.push("/profile" as never)}>
             <Avatar
               name={`${user.firstname} ${user.lastname}`}

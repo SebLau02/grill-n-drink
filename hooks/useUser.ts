@@ -229,7 +229,7 @@ export function useGetUser(id: number, options = {}) {
   const { data, isLoading, error } = useQuery<
     Omit<UserProfile, "draft_events">
   >({
-    queryKey: ["users", id],
+    queryKey: ["user-public-profile", id],
     queryFn: fetchUser,
     ...options,
   });

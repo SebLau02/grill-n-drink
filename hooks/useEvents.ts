@@ -13,7 +13,7 @@ export function useEvents(options = {}) {
     return await get(`${API_BASE}/events`, {});
   };
   const { data, isLoading, error } = useQuery<Event[]>({
-    queryKey: ["events"],
+    queryKey: ["events-index"],
     queryFn: fetchEvents,
     ...options,
   });

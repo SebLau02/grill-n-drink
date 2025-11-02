@@ -4,6 +4,7 @@ import ClickableRow from "@/components/ui/clickableRow";
 import FlexBox from "@/components/ui/flexBox";
 import PageView from "@/components/ui/pageView";
 import Tabs from "@/components/ui/tabs";
+import TopBarWrapper from "@/components/ui/topBarWrapper";
 import Typography from "@/components/ui/typography";
 import { useColor } from "@/hooks/useColor";
 import { useGetUser } from "@/hooks/useUser";
@@ -13,15 +14,21 @@ import React from "react";
 
 function User() {
   const { id } = useLocalSearchParams();
-  const { data: user } = useGetUser(Number(id));
+  const { data: user } = useGetUser(Number(id), {
+    staleTime: 0,
+    cacheTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+  });
   const textLight = useColor("textLight");
 
   if (!user) {
     return null;
   }
 
+  console.log("************", user);
+
   const { upcoming_events, past_events } = user;
-  console.log(upcoming_events, past_events);
 
   if (!upcoming_events || !past_events) {
     return null;
@@ -29,6 +36,7 @@ function User() {
 
   return (
     <PageView scrollable={false}>
+      <TopBarWrapper title={user.username} showUserAvatar={false} />
       <FlexBox
         direction="column"
         sx={{
