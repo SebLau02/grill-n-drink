@@ -115,3 +115,8 @@ export interface CreatedEvent extends EventBase {
   cover: string;
   can_participate: boolean;
 }
+
+export type Participate = {
+  role: number;
+  condition: number;
+};

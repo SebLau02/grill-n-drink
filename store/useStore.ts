@@ -1,4 +1,4 @@
-import { User } from "@/config/types";
+import { Participate, User } from "@/config/types";
 import { create } from "zustand";
 
 interface AppState {
@@ -7,6 +7,8 @@ interface AppState {
   logout: () => void;
   shouldRefreshPage: boolean;
   setShouldRefreshPage: (value: boolean) => void;
+  participation: Participate | null;
+  setParticipation: (participation: Participate | null) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -15,4 +17,7 @@ export const useAppStore = create<AppState>((set) => ({
   setShouldRefreshPage: (value) => set({ shouldRefreshPage: value }),
   setUser: (user) => set({ user }),
   logout: () => set({ user: null }),
+
+  participation: null,
+  setParticipation: (participation) => set({ participation }),
 }));

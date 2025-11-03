@@ -8,6 +8,7 @@ import Paper from "@/components/ui/paper";
 import Radio from "@/components/ui/radio";
 import TopBarWrapper from "@/components/ui/topBarWrapper";
 import Typography from "@/components/ui/typography";
+import { Participate } from "@/config/types";
 import { useColor } from "@/hooks/useColor";
 import { useEvent, useParticipate } from "@/hooks/useEvents";
 import { useToast } from "@/store/toast";
@@ -17,19 +18,18 @@ import { BellRing, Dot } from "lucide-react-native";
 import React, { useState } from "react";
 import { Modal, TouchableOpacity, View } from "react-native";
 
-type Participate = {
-  role: number;
-  condition: number;
-};
-
 function Index() {
+  const { user, setParticipation, participation } = useAppStore();
+
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [participate, setParticipate] = useState<Participate>({
-    role: 0,
-    condition: 0,
-  });
-  const [step, setStep] = useState(1);
-  const { id } = useLocalSearchParams();
+  const [participate, setParticipate] = useState<Participate>(
+    participation || {
+      role: 0,
+      condition: 0,
+    }
+  );
+  const { id, step: currentStep } = useLocalSearchParams();
+  const [step, setStep] = useState(currentStep ? Number(currentStep) : 1);
   const { data } = useEvent(id as string);
   const { mutate } = useParticipate({
     onSuccess: () => {
@@ -43,7 +43,6 @@ function Index() {
     },
   });
   const { addToast } = useToast();
-  const { user } = useAppStore();
 
   const textColor = useColor("textLight");
 
@@ -271,6 +270,7 @@ function Index() {
               onChange={(value) =>
                 setParticipate((prev) => ({ ...prev, role: value }))
               }
+              value={participate.role}
               options={event.roles.map((r, i) => ({
                 label: r.description,
                 value: r.id,
@@ -301,6 +301,7 @@ function Index() {
               onChange={(value) =>
                 setParticipate((prev) => ({ ...prev, condition: value }))
               }
+              value={participate.condition}
               options={event.conditions.map((c, i) => ({
                 label: c.description,
                 value: c.id,
@@ -415,7 +416,12 @@ function Index() {
               <Button
                 variant="contained"
                 size="small"
-                onPress={() => router.replace("/authentication?tab=0" as never)}
+                onPress={() => {
+                  setParticipation(participate);
+                  router.replace(
+                    `/authentication?tab=0&eventId=${event.id}` as never
+                  );
+                }}
               >
                 Se connecter
               </Button>

@@ -11,10 +11,11 @@ type Option = {
 interface Props extends FlexBoxProps {
   options: Option[];
   onChange?: (value: number) => void;
+  value?: Option["value"];
 }
 
-function Radio({ options, onChange, ...props }: Props) {
-  const [checked, setChecked] = useState<number | null>(null);
+function Radio({ options, onChange, value, ...props }: Props) {
+  const [checked, setChecked] = useState<number | null>(value || null);
 
   const border = useColor("border");
   const interactiveLight = useColor("interactiveLight");

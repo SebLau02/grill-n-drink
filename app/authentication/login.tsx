@@ -8,11 +8,12 @@ import { UserLogin } from "@/config/types";
 import { useLogin } from "@/hooks/useUser";
 import { useToast } from "@/store/toast";
 import { useAppStore } from "@/store/useStore";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 
 function Login() {
+  const { eventId } = useLocalSearchParams();
   const [login, setLogin] = useState<UserLogin>({
     email: "",
     password: "",
@@ -20,7 +21,7 @@ function Login() {
 
   const router = useRouter();
   const { addToast } = useToast();
-  const { setUser } = useAppStore();
+  const { setUser, participation } = useAppStore();
 
   const { mutate } = useLogin({
     onSuccess: (data) => {
@@ -33,7 +34,11 @@ function Login() {
       setUser(data.user);
       saveToken(data.token);
       setTimeout(() => {
-        router.replace("/" as never);
+        if (participation) {
+          router.replace(`/event/${eventId}?step=3` as never);
+        } else {
+          router.replace("/" as never);
+        }
       }, 1000);
     },
     onError: (error) => {
