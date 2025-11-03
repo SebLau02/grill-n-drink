@@ -22,7 +22,11 @@ export function useEvents(options = {}) {
 
 export function useEvent(id: string, options = {}) {
   const fetchEvent = async (): Promise<Event> => {
-    const data = await get(`${API_BASE}/events/${id}`, {});
+    const token = await getToken();
+    const options = token
+      ? { headers: { Authorization: `Bearer ${token}` } }
+      : {};
+    const data = await get(`${API_BASE}/events/${id}`, options);
 
     return data;
   };
@@ -99,6 +103,38 @@ export const useUpdateEvent = (
     mutationFn: async ({ body, id }) => {
       const token = await getToken();
       const data = await patch(`${API_BASE}/events/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        body: body,
+      });
+
+      if (!data) throw new Error("Requête échouée");
+      return data;
+    },
+    ...options,
+  });
+};
+
+export const useParticipate = (
+  options?: UseMutationOptions<
+    ApiEventRes<Event>,
+    unknown,
+    {
+      body: { event: { role: number } };
+      id: number;
+    }
+  >
+) => {
+  return useMutation<
+    ApiEventRes<Event>,
+    unknown,
+    {
+      body: { event: { role: number } };
+      id: number;
+    }
+  >({
+    mutationFn: async ({ body, id }) => {
+      const token = await getToken();
+      const data = await post(`${API_BASE}/events/${id}/participate`, {
         headers: { Authorization: `Bearer ${token}` },
         body: body,
       });

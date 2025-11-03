@@ -1,7 +1,6 @@
 import Avatar from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
 import Carrousel from "@/components/ui/carrousel";
-import Checkbox from "@/components/ui/checkbox";
 import FlexBox from "@/components/ui/flexBox";
 import LabeledTypo from "@/components/ui/labeledTypo";
 import PageView from "@/components/ui/pageView";
@@ -9,44 +8,73 @@ import Radio from "@/components/ui/radio";
 import TopBarWrapper from "@/components/ui/topBarWrapper";
 import Typography from "@/components/ui/typography";
 import { useColor } from "@/hooks/useColor";
-import { useEvent } from "@/hooks/useEvents";
+import { useEvent, useParticipate } from "@/hooks/useEvents";
 import { useToast } from "@/store/toast";
 import { router, useLocalSearchParams } from "expo-router";
 import { BellRing, Dot } from "lucide-react-native";
 import React, { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
+type Participate = {
+  role: number;
+  condition: number;
+};
+
 function Index() {
-  const [participate, setParticipate] = useState<{
-    role: number | null;
-    conditionsAccepted: boolean;
-  }>({
-    role: null,
-    conditionsAccepted: false,
+  const [participate, setParticipate] = useState<Participate>({
+    role: 0,
+    condition: 0,
   });
   const [step, setStep] = useState(1);
   const { id } = useLocalSearchParams();
   const { data } = useEvent(id as string);
+  const { mutate } = useParticipate({
+    onSuccess: () => {
+      setStep((prev) => (prev ? prev + 1 : 1));
+    },
+    onError: (error) => {
+      addToast({
+        message: `${error}`,
+        type: "danger",
+      });
+    },
+  });
   const { addToast } = useToast();
 
   const textColor = useColor("textLight");
 
   const handlePress = () => {
-    if (step === 2 && participate.role === null) {
-      addToast({
-        message: "Tu dois choisir un rôle pour participer.",
-        type: "danger",
-      });
-      return;
+    switch (step) {
+      case 1:
+        setStep((prev) => (prev ? prev + 1 : 1));
+        break;
+      case 2:
+        if (participate.role === 0) {
+          addToast({
+            message: "Tu dois choisir un rôle pour participer.",
+            type: "danger",
+          });
+        } else {
+          setStep((prev) => (prev ? prev + 1 : 1));
+        }
+        break;
+      case 3:
+        if (participate.condition === 0) {
+          addToast({
+            message: "Tu dois accepter les conditions pour participer.",
+            type: "danger",
+          });
+        } else {
+          mutate({
+            body: { event: participate },
+            id: Number(id as string),
+          });
+        }
+        break;
+
+      default:
+        break;
     }
-    if (step === 3 && !participate.conditionsAccepted) {
-      addToast({
-        message: "Tu dois accepter les conditions pour participer.",
-        type: "danger",
-      });
-      return;
-    }
-    setStep((prev) => (prev ? prev + 1 : 1));
   };
 
   if (!data) {
@@ -54,8 +82,6 @@ function Index() {
   }
 
   const event = data;
-
-  console.log(event.user);
 
   return (
     <PageView>
@@ -236,7 +262,10 @@ function Index() {
               onChange={(value) =>
                 setParticipate((prev) => ({ ...prev, role: value }))
               }
-              options={event.roles.map((r, i) => ({ label: r.role, value: i }))}
+              options={event.roles.map((r, i) => ({
+                label: r.description,
+                value: r.id,
+              }))}
               sx={{ marginTop: 24 }}
             />
           </FlexBox>
@@ -254,43 +283,49 @@ function Index() {
               marginBottom: 16,
             }}
           >
-            Tu dois accepter les conditions suivantes fixé par{" "}
-            {"l'organisateur"} pour pouvoir participer:
+            Un bon barbecue {"c'est"} quand tout le monde y met du sien ! {"\n"}{" "}
+            Voici la liste de course 🛒 défini par {event.user?.username}.
           </Typography>
 
           <FlexBox direction="column">
-            {event.conditions.map((cond, i) => (
-              <Typography variant="body1" key={i}>
-                <Dot />
-                {cond.condition}
-              </Typography>
-            ))}
+            <Radio
+              onChange={(value) =>
+                setParticipate((prev) => ({ ...prev, condition: value }))
+              }
+              options={event.conditions.map((c, i) => ({
+                label: c.description,
+                value: c.id,
+              }))}
+              sx={{ marginTop: 24 }}
+            />
           </FlexBox>
-
-          <Checkbox
-            onChange={(checked) =>
-              setParticipate((prev) => ({
-                ...prev,
-                conditionsAccepted: checked,
-              }))
-            }
-            label="J'accepte les conditions"
-            sx={{ marginTop: 24 }}
-          />
         </View>
       )}
-      {step < 4 && (
-        <Button
-          variant="contained"
-          style={{
-            margin: "auto",
+      {!event.can_participate ? (
+        <Typography
+          variant="body1"
+          sx={{
+            marginHorizontal: "auto",
+            textAlign: "center",
             marginTop: 24,
           }}
-          size="large"
-          onPress={handlePress}
         >
-          {step === 3 ? "Valider" : step === 2 ? "Suivant" : "Participer"}
-        </Button>
+          Tu participes à cet évènement !
+        </Typography>
+      ) : (
+        step < 4 && (
+          <Button
+            variant="contained"
+            style={{
+              margin: "auto",
+              marginTop: 24,
+            }}
+            size="large"
+            onPress={handlePress}
+          >
+            {step === 3 ? "Valider" : step === 2 ? "Suivant" : "Participer"}
+          </Button>
+        )
       )}
       {step > 3 && (
         <View

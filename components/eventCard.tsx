@@ -109,7 +109,12 @@ function EventCard({ event, avatar = true, style }: Props) {
             {event.participation && (
               <FlexBox direction="row">
                 {event.participation.map((participant, index) => (
-                  <Avatar key={index} src={participant.avatar} rounded />
+                  <Avatar
+                    key={index}
+                    src={participant.avatar}
+                    rounded
+                    name={`${participant.firstname} ${participant.lastname}`}
+                  />
                 ))}
               </FlexBox>
             )}
