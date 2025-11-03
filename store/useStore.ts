@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 interface AppState {
   user: User | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   logout: () => void;
   shouldRefreshPage: boolean;
   setShouldRefreshPage: (value: boolean) => void;

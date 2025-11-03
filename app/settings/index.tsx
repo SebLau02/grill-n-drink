@@ -54,7 +54,7 @@ const getUserValue = (user: User, key: string) => {
 };
 
 function Index() {
-  const { user } = useAppStore();
+  const { user, setUser } = useAppStore();
   const { addToast } = useToast();
   const { data } = useUser();
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -62,6 +62,7 @@ function Index() {
   const handleLogout = () => {
     setOpenModal(false);
     removeToken();
+    setUser(null);
     addToast({
       message: "Bye bye ! 👋. À bientôt !",
       type: "info",

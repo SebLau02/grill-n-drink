@@ -35,6 +35,7 @@ function Index() {
     formated_date: "",
     address: "",
     formated_time: "",
+    can_participate: false,
   });
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [openTimePicker, setOpenTimePicker] = useState(false);

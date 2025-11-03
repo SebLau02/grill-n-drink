@@ -22,7 +22,6 @@ export type RootStackParamList = {
 export interface Event extends CreatedEvent {
   user?: User;
   participation?: User[];
-  can_participate: boolean;
 }
 
 export interface Condition {
@@ -114,4 +113,5 @@ export interface EventBase {
 export interface CreatedEvent extends EventBase {
   id: number;
   cover: string;
+  can_participate: boolean;
 }

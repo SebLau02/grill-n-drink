@@ -4,16 +4,18 @@ import Carrousel from "@/components/ui/carrousel";
 import FlexBox from "@/components/ui/flexBox";
 import LabeledTypo from "@/components/ui/labeledTypo";
 import PageView from "@/components/ui/pageView";
+import Paper from "@/components/ui/paper";
 import Radio from "@/components/ui/radio";
 import TopBarWrapper from "@/components/ui/topBarWrapper";
 import Typography from "@/components/ui/typography";
 import { useColor } from "@/hooks/useColor";
 import { useEvent, useParticipate } from "@/hooks/useEvents";
 import { useToast } from "@/store/toast";
+import { useAppStore } from "@/store/useStore";
 import { router, useLocalSearchParams } from "expo-router";
 import { BellRing, Dot } from "lucide-react-native";
 import React, { useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { Modal, TouchableOpacity, View } from "react-native";
 
 type Participate = {
   role: number;
@@ -21,6 +23,7 @@ type Participate = {
 };
 
 function Index() {
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [participate, setParticipate] = useState<Participate>({
     role: 0,
     condition: 0,
@@ -40,6 +43,7 @@ function Index() {
     },
   });
   const { addToast } = useToast();
+  const { user } = useAppStore();
 
   const textColor = useColor("textLight");
 
@@ -65,10 +69,15 @@ function Index() {
             type: "danger",
           });
         } else {
-          mutate({
-            body: { event: participate },
-            id: Number(id as string),
-          });
+          console.log(user);
+          if (user) {
+            mutate({
+              body: { event: participate },
+              id: Number(id as string),
+            });
+          } else {
+            setOpenModal(true);
+          }
         }
         break;
 
@@ -359,6 +368,61 @@ function Index() {
           </Button>
         </View>
       )}
+
+      <Modal
+        visible={openModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setOpenModal(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0,0,0,0.5)",
+          }}
+        >
+          <Paper
+            variant="outlined"
+            style={{
+              padding: 16,
+              width: "90%",
+            }}
+          >
+            <Typography
+              variant={"h6"}
+              sx={{
+                marginHorizontal: "auto",
+              }}
+            >
+              Tu dois te connecter pour participer à cet évènement.
+            </Typography>
+            <FlexBox
+              direction="row"
+              justify="between"
+              align="center"
+              columnGap={2}
+              sx={{ marginTop: 24 }}
+            >
+              <Button
+                variant="outlined"
+                size="small"
+                onPress={() => setOpenModal(false)}
+              >
+                Annuler
+              </Button>
+              <Button
+                variant="contained"
+                size="small"
+                onPress={() => router.replace("/authentication?tab=0" as never)}
+              >
+                Se connecter
+              </Button>
+            </FlexBox>
+          </Paper>
+        </View>
+      </Modal>
     </PageView>
   );
 }
