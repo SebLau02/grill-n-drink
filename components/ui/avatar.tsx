@@ -4,6 +4,7 @@ import React from "react";
 import { Image, View, ViewProps } from "react-native";
 import FlexBox from "./flexBox";
 import Typography from "./typography";
+import { colorFromName } from "@/helpers";
 
 interface Props extends ViewProps {
   src?: string;
@@ -29,6 +30,8 @@ function Avatar({
     : "?";
   const backgroundColor = useColor("grey300");
 
+  const bgColor = colorFromName(`${name}`) || backgroundColor;
+
   return (
     <View style={props.style}>
       {src ? (
@@ -52,7 +55,7 @@ function Avatar({
             width: width,
             height: height,
             borderRadius: rounded ? "50%" : Metrics.radius,
-            backgroundColor,
+            backgroundColor: bgColor,
             ...(props.style as object),
           }}
         >
