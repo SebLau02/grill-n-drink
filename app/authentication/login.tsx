@@ -30,7 +30,6 @@ function Login() {
         submessage: "Redirection en cours...",
         type: "success",
       });
-
       setUser(data.user);
       saveToken(data.token);
       setTimeout(() => {
@@ -39,7 +38,7 @@ function Login() {
         } else {
           router.replace("/" as never);
         }
-      }, 1000);
+      }, 800);
     },
     onError: (error) => {
       addToast({

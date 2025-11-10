@@ -107,13 +107,22 @@ function EventCard({ event, avatar = true, style }: Props) {
               <Typography variant="body1">{event.city}</Typography>
             </FlexBox>
             {event.participation && (
-              <FlexBox direction="row">
+              <FlexBox
+                direction="row"
+                sx={{
+                  columnGap: -8,
+                }}
+              >
                 {event.participation.map((participant, index) => (
                   <Avatar
                     key={index}
                     src={participant.avatar_url}
                     rounded
                     name={`${participant.firstname} ${participant.lastname}`}
+                    border
+                    style={{
+                      marginLeft: index === 0 ? 0 : -12,
+                    }}
                   />
                 ))}
               </FlexBox>

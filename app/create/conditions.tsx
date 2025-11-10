@@ -6,12 +6,20 @@ import Typography from "@/components/ui/typography";
 import { Fonts } from "@/constants/theme";
 import React, { useState } from "react";
 import { StepProps } from ".";
+import { Condition } from "@/config/types";
+import { Square } from "lucide-react-native";
+import FlexBox from "@/components/ui/flexBox";
+import { useColor } from "@/hooks/useColor";
 
 type Props = StepProps;
 function Conditions({ formData, setFormData }: Props) {
-  const [condition, setCondition] = useState({
+  const [condition, setCondition] = useState<Condition>({
     condition: "",
+    id: 0,
+    description: "",
   });
+
+  const textLight = useColor("textLight");
   return (
     <Paper style={{ padding: 16 }}>
       <Typography
@@ -20,16 +28,17 @@ function Conditions({ formData, setFormData }: Props) {
           marginBottom: 8,
         }}
       >
-        Conditions de participation:
+        Liste de course:
       </Typography>
       <Typography variant="body1">
         Ici, tu définis ce que chacun doit apporter pour participer au barbecue.
         {"\n"}
         C’est un peu la “cotisation” version conviviale : chacun met la main à
         la pâte pour que la fête soit réussie !{"\n"}
-        Chaque invité devra choisir une condition pour valider sa participation.
+        Chaque invité devra ramener un élément de la liste pour valider sa
+        participation.
         {"\n"}
-        Quelques exemples de conditions :
+        Quelques exemples de courses à prévoir :
       </Typography>
       {[
         "Ramener du charbon",
@@ -52,14 +61,18 @@ function Conditions({ formData, setFormData }: Props) {
       <Divider style={{ marginVertical: 16 }} />
 
       {formData.conditions.map((cond, i) => (
-        <Typography key={i} variant="body1">
-          • {cond.condition}
-        </Typography>
+        <FlexBox key={i} direction="row" align="center" columnGap={1}>
+          <Square size={18} color={textLight} />
+
+          <Typography variant="body1">{cond.condition}</Typography>
+        </FlexBox>
       ))}
       <TextField
-        label="Condition"
+        label="Course à ajouter"
         value={condition.condition}
-        onChangeText={(text) => setCondition({ condition: text })}
+        onChangeText={(text) =>
+          setCondition((prev) => ({ ...prev, condition: text }))
+        }
         variant="text"
         fullWidth
       />
@@ -75,7 +88,7 @@ function Conditions({ formData, setFormData }: Props) {
             conditions: [...prev.conditions, condition],
           }));
 
-          setCondition({ condition: "" });
+          setCondition((prev) => ({ ...prev, condition: "" }));
         }}
       >
         Ajouter

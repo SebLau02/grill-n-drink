@@ -91,8 +91,6 @@ function Index() {
 
   const event = data;
 
-  console.log("#########", event);
-
   return (
     <PageView>
       <TopBarWrapper title={event.title} />
@@ -109,15 +107,8 @@ function Index() {
             columnGap={1}
           >
             <LabeledTypo label="Rejoignez la ">{event.title}</LabeledTypo>
-            <FlexBox direction="column" align="stretch">
-              <Typography
-                variant="h6"
-                sx={{
-                  marginBottom: 0,
-                }}
-              >
-                Votre hôte
-              </Typography>
+            <FlexBox direction="column" align="start">
+              <Typography variant="h6">Votre hôte</Typography>
               {event.user && (
                 <TouchableOpacity
                   onPress={() =>
@@ -146,7 +137,7 @@ function Index() {
             </FlexBox>
           </FlexBox>
 
-          {event.participation && (
+          {event.participation && event.participation.length > 0 && (
             <>
               <Typography variant="h6">Ils participent !</Typography>
               <FlexBox direction="row">
@@ -237,7 +228,7 @@ function Index() {
                     marginBottom: 8,
                   }}
                 >
-                  Conditions de participation
+                  Liste de course
                 </Typography>
                 {event.conditions?.map((cond, i) => (
                   <Typography key={i} variant="body1">

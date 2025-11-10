@@ -11,6 +11,7 @@ interface Props extends ViewProps {
   width?: number;
   height?: number;
   rounded?: boolean;
+  border?: boolean;
   name?: string;
 }
 
@@ -20,6 +21,7 @@ function Avatar({
   height = 40,
   rounded = false,
   name,
+  border,
   ...props
 }: Props) {
   const initials = name
@@ -29,6 +31,7 @@ function Avatar({
         .join("")
     : "?";
   const backgroundColor = useColor("grey300");
+  const borderColor = useColor("borderActive");
 
   const bgColor = colorFromName(`${name}`) || backgroundColor;
 
@@ -43,6 +46,8 @@ function Avatar({
               width: width,
               height: height,
               borderRadius: rounded ? width / 2 : Metrics.radius,
+              borderWidth: border ? 2 : 0,
+              borderColor: borderColor,
             },
             props.style as object,
           ]}
@@ -56,6 +61,8 @@ function Avatar({
             height: height,
             borderRadius: rounded ? "50%" : Metrics.radius,
             backgroundColor: bgColor,
+            borderWidth: border ? 1 : 0,
+            borderColor: borderColor,
             ...(props.style as object),
           }}
         >
