@@ -62,6 +62,7 @@ function Signup() {
       </Typography>
 
       <TextField
+        labelBg
         label="Nom"
         sx={{
           marginTop: 16,
@@ -74,6 +75,7 @@ function Signup() {
       />
 
       <TextField
+        labelBg
         label="Prénom"
         sx={{
           marginTop: 16,
@@ -85,6 +87,7 @@ function Signup() {
         }
       />
       <TextField
+        labelBg
         label="Nom d'utilisateur"
         sx={{
           marginTop: 16,
@@ -97,6 +100,7 @@ function Signup() {
       />
 
       <TextField
+        labelBg
         label="Email"
         sx={{
           marginTop: 16,
@@ -109,6 +113,7 @@ function Signup() {
         autoCorrect={false}
       />
       <TextField
+        labelBg
         label="Mot de passe"
         fullWidth
         value={signup.password}
@@ -121,6 +126,7 @@ function Signup() {
         }}
       />
       <TextField
+        labelBg
         label="Confirmation mot de passe"
         fullWidth
         value={signup.password_confirmation}

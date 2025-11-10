@@ -66,6 +66,7 @@ function Login() {
       </Typography>
 
       <TextField
+        labelBg
         label="Email"
         sx={{
           marginTop: 16,
@@ -78,6 +79,7 @@ function Login() {
         onChangeText={(text) => setLogin((prev) => ({ ...prev, email: text }))}
       />
       <TextField
+        labelBg
         label="Mot de passe"
         fullWidth
         onChangeText={(text) =>
