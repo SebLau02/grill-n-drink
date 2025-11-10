@@ -37,7 +37,7 @@ function Index() {
       setOpenModal(false);
       setUser(data);
       setProfilUser(
-        (prev) => ({ ...prev, avatar_id: data.avatar_id } as UserProfile)
+        (prev) => ({ ...prev, avatar_url: data.avatar_url } as UserProfile)
       );
       addToast({
         type: "success",
@@ -70,9 +70,7 @@ function Index() {
     return null;
   }
 
-  const { upcoming_events, past_events, draft_events, avatar_id } = profilUser;
-
-  const avatarUrl = avatar_id ? AVATARS[avatar_id as keyof typeof AVATARS] : "";
+  const { upcoming_events, past_events, draft_events } = profilUser;
 
   if (!upcoming_events || !past_events || !draft_events) {
     return null;
@@ -90,7 +88,7 @@ function Index() {
         <TouchableOpacity onPress={() => setOpenModal(true)}>
           <Avatar
             name={`${profilUser.firstname} ${profilUser.lastname}`}
-            src={avatarUrl}
+            src={profilUser.avatar_url}
             rounded
             width={100}
             height={100}

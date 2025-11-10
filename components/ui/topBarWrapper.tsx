@@ -89,7 +89,7 @@ function TopBarWrapper({ title, showUserAvatar }: Props) {
           <Pressable onPress={() => router.push("/profile" as never)}>
             <Avatar
               name={`${user.firstname} ${user.lastname}`}
-              src={user.avatar}
+              src={user.avatar_url}
               rounded
               style={{ marginRight: 16 }}
             />
@@ -136,7 +136,7 @@ function TopBarWrapper({ title, showUserAvatar }: Props) {
           <Pressable onPress={() => router.push("/profile" as never)}>
             <Avatar
               name={`${user.firstname} ${user.lastname}`}
-              src={user.avatar}
+              src={user.avatar_url}
               rounded
               style={{ marginRight: 16 }}
             />
@@ -206,7 +206,7 @@ function TopBarWrapper({ title, showUserAvatar }: Props) {
           <Pressable onPress={() => router.push("/profile" as never)}>
             <Avatar
               name={`${user.firstname} ${user.lastname}`}
-              src={user.avatar}
+              src={user.avatar_url}
               rounded
               style={{ marginRight: 16 }}
             />

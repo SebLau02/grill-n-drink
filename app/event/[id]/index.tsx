@@ -128,7 +128,7 @@ function Index() {
                     }
                   >
                     <Avatar
-                      src={event.user?.avatar}
+                      src={event.user?.avatar_url}
                       name={`${event.user?.firstname} ${event.user?.lastname}`}
                       rounded
                     />

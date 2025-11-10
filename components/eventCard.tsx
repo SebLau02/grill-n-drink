@@ -53,7 +53,7 @@ function EventCard({ event, avatar = true, style }: Props) {
           {event.user && avatar && (
             <Pressable onPress={() => router.push("/profile" as never)}>
               <Avatar
-                src={event.user.avatar}
+                src={event.user.avatar_url}
                 name={`${event.user.firstname} ${event.user.lastname}`}
                 rounded
                 style={{ marginRight: 16 }}

@@ -73,7 +73,7 @@ export interface User extends UserBase {
   username: string;
   phone: string;
   phone_number: string;
-  avatar_id: string | null;
+  avatar_url: string;
 }
 
 export interface UserProfile extends User {
