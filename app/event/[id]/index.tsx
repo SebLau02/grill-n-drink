@@ -91,6 +91,8 @@ function Index() {
 
   const event = data;
 
+  console.log("#########", event);
+
   return (
     <PageView>
       <TopBarWrapper title={event.title} />
@@ -102,44 +104,63 @@ function Index() {
         >
           <FlexBox
             direction="row"
-            align="center"
+            align="start"
             justify="between"
             columnGap={1}
           >
             <LabeledTypo label="Rejoignez la ">{event.title}</LabeledTypo>
-            <LabeledTypo
-              sx={{
-                marginTop: 16,
-              }}
-              label="Votre hôte"
-            >
-              <FlexBox
-                direction="row"
-                align="center"
-                columnGap={1}
+            <FlexBox direction="column" align="stretch">
+              <Typography
+                variant="h6"
                 sx={{
-                  width: "auto",
+                  marginBottom: 0,
                 }}
               >
-                {event.user && (
-                  <TouchableOpacity
-                    onPress={() =>
-                      router.push(`/user/${event.user?.id}` as never)
-                    }
-                  >
+                Votre hôte
+              </Typography>
+              {event.user && (
+                <TouchableOpacity
+                  onPress={() =>
+                    router.push(`/user/${event.user?.id}` as never)
+                  }
+                >
+                  <FlexBox direction="row" align="center" columnGap={1}>
                     <Avatar
                       src={event.user?.avatar_url}
                       name={`${event.user?.firstname} ${event.user?.lastname}`}
                       rounded
                     />
-                    <Typography variant="body1">
+                    <Typography
+                      variant="body1"
+                      ellipsizeMode="tail"
+                      numberOfLines={1}
+                      sx={{
+                        maxWidth: 100,
+                      }}
+                    >
                       {event.user?.username}
                     </Typography>
-                  </TouchableOpacity>
-                )}
-              </FlexBox>
-            </LabeledTypo>
+                  </FlexBox>
+                </TouchableOpacity>
+              )}
+            </FlexBox>
           </FlexBox>
+
+          {event.participation && (
+            <>
+              <Typography variant="h6">Ils participent !</Typography>
+              <FlexBox direction="row">
+                {event.participation.map((participant, index) => (
+                  <Avatar
+                    key={index}
+                    src={participant.avatar_url}
+                    rounded
+                    name={`${participant.firstname} ${participant.lastname}`}
+                  />
+                ))}
+              </FlexBox>
+            </>
+          )}
 
           <Carrousel
             height={150}

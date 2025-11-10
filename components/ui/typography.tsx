@@ -26,6 +26,7 @@ function Typography({
   const text = useColor("textLight");
   return (
     <Text
+      {...props}
       style={[
         textVariants[variant],
         { color: text },

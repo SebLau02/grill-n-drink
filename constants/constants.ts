@@ -32,6 +32,7 @@ export const pageProps = {
 export const SETTINGS_SECTIONS = {
   firstname: "Nom",
   lastname: "Prénom",
+  username: "Nom d'utilisateur",
   email: "Email",
   password: "Mot de passe",
   phone_number: "Téléphone",

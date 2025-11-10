@@ -20,6 +20,11 @@ const accountSettings = [
       { label: "Nom", name: "firstname", path: "settings/firstname" },
       { label: "Prénom", name: "lastname", path: "settings/lastname" },
       {
+        label: "Nom d'utilisateur",
+        name: "username",
+        path: "settings/username",
+      },
+      {
         label: "Téléphone",
         name: "phone_number",
         path: "settings/phone_number",

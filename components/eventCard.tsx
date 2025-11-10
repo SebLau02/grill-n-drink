@@ -111,7 +111,7 @@ function EventCard({ event, avatar = true, style }: Props) {
                 {event.participation.map((participant, index) => (
                   <Avatar
                     key={index}
-                    src={participant.avatar}
+                    src={participant.avatar_url}
                     rounded
                     name={`${participant.firstname} ${participant.lastname}`}
                   />
