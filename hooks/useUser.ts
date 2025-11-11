@@ -191,7 +191,7 @@ export const useUpdateUser = (
     User,
     unknown,
     {
-      body: { [key: string]: string };
+      body: { user: { [key: string]: string } };
       id: number;
     }
   >
@@ -200,13 +200,17 @@ export const useUpdateUser = (
     User,
     unknown,
     {
-      body: { [key: string]: string };
+      body: { user: { [key: string]: string } };
       id: number;
     }
   >({
     mutationFn: async ({ body, id }) => {
+      const token = await getToken();
       const data = await patch(`${API_BASE}/users/${id}`, {
         body: body,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (!data) throw new Error("Requête échouée");

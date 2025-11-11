@@ -73,6 +73,7 @@ export const get = async (path: string, o: Record<string, any> = {}) => {
     const options = buildOptions("GET", o);
     const res = await fetch(path, options);
     const data = await res.json();
+
     if (!res.ok) {
       throw new Error(data.error);
     } else return data;

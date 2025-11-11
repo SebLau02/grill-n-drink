@@ -19,7 +19,11 @@ import React, { useEffect, useState } from "react";
 import { Modal, TouchableOpacity, View } from "react-native";
 
 function Index() {
-  const { data: user, refetch } = useUserProfile({
+  const {
+    data: user,
+    refetch,
+    error,
+  } = useUserProfile({
     staleTime: 0,
     cacheTime: 0,
     refetchOnMount: true,
@@ -64,7 +68,15 @@ function Index() {
 
   useEffect(() => {
     if (user) setProfilUser(user);
-  }, [user]);
+    if (error) {
+      addToast({
+        message: `${error}`,
+        type: "danger",
+        duration: 3000,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, error]);
 
   if (!profilUser) {
     return null;
@@ -240,7 +252,10 @@ function Index() {
                 <TouchableOpacity
                   key={index}
                   onPress={() =>
-                    mutate({ body: { avatar_id: key }, id: profilUser.id })
+                    mutate({
+                      body: { user: { avatar_id: key } },
+                      id: profilUser.id,
+                    })
                   }
                 >
                   <Avatar

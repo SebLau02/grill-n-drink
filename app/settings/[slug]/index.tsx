@@ -37,8 +37,6 @@ function Index() {
     },
   });
 
-  console.log(data?.description);
-
   useEffect(() => {
     if (data) setValue(data[slug as keyof typeof data] as string);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,7 +57,7 @@ function Index() {
       });
       return;
     }
-    mutate({ body: { [slug as string]: value }, id: user.id });
+    mutate({ body: { user: { [slug as string]: value } }, id: user.id });
   };
 
   if (!data) {
