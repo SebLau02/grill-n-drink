@@ -2,7 +2,7 @@ import { useColor } from "@/hooks/useColor";
 import React from "react";
 import { Pressable, PressableProps, StyleSheet, Text } from "react-native";
 
-interface Props extends PressableProps {
+export interface IconButtonProps extends PressableProps {
   children: React.ReactNode;
   color?: "primary" | "primary" | "secondary" | "error" | "danger" | "success";
   size?: "small" | "medium";
@@ -14,7 +14,7 @@ function IconButton({
   size = "medium",
   active,
   ...props
-}: Props) {
+}: IconButtonProps) {
   const textColor = useColor(color);
   const borderColor = useColor("border");
   const pressedColor = useColor("pressed");

@@ -3,7 +3,7 @@ import { useColor } from "@/hooks/useColor";
 import { useAppStore } from "@/store/useStore";
 import { useNavigation } from "@react-navigation/native";
 import { useRouter, useSegments } from "expo-router";
-import { ChevronLeft, Search } from "lucide-react-native";
+import { Bell, ChevronLeft, Search } from "lucide-react-native";
 import React, { useState } from "react";
 import { Pressable } from "react-native";
 import Avatar from "./avatar";
@@ -12,6 +12,7 @@ import FlexBox from "./flexBox";
 import IconButton from "./iconButton";
 import SearchBar from "./searchBar";
 import Typography from "./typography";
+import NotificationMenu from "./notificationMenu";
 
 interface Props {
   title?: string;
@@ -217,7 +218,6 @@ function TopBarWrapper({ title, showUserAvatar }: Props) {
   }
   if (
     currentRoute === "settings" ||
-    currentRoute === "profile" ||
     currentRoute === "termsOfService" ||
     currentRoute === "privacyPolicy" ||
     currentRoute === "edit"
@@ -249,6 +249,37 @@ function TopBarWrapper({ title, showUserAvatar }: Props) {
               : "La Grill'Zone"}
           </Typography>
         </FlexBox>
+      </FlexBox>
+    );
+  }
+  if (currentRoute === "profile") {
+    return (
+      <FlexBox
+        direction="row"
+        justify="between"
+        align="center"
+        sx={{
+          paddingVertical: 8,
+          width: "100%",
+          backgroundColor: backgroundColor,
+          paddingRight: 8,
+        }}
+      >
+        <FlexBox direction="row" align="center">
+          <IconButton size={"small"} onPress={() => router.back()}>
+            <ChevronLeft color={textColor} />
+          </IconButton>
+
+          <Typography
+            variant="h5"
+            sx={{
+              paddingLeft: 16,
+            }}
+          >
+            Profil
+          </Typography>
+        </FlexBox>
+        <NotificationMenu />
       </FlexBox>
     );
   }

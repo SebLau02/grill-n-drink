@@ -12,15 +12,18 @@ import { useRouter } from "expo-router";
 import { Eye, EyeClosed } from "lucide-react-native";
 import React, { useState } from "react";
 
+const defaultSignupData: UserSignup = {
+  email: "",
+  password: "",
+  password_confirmation: "",
+  firstname: "",
+  lastname: "",
+  username: "",
+  expo_push_token: "",
+};
+
 function Signup() {
-  const [signup, setSignup] = useState<UserSignup>({
-    email: "",
-    password: "",
-    password_confirmation: "",
-    firstname: "",
-    lastname: "",
-    username: "",
-  });
+  const [signup, setSignup] = useState<UserSignup>(defaultSignupData);
   const { addToast } = useToast();
   const router = useRouter();
 
@@ -32,14 +35,7 @@ function Signup() {
         type: "success",
         message: data?.message || "Inscription réussie !",
       });
-      setSignup({
-        email: "",
-        password: "",
-        password_confirmation: "",
-        firstname: "",
-        lastname: "",
-        username: "",
-      });
+      setSignup(defaultSignupData);
       router.replace("/authentication?tab=0");
     },
     onError: (error) => {

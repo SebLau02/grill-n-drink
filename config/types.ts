@@ -65,6 +65,7 @@ export interface UserBase {
   username: string;
   description: string;
   email: string;
+  expo_push_token: string | null;
 }
 export interface User extends UserBase {
   avatar: string;
