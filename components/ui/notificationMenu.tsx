@@ -8,7 +8,9 @@ import { useAppStore } from "@/store/useStore";
 import Button from "./button";
 import { View } from "react-native";
 import usePushNotifications from "@/hooks/usePushNotifications";
-import { useUpdateUser } from "@/hooks/useUser";
+import { useMyNotifications, useUpdateUser } from "@/hooks/useUser";
+import { NotificationType } from "@/config/types";
+import Paper from "./paper";
 
 interface Props {
   buttonProps?: IconButtonProps;
@@ -18,6 +20,9 @@ function NotificationMenu({ buttonProps }: Props) {
   const { expoPushToken, requestPermission } = usePushNotifications();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [notifications, setNotifications] = useState<NotificationType[] | null>(
+    null
+  );
   const textColor = useColor("textLight");
 
   const { mutate } = useUpdateUser({
@@ -25,6 +30,7 @@ function NotificationMenu({ buttonProps }: Props) {
       setUser(data);
     },
   });
+  const { data } = useMyNotifications(user?.id as number);
 
   useEffect(() => {
     if (expoPushToken) {
@@ -35,6 +41,10 @@ function NotificationMenu({ buttonProps }: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expoPushToken]);
+
+  useEffect(() => {
+    if (data) setNotifications(data);
+  }, [data]);
 
   return (
     <>
@@ -76,9 +86,25 @@ function NotificationMenu({ buttonProps }: Props) {
         >
           {user?.expo_push_token ? (
             <>
-              <Typography variant="h4">
-                Aucune notification pour le moment !
-              </Typography>
+              {notifications ? (
+                notifications.map((notification, i) => (
+                  <Paper
+                    key={i}
+                    style={{
+                      padding: 8,
+                    }}
+                  >
+                    <Typography variant="h6">{notification.title}</Typography>
+                    <Typography variant="body2">
+                      {notification.content}
+                    </Typography>
+                  </Paper>
+                ))
+              ) : (
+                <Typography variant="h4">
+                  Aucune notification pour le moment !
+                </Typography>
+              )}
             </>
           ) : (
             <>

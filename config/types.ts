@@ -122,3 +122,15 @@ export type Participate = {
   role: number;
   condition: number;
 };
+export interface NotificationType {
+  content: string;
+  created_at: string;
+  event_id: number;
+  id: number;
+  notification_type: string;
+  read: boolean;
+  recipient_id: number;
+  sender_id: number;
+  title: string;
+  updated_at: string;
+}

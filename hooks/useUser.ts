@@ -4,6 +4,7 @@ import { API_BASE } from "@/config/config";
 import {
   ApiResponse,
   LoginRes,
+  NotificationType,
   User,
   UserLogin,
   UserProfile,
@@ -234,6 +235,24 @@ export function useGetUser(id: number, options = {}) {
     Omit<UserProfile, "draft_events">
   >({
     queryKey: ["user-public-profile", id],
+    queryFn: fetchUser,
+    ...options,
+  });
+  return { data, isLoading, error };
+}
+
+export function useMyNotifications(id: number, options = {}) {
+  const fetchUser = async (): Promise<NotificationType[]> => {
+    const token = await getToken();
+    return await get(`${API_BASE}/users/${id}/my_notifications`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  };
+
+  const { data, isLoading, error } = useQuery<NotificationType[]>({
+    queryKey: ["my-notifications", id],
     queryFn: fetchUser,
     ...options,
   });
