@@ -4,7 +4,7 @@
     "slug": "grill-n-drink",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/foreground-out.png",
     "scheme": "grillndrink",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,

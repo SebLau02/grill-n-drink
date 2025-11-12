@@ -11,6 +11,7 @@ import {
   ViewStyle,
 } from "react-native";
 import Typography, { textVariants } from "./typography";
+import FlexBox from "./flexBox";
 
 interface TextFieldProps extends TextInputProps {
   label?: string;
@@ -22,6 +23,8 @@ interface TextFieldProps extends TextInputProps {
   variant?: "outlined" | "filled" | "text";
   labelBg?: boolean;
   fullWidth?: boolean;
+  type?: "text" | "password" | "number" | "email";
+  endInput?: React.ReactNode;
 }
 
 const labelMarginLeft = {
@@ -47,6 +50,7 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(
       labelBg = false,
       fullWidth = false,
       sx,
+      endInput,
       ...props
     },
     ref
@@ -114,52 +118,73 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(
           </Typography>
         </Animated.View>
 
-        <TextInput
-          ref={combinedRef}
-          {...props}
-          multiline={rowsCount > 0}
-          style={[
-            styles.input,
-            {
-              borderColor: isFocused ? borderActiveColor : borderColor,
-              paddingHorizontal: labelMarginLeft[size],
-              borderRadius: Metrics.radius,
-              textAlignVertical: "center",
-            },
-            sizeStyle[size],
-            size === "small" ? textVariants.body2 : textVariants.body1,
-            rowsCount > 0
-              ? {
-                  height: sizeHeight[size] + 16 * rowsCount,
-                  textAlignVertical: "top",
-                }
-              : {},
-            variant === "outlined"
-              ? {}
-              : variant === "filled"
-              ? {
-                  backgroundColor: inputBackground,
-                  ...variantStyle[variant],
-                  borderBottomColor: isFocused ? borderActiveColor : grey700,
-                }
-              : {
-                  ...variantStyle[variant],
-                  borderBottomColor: isFocused ? borderActiveColor : grey700,
-                },
-            fullWidth ? { width: "100%" } : {},
-            props.style,
-          ]}
-          placeholderTextColor={"transparent"}
-          placeholder={label}
-          onFocus={(e) => {
-            setIsFocused(true);
-            props.onFocus?.(e);
+        <View
+          style={{
+            position: "relative",
           }}
-          onBlur={(e) => {
-            setIsFocused(false);
-            props.onBlur?.(e);
-          }}
-        />
+        >
+          <TextInput
+            ref={combinedRef}
+            {...props}
+            multiline={rowsCount > 0}
+            style={[
+              styles.input,
+              {
+                borderColor: isFocused ? borderActiveColor : borderColor,
+                paddingHorizontal: labelMarginLeft[size],
+                borderRadius: Metrics.radius,
+                textAlignVertical: "center",
+              },
+              sizeStyle[size],
+              size === "small" ? textVariants.body2 : textVariants.body1,
+              rowsCount > 0
+                ? {
+                    height: sizeHeight[size] + 16 * rowsCount,
+                    textAlignVertical: "top",
+                  }
+                : {},
+              variant === "outlined"
+                ? {}
+                : variant === "filled"
+                ? {
+                    backgroundColor: inputBackground,
+                    ...variantStyle[variant],
+                    borderBottomColor: isFocused ? borderActiveColor : grey700,
+                  }
+                : {
+                    ...variantStyle[variant],
+                    borderBottomColor: isFocused ? borderActiveColor : grey700,
+                  },
+              fullWidth ? { width: "100%" } : {},
+              props.style,
+            ]}
+            placeholderTextColor={"transparent"}
+            placeholder={label}
+            onFocus={(e) => {
+              setIsFocused(true);
+              props.onFocus?.(e);
+            }}
+            onBlur={(e) => {
+              setIsFocused(false);
+              props.onBlur?.(e);
+            }}
+            {...typeProps[props.type || "text"]}
+          />
+
+          <FlexBox
+            justify="center"
+            align="center"
+            sx={{
+              position: "absolute",
+              right: 0,
+              top: 0,
+              bottom: 0,
+              width: 40,
+            }}
+          >
+            {endInput}
+          </FlexBox>
+        </View>
 
         {error && (
           <Typography variant="caption" color="danger">
@@ -221,4 +246,19 @@ const sizeHeight = {
   small: 38,
   medium: 48,
   large: 56,
+};
+
+const typeProps = {
+  text: {},
+  password: {
+    secureTextEntry: true,
+    autoCapitalize: "none" as const,
+    autoCorrect: false,
+    keyboardType: "default" as const,
+  },
+  number: { keyboardType: "numeric" as const, contextMenuHidden: true },
+  email: {
+    keyboardType: "email-address" as const,
+    autoCapitalize: "none" as const,
+  },
 };

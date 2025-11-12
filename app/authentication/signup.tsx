@@ -1,12 +1,15 @@
 import Button from "@/components/ui/button";
 import FlexBox from "@/components/ui/flexBox";
+import IconButton from "@/components/ui/iconButton";
 import Paper from "@/components/ui/paper";
 import { TextField } from "@/components/ui/textField";
 import Typography from "@/components/ui/typography";
 import { UserSignup } from "@/config/types";
+import { useColor } from "@/hooks/useColor";
 import { useSignup } from "@/hooks/useUser";
 import { useToast } from "@/store/toast";
 import { useRouter } from "expo-router";
+import { Eye, EyeClosed } from "lucide-react-native";
 import React, { useState } from "react";
 
 function Signup() {
@@ -20,6 +23,8 @@ function Signup() {
   });
   const { addToast } = useToast();
   const router = useRouter();
+
+  const [seePwd, setSeePwd] = useState(false);
 
   const { mutate: signupMutate } = useSignup({
     onSuccess: (data) => {
@@ -48,6 +53,8 @@ function Signup() {
   const handleSignup = () => {
     signupMutate({ body: signup });
   };
+
+  const textLight = useColor("textLight");
 
   return (
     <Paper
@@ -117,26 +124,46 @@ function Signup() {
         label="Mot de passe"
         fullWidth
         value={signup.password}
-        secureTextEntry={true}
         onChangeText={(text) =>
           setSignup((prev) => ({ ...prev, password: text }))
         }
         sx={{
           marginVertical: 8,
         }}
+        type={seePwd ? "text" : "password"}
+        autoCapitalize="none"
+        endInput={
+          <IconButton size="small" onPress={() => setSeePwd(!seePwd)}>
+            {seePwd ? (
+              <EyeClosed color={textLight} size={16} />
+            ) : (
+              <Eye color={textLight} size={16} />
+            )}
+          </IconButton>
+        }
       />
       <TextField
         labelBg
         label="Confirmation mot de passe"
         fullWidth
         value={signup.password_confirmation}
-        secureTextEntry={true}
         onChangeText={(text) =>
           setSignup((prev) => ({ ...prev, password_confirmation: text }))
         }
         sx={{
           marginVertical: 8,
         }}
+        type={seePwd ? "text" : "password"}
+        autoCapitalize="none"
+        endInput={
+          <IconButton size="small" onPress={() => setSeePwd(!seePwd)}>
+            {seePwd ? (
+              <EyeClosed color={textLight} size={16} />
+            ) : (
+              <Eye color={textLight} size={16} />
+            )}
+          </IconButton>
+        }
       />
 
       <FlexBox

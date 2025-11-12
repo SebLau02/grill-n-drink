@@ -1,14 +1,17 @@
 import Button from "@/components/ui/button";
 import FlexBox from "@/components/ui/flexBox";
+import IconButton from "@/components/ui/iconButton";
 import Paper from "@/components/ui/paper";
 import { TextField } from "@/components/ui/textField";
 import Typography from "@/components/ui/typography";
 import { saveToken } from "@/config/authStorage";
 import { UserLogin } from "@/config/types";
+import { useColor } from "@/hooks/useColor";
 import { useLogin } from "@/hooks/useUser";
 import { useToast } from "@/store/toast";
 import { useAppStore } from "@/store/useStore";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { Eye, EyeClosed } from "lucide-react-native";
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 
@@ -22,6 +25,8 @@ function Login() {
   const router = useRouter();
   const { addToast } = useToast();
   const { setUser, participation } = useAppStore();
+
+  const [seePwd, setSeePwd] = useState(false);
 
   const { mutate } = useLogin({
     onSuccess: (data) => {
@@ -47,6 +52,8 @@ function Login() {
       });
     },
   });
+
+  const textLight = useColor("textLight");
 
   const handleLogin = () => {
     mutate({ body: login });
@@ -85,10 +92,20 @@ function Login() {
           setLogin((prev) => ({ ...prev, password: text }))
         }
         value={login.password}
-        secureTextEntry={true}
+        type={seePwd ? "text" : "password"}
+        autoCapitalize="none"
         sx={{
           marginVertical: 8,
         }}
+        endInput={
+          <IconButton size="small" onPress={() => setSeePwd(!seePwd)}>
+            {seePwd ? (
+              <EyeClosed color={textLight} size={16} />
+            ) : (
+              <Eye color={textLight} size={16} />
+            )}
+          </IconButton>
+        }
       />
 
       <FlexBox
