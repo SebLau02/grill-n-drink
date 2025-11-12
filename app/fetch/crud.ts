@@ -59,8 +59,7 @@ export const post = async (path: string, o: Record<string, any> = {}) => {
       method: "POST",
     });
     const data = await res.json();
-
-    if (data.error) {
+    if (!res.ok) {
       throw new Error(data.error);
     } else return data;
   } catch (error) {

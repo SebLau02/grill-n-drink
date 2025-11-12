@@ -75,7 +75,11 @@ function NotificationMenu({ buttonProps }: Props) {
           }}
         >
           {user?.expo_push_token ? (
-            <></>
+            <>
+              <Typography variant="h4">
+                Aucune notification pour le moment !
+              </Typography>
+            </>
           ) : (
             <>
               <Typography variant="h4">
