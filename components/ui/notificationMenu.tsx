@@ -14,6 +14,8 @@ import { useToast } from "@/store/toast";
 import Badge from "./badge";
 import FlexBox from "./flexBox";
 import ParticipateNotifCard from "./participateNotifCard";
+import DisappearOnPress from "./disappearOnPress";
+import NotificationCard from "./notificationCard";
 // import useNotifications from "@/hooks/usePushNotifications";
 
 const screenHeight = Dimensions.get("window").height;
@@ -28,8 +30,6 @@ function NotificationMenu({ buttonProps }: Props) {
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const textColor = useColor("textLight");
-  const redColor = useColor("primary900");
-  const border = useColor("border");
 
   const { mutate } = useUpdateUser({
     onSuccess: (data) => {
@@ -111,34 +111,7 @@ function NotificationMenu({ buttonProps }: Props) {
                   align="stretch"
                 >
                   {notifications.map((notification, i) => (
-                    <Paper
-                      key={i}
-                      style={{
-                        padding: 8,
-                        width: "100%",
-                        position: "relative",
-                      }}
-                    >
-                      <Typography variant="h6">{notification.title}</Typography>
-                      <Typography variant="body2">
-                        {notification.content}
-                      </Typography>
-                      {notification.notification_type === "participation" ? (
-                        <ParticipateNotifCard />
-                      ) : (
-                        <View
-                          style={{
-                            position: "absolute",
-                            top: -16,
-                            right: -16,
-                          }}
-                        >
-                          <IconButton rounded size="small" active>
-                            <X color={redColor} size={14} />
-                          </IconButton>
-                        </View>
-                      )}
-                    </Paper>
+                    <NotificationCard notification={notification} key={i} />
                   ))}
                 </FlexBox>
               ) : (

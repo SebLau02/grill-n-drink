@@ -3,11 +3,21 @@ import React from "react";
 import IconButton from "./iconButton";
 import Typography from "./typography";
 import { useColor } from "@/hooks/useColor";
-import { View } from "react-native";
+import { GestureResponderEvent, View } from "react-native";
 
-function ParticipateNotifCard() {
+interface Props {
+  onClose?: () => void;
+}
+function ParticipateNotifCard({ onClose }: Props) {
   const redColor = useColor("primary900");
   const successColor = useColor("success");
+
+  const handleClose = (e: GestureResponderEvent) => {
+    e.stopPropagation();
+    if (onClose) {
+      onClose();
+    }
+  };
 
   return (
     <View
@@ -33,7 +43,7 @@ function ParticipateNotifCard() {
         </Typography>
       </View>
       <View>
-        <IconButton>
+        <IconButton onPress={handleClose}>
           <X color={redColor} />
         </IconButton>
         <Typography
