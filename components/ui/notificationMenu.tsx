@@ -6,12 +6,15 @@ import CustomModal from "./modal";
 import Typography from "./typography";
 import { useAppStore } from "@/store/useStore";
 import Button from "./button";
-import { View } from "react-native";
+import { Dimensions, View } from "react-native";
 import { useMyNotifications, useUpdateUser } from "@/hooks/useUser";
 import { NotificationType } from "@/config/types";
 import Paper from "./paper";
 import { useToast } from "@/store/toast";
-import useNotifications from "@/hooks/usePushNotifications";
+import Badge from "./badge";
+// import useNotifications from "@/hooks/usePushNotifications";
+
+const screenHeight = Dimensions.get("window").height;
 
 interface Props {
   buttonProps?: IconButtonProps;
@@ -19,7 +22,7 @@ interface Props {
 function NotificationMenu({ buttonProps }: Props) {
   const { user, setUser } = useAppStore();
   const { addToast } = useToast();
-  const { expoPushToken } = useNotifications();
+  // const { expoPushToken } = useNotifications();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<NotificationType[] | null>(
@@ -34,20 +37,20 @@ function NotificationMenu({ buttonProps }: Props) {
   });
   const { data } = useMyNotifications(user?.id as number);
 
-  useEffect(() => {
-    if (expoPushToken) {
-      console.log("******", expoPushToken);
-      addToast({
-        message: "Push token obtenu : " + expoPushToken,
-        type: "success",
-      });
-      mutate({
-        body: { user: { expo_push_token: expoPushToken } },
-        id: user?.id as number,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expoPushToken]);
+  // useEffect(() => {
+  //   if (expoPushToken) {
+  //     console.log("******", expoPushToken);
+  //     addToast({
+  //       message: "Push token obtenu : " + expoPushToken,
+  //       type: "success",
+  //     });
+  //     mutate({
+  //       body: { user: { expo_push_token: expoPushToken } },
+  //       id: user?.id as number,
+  //     });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [expoPushToken]);
 
   useEffect(() => {
     if (data) setNotifications(data);
@@ -55,13 +58,16 @@ function NotificationMenu({ buttonProps }: Props) {
 
   return (
     <>
-      <IconButton
-        size={"small"}
-        {...buttonProps}
-        onPress={() => setOpenModal(true)}
-      >
-        <Bell color={textColor} />
-      </IconButton>
+      <Badge count={2}>
+        <IconButton
+          size={"small"}
+          {...buttonProps}
+          onPress={() => setOpenModal(true)}
+        >
+          <Bell color={textColor} />
+        </IconButton>
+      </Badge>
+
       <CustomModal
         open={openModal}
         onClose={() => setOpenModal(false)}
@@ -72,7 +78,7 @@ function NotificationMenu({ buttonProps }: Props) {
         }}
         bodyProps={{
           style: {
-            height: "95%",
+            height: screenHeight * 0.95,
             width: "100%",
           },
         }}

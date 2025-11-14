@@ -3,7 +3,7 @@ import { useColor } from "@/hooks/useColor";
 import { useAppStore } from "@/store/useStore";
 import { useNavigation } from "@react-navigation/native";
 import { useRouter, useSegments } from "expo-router";
-import { Bell, ChevronLeft, Search } from "lucide-react-native";
+import { ChevronLeft, Search } from "lucide-react-native";
 import React, { useState } from "react";
 import { Pressable } from "react-native";
 import Avatar from "./avatar";
