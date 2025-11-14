@@ -82,7 +82,6 @@ export interface UserProfile extends User {
   past_events: CreatedEvent[];
   draft_events: CreatedEvent[];
 }
-
 export interface Authentication {
   token: string;
 }
