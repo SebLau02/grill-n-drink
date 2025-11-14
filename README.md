@@ -48,3 +48,28 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+# Build the aab app
+
+## Initialise EAS dans ton projet (si ce n’est pas déjà fait) :
+
+eas build:configure
+
+## Lancer le build Android :
+
+eas build --platform android
+
+## Générer un APK universel à partir de ton .aab :
+
+java -jar bundletool.jar build-apks \
+ --bundle=mon_app.aab \
+ --output=mon_app.apks \
+ --mode=universal
+
+## Extraire l’APK du fichier .apks :
+
+unzip mon_app.apks -d apks
+
+## Installer l’APK sur ton appareil :
+
+adb install apks/universal.apk

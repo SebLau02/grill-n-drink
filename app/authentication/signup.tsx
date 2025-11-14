@@ -35,8 +35,8 @@ function Signup() {
         type: "success",
         message: data?.message || "Inscription réussie !",
       });
-      // setSignup(defaultSignupData);
-      // router.replace("/authentication?tab=0");
+      setSignup(defaultSignupData);
+      router.replace("/authentication?tab=0");
     },
     onError: (error) => {
       addToast({

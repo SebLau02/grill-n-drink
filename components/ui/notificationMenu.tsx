@@ -7,17 +7,19 @@ import Typography from "./typography";
 import { useAppStore } from "@/store/useStore";
 import Button from "./button";
 import { View } from "react-native";
-import usePushNotifications from "@/hooks/usePushNotifications";
 import { useMyNotifications, useUpdateUser } from "@/hooks/useUser";
 import { NotificationType } from "@/config/types";
 import Paper from "./paper";
+import { useToast } from "@/store/toast";
+import useNotifications from "@/hooks/usePushNotifications";
 
 interface Props {
   buttonProps?: IconButtonProps;
 }
 function NotificationMenu({ buttonProps }: Props) {
   const { user, setUser } = useAppStore();
-  const { expoPushToken, requestPermission } = usePushNotifications();
+  const { addToast } = useToast();
+  const { expoPushToken } = useNotifications();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<NotificationType[] | null>(
@@ -34,6 +36,11 @@ function NotificationMenu({ buttonProps }: Props) {
 
   useEffect(() => {
     if (expoPushToken) {
+      console.log("******", expoPushToken);
+      addToast({
+        message: "Push token obtenu : " + expoPushToken,
+        type: "success",
+      });
       mutate({
         body: { user: { expo_push_token: expoPushToken } },
         id: user?.id as number,
@@ -126,7 +133,7 @@ function NotificationMenu({ buttonProps }: Props) {
                   marginHorizontal: "auto",
                   marginTop: 32,
                 }}
-                onPress={requestPermission}
+                // onPress={requestPermission}
               >
                 Activer les notifications
               </Button>

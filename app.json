@@ -9,9 +9,14 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sebastienlau.grillndrink",
+      "infoPlist": {
+        "NSUserNotificationUsageDescription": "Nous avons besoin de votre permission pour vous envoyer des notifications."
+      }
     },
     "android": {
+      "permissions": ["POST_NOTIFICATIONS"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/foreground.png",
         "monochromeImage": "./assets/images/mono.png"
@@ -38,7 +43,8 @@
           }
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-notifications"
     ],
     "experiments": {
       "typedRoutes": true,
