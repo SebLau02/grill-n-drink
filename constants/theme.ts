@@ -31,6 +31,7 @@ const palette = {
   grey300: "#393939",
   grey500: "#434343",
   grey700: "#565656",
+  primary900: "#D92C20",
 };
 
 export const Colors = {

@@ -15,6 +15,7 @@ function Paper({
   ...props
 }: PaperProps) {
   const grey200 = useColor("grey200");
+  const border = useColor("border");
 
   return (
     <View
@@ -23,7 +24,9 @@ function Paper({
         paperStyle[variant],
         props.style,
         { backgroundColor: grey200, borderRadius: Metrics.radius },
-        variant === "elevation" ? elevationsVariants[elevation] : {},
+        variant === "elevation"
+          ? elevationsVariants[elevation]
+          : { borderColor: border },
       ]}
     >
       {children}
@@ -37,7 +40,6 @@ const paperStyle = StyleSheet.create({
   outlined: {
     borderWidth: 1,
     borderRadius: 4,
-    borderColor: "#ccc",
   },
   elevation: {
     shadowColor: "#000",

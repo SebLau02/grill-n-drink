@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import IconButton, { IconButtonProps } from "./iconButton";
-import { Bell } from "lucide-react-native";
+import { Bell, Check, X } from "lucide-react-native";
 import { useColor } from "@/hooks/useColor";
 import CustomModal from "./modal";
 import Typography from "./typography";
@@ -12,6 +12,8 @@ import { NotificationType } from "@/config/types";
 import Paper from "./paper";
 import { useToast } from "@/store/toast";
 import Badge from "./badge";
+import FlexBox from "./flexBox";
+import ParticipateNotifCard from "./participateNotifCard";
 // import useNotifications from "@/hooks/usePushNotifications";
 
 const screenHeight = Dimensions.get("window").height;
@@ -20,15 +22,14 @@ interface Props {
   buttonProps?: IconButtonProps;
 }
 function NotificationMenu({ buttonProps }: Props) {
-  const { user, setUser } = useAppStore();
+  const { user, setUser, notifications, setNotifications } = useAppStore();
   const { addToast } = useToast();
   // const { expoPushToken } = useNotifications();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [notifications, setNotifications] = useState<NotificationType[] | null>(
-    null
-  );
   const textColor = useColor("textLight");
+  const redColor = useColor("primary900");
+  const border = useColor("border");
 
   const { mutate } = useUpdateUser({
     onSuccess: (data) => {
@@ -54,11 +55,12 @@ function NotificationMenu({ buttonProps }: Props) {
 
   useEffect(() => {
     if (data) setNotifications(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (
     <>
-      <Badge count={2}>
+      <Badge count={notifications.length}>
         <IconButton
           size={"small"}
           {...buttonProps}
@@ -100,19 +102,45 @@ function NotificationMenu({ buttonProps }: Props) {
           {user?.expo_push_token ? (
             <>
               {notifications ? (
-                notifications.map((notification, i) => (
-                  <Paper
-                    key={i}
-                    style={{
-                      padding: 8,
-                    }}
-                  >
-                    <Typography variant="h6">{notification.title}</Typography>
-                    <Typography variant="body2">
-                      {notification.content}
-                    </Typography>
-                  </Paper>
-                ))
+                <FlexBox
+                  direction="column"
+                  rowGap={1}
+                  sx={{
+                    maxWidth: "100%",
+                  }}
+                  align="stretch"
+                >
+                  {notifications.map((notification, i) => (
+                    <Paper
+                      key={i}
+                      style={{
+                        padding: 8,
+                        width: "100%",
+                        position: "relative",
+                      }}
+                    >
+                      <Typography variant="h6">{notification.title}</Typography>
+                      <Typography variant="body2">
+                        {notification.content}
+                      </Typography>
+                      {notification.notification_type === "participation" ? (
+                        <ParticipateNotifCard />
+                      ) : (
+                        <View
+                          style={{
+                            position: "absolute",
+                            top: -16,
+                            right: -16,
+                          }}
+                        >
+                          <IconButton rounded size="small" active>
+                            <X color={redColor} size={14} />
+                          </IconButton>
+                        </View>
+                      )}
+                    </Paper>
+                  ))}
+                </FlexBox>
               ) : (
                 <Typography variant="h4">
                   Aucune notification pour le moment !
@@ -139,7 +167,6 @@ function NotificationMenu({ buttonProps }: Props) {
                   marginHorizontal: "auto",
                   marginTop: 32,
                 }}
-                // onPress={requestPermission}
               >
                 Activer les notifications
               </Button>

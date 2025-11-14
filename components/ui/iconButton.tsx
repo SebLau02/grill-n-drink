@@ -7,17 +7,20 @@ export interface IconButtonProps extends PressableProps {
   color?: "primary" | "primary" | "secondary" | "error" | "danger" | "success";
   size?: "small" | "medium";
   active?: boolean;
+  rounded?: boolean;
 }
 function IconButton({
   children,
   color = "primary",
   size = "medium",
   active,
+  rounded = false,
   ...props
 }: IconButtonProps) {
   const textColor = useColor(color);
   const borderColor = useColor("border");
   const pressedColor = useColor("pressed");
+  const bgColor = useColor("contained");
   const disabledColor = useColor("disabled");
 
   if (props.disabled) {
@@ -46,12 +49,22 @@ function IconButton({
       {...props}
       style={({ pressed }) => [
         {
-          backgroundColor: active || pressed ? pressedColor : "transparent",
+          backgroundColor:
+            active && !pressed
+              ? bgColor
+              : pressed
+              ? pressedColor
+              : "transparent",
           borderColor: borderColor,
           alignSelf: "flex-start",
           borderRadius: 4,
         },
         sizeStyle[size],
+        rounded && {
+          borderRadius: 999,
+          borderWidth: 1,
+          borderColor: borderColor,
+        },
       ]}
     >
       {typeof children === "string" ? (

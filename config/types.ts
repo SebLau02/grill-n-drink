@@ -46,7 +46,7 @@ export interface ApiEventRes<T> {
 export interface LoginRes {
   token: string;
   message: string;
-  user: User;
+  user: User & { received_notifications: NotificationType[] };
 }
 
 export type UserSignup = Omit<UserBase, "phone_number" | "description"> & {

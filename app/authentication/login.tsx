@@ -24,7 +24,7 @@ function Login() {
 
   const router = useRouter();
   const { addToast } = useToast();
-  const { setUser, participation } = useAppStore();
+  const { setUser, participation, setNotifications } = useAppStore();
 
   const [seePwd, setSeePwd] = useState(false);
 
@@ -37,6 +37,7 @@ function Login() {
       });
       setUser(data.user);
       saveToken(data.token);
+      setNotifications(data.user.received_notifications);
       setTimeout(() => {
         if (participation) {
           router.replace(`/event/${eventId}?step=3` as never);

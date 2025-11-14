@@ -1,4 +1,4 @@
-import { Participate, User } from "@/config/types";
+import { NotificationType, Participate, User } from "@/config/types";
 import { create } from "zustand";
 
 interface AppState {
@@ -9,6 +9,8 @@ interface AppState {
   setShouldRefreshPage: (value: boolean) => void;
   participation: Participate | null;
   setParticipation: (participation: Participate | null) => void;
+  notifications: NotificationType[];
+  setNotifications: (notifications: NotificationType[]) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -20,4 +22,7 @@ export const useAppStore = create<AppState>((set) => ({
 
   participation: null,
   setParticipation: (participation) => set({ participation }),
+
+  notifications: [],
+  setNotifications: (notifications) => set({ notifications }),
 }));
